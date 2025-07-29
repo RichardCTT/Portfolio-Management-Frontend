@@ -1,4 +1,5 @@
 import AppSideBar from '@/components/AppSideBar'
+import AppFooter from '@/components/AppFooter'
 
 import { Separator } from '@/components/ui/separator'
 import {
@@ -19,7 +20,7 @@ function App() {
     <>
       <SidebarProvider className='flex h-screen'>
         <AppSideBar />
-        <SidebarInset>
+        <SidebarInset className='flex flex-col'>
           <header className='flex h-16 shrink-0 items-center gap-2'>
             <div className='flex items-center gap-2 px-4'>
               <SidebarTrigger className='-ml-1' />
@@ -30,28 +31,31 @@ function App() {
               <AppBreadcrumb />
             </div>
           </header>
-          <Routes>
-            <Route
-              path='/'
-              element={<OverviewPage />}
-            />
-            <Route
-              path='/portfolio/stock'
-              element={<StockPage />}
-            />
-            <Route
-              path='/portfolio/bond'
-              element={<BondPage />}
-            />
-            <Route
-              path='/portfolio/Cash'
-              element={<CashPage />}
-            />
-            <Route
-              path='/trades'
-              element={<TradesPage />}
-            />
-          </Routes>
+          <main className='flex-1 overflow-auto'>
+            <Routes>
+              <Route
+                path='/'
+                element={<OverviewPage />}
+              />
+              <Route
+                path='/portfolio/stock'
+                element={<StockPage />}
+              />
+              <Route
+                path='/portfolio/bond'
+                element={<BondPage />}
+              />
+              <Route
+                path='/portfolio/Cash'
+                element={<CashPage />}
+              />
+              <Route
+                path='/trades'
+                element={<TradesPage />}
+              />
+            </Routes>
+          </main>
+          <AppFooter />
         </SidebarInset>
       </SidebarProvider>
     </>
