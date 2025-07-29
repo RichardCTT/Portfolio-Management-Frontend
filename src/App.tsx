@@ -1,26 +1,59 @@
+import AppSideBar from '@/components/AppSideBar'
+
+import { Separator } from '@/components/ui/separator'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
+import OverviewPage from '@/pages/OverviewPage'
+import TradesPage from '@/pages/TradesPage'
+import BondPage from '@/pages/portfolio/BondPage'
+import CashPage from '@/pages/portfolio/CashPage'
+import StockPage from '@/pages/portfolio/StockPage'
 import { Route, Routes } from 'react-router-dom'
-import SideBar from './components/SideBar'
-import PortfolioPage from './pages/portfolio/PortfolioPage'
-import ChartPage from './pages/portfolio/ChartPage'
+import AppBreadcrumb from './components/AppBreadcrumb'
 
 function App() {
   return (
     <>
-      <div className='flex h-screen'>
-        <SideBar />
-        <main className='flex-1 p-4'>
+      <SidebarProvider className='flex h-screen'>
+        <AppSideBar />
+        <SidebarInset>
+          <header className='flex h-16 shrink-0 items-center gap-2'>
+            <div className='flex items-center gap-2 px-4'>
+              <SidebarTrigger className='-ml-1' />
+              <Separator
+                orientation='vertical'
+                className='mr-2 data-[orientation=vertical]:h-4'
+              />
+              <AppBreadcrumb />
+            </div>
+          </header>
           <Routes>
             <Route
               path='/'
-              element={<PortfolioPage />}
+              element={<OverviewPage />}
             />
             <Route
-              path='/chart'
-              element={<ChartPage />}
+              path='/portfolio/stock'
+              element={<StockPage />}
+            />
+            <Route
+              path='/portfolio/bond'
+              element={<BondPage />}
+            />
+            <Route
+              path='/portfolio/Cash'
+              element={<CashPage />}
+            />
+            <Route
+              path='/trades'
+              element={<TradesPage />}
             />
           </Routes>
-        </main>
-      </div>
+        </SidebarInset>
+      </SidebarProvider>
     </>
   )
 }
