@@ -2,7 +2,6 @@ import AppSideBar from '@/components/AppSideBar'
 import AppFooter from '@/components/AppFooter'
 import SplashScreen from '@/components/SplashScreen'
 import InitialRedirect from '@/components/InitialRedirect'
-import DevTools from '@/components/DevTools'
 
 import { Separator } from '@/components/ui/separator'
 import {
@@ -78,7 +77,6 @@ function App() {
           </main>
           <AppFooter />
         </SidebarInset>
-        <DevTools />
       </SidebarProvider>
     </>
   )
