@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { TrendingUp, DollarSign, BarChart3, PieChart, ArrowRight } from 'lucide-react'
+import { TrendingUp, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FirstVisitManager } from '@/utils/firstVisit'
+import MoneyAnimation from './MoneyAnimation'
 
 interface SplashScreenProps {
   onFinish: () => void
@@ -9,14 +10,23 @@ interface SplashScreenProps {
 
 export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const [progress, setProgress] = useState(0)
-  const [currentStep, setCurrentStep] = useState(0)
   const [showButton, setShowButton] = useState(false)
+  const [currentSloganIndex, setCurrentSloganIndex] = useState(0)
   
-  const steps = [
-    { text: 'Initializing Portfolio Manager...', icon: <BarChart3 className="w-6 h-6" /> },
-    { text: 'Loading market data...', icon: <TrendingUp className="w-6 h-6" /> },
-    { text: 'Connecting to services...', icon: <DollarSign className="w-6 h-6" /> },
-    { text: 'Preparing dashboard...', icon: <PieChart className="w-6 h-6" /> },
+  // 循环播放的宣传文案 (替换原来的加载步骤)
+  const slogans = [
+    "📊 Real-time market insights at your fingertips",
+    "💰 Maximize your investment returns today",
+    "🚀 Advanced analytics for smart investing",
+    "🛡️ Secure and professional portfolio management",
+    "⚡ Lightning-fast trade execution",
+    "🎯 Data-driven investment strategies",
+    "💎 Discover hidden investment opportunities",
+    "📈 Track your wealth growth in real-time",
+    "🌟 Smart portfolio diversification",
+    "💡 AI-powered investment insights",
+    "🔔 Real-time market alerts",
+    "📱 Mobile-first trading experience"
   ]
 
   useEffect(() => {
@@ -35,10 +45,14 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
     return () => clearInterval(timer)
   }, [])
 
+  // 文案循环切换 (无限循环)
   useEffect(() => {
-    const stepIndex = Math.floor(progress / 25)
-    setCurrentStep(Math.min(stepIndex, steps.length - 1))
-  }, [progress, steps.length])
+    const sloganTimer = setInterval(() => {
+      setCurrentSloganIndex((prev) => (prev + 1) % slogans.length)
+    }, 1500) // 每1.5秒切换一次文案，更快节奏
+
+    return () => clearInterval(sloganTimer)
+  }, [slogans.length])
 
   const handleGetStarted = () => {
     // 标记为已访问
@@ -69,42 +83,29 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
 
       <div className="text-center space-y-8 relative z-10">
         {/* Logo */}
-        <div className="flex items-center justify-center space-x-3">
+        <div className="flex items-center justify-center space-x-6">
           <div className="relative">
-            <div className="w-16 h-16 bg-gradient-to-r from-gray-600 to-slate-600 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-8 h-8 text-gray-200" />
+            <div className="w-24 h-24 bg-gradient-to-r from-gray-600 to-slate-600 rounded-2xl flex items-center justify-center shadow-xl">
+              <TrendingUp className="w-12 h-12 text-gray-200" />
             </div>
             {/* 脉冲动画 */}
-            <div className="absolute inset-0 w-16 h-16 bg-gradient-to-r from-gray-600 to-slate-600 rounded-xl animate-ping opacity-20"></div>
+            <div className="absolute inset-0 w-24 h-24 bg-gradient-to-r from-gray-600 to-slate-600 rounded-2xl animate-ping opacity-20"></div>
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-gray-100">Portfolio Manager</h1>
-            <p className="text-gray-400 text-lg">Professional Investment Platform</p>
+            <h1 className="text-6xl font-bold text-gray-100 glow-text">Portfolio Manager</h1>
           </div>
         </div>
 
-        {/* 当前步骤 */}
+        {/* 当前文案 */}
         <div className="flex items-center justify-center space-x-3 text-gray-100">
-          <div className="text-gray-400 animate-spin">
-            {steps[currentStep]?.icon}
+          <div className="text-gray-400 animate-bounce">
+            <TrendingUp className="w-5 h-5" />
           </div>
-          <span className="text-lg font-medium">{steps[currentStep]?.text}</span>
+          <span className="text-lg font-medium">{slogans[currentSloganIndex]}</span>
         </div>
 
-        {/* 进度条 */}
-        <div className="w-80 mx-auto space-y-2">
-          <div className="w-full bg-gray-800 rounded-full h-2">
-            <div 
-              className="bg-gradient-to-r from-gray-500 to-slate-500 h-2 rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="flex justify-between text-gray-400 text-sm">
-            <span>0%</span>
-            <span className="font-medium">{Math.round(progress)}%</span>
-            <span>100%</span>
-          </div>
-        </div>
+        {/* 金钱飞行动画 */}
+        <MoneyAnimation progress={progress} />
 
         {/* Get Started 按钮 */}
         {showButton && (
@@ -123,8 +124,8 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
           </div>
         )}
 
-        {/* 特性列表 */}
-        {!showButton && (
+        {/* 特性列表（仅在显示按钮时显示） */}
+        {showButton && (
           <div className="grid grid-cols-2 gap-4 text-gray-400 text-sm max-w-md mx-auto">
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
