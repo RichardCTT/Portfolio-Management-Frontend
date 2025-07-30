@@ -1,4 +1,4 @@
-import { PortfolioAnalysisApi } from '@/generated/api'
+import { PortfolioAnalysisApi } from '@/lib/api'
 import {
   Configuration,
   AnalysisApi,
