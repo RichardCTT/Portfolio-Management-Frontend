@@ -57,6 +57,7 @@ docs/ApiTransactionsCashSummaryGet200Response.md
 docs/ApiTransactionsCashSummaryGet200ResponseData.md
 docs/ApiTransactionsGet200Response.md
 docs/ApiTransactionsGet200ResponseData.md
+docs/ApiTransactionsGet200ResponseDataItemsInner.md
 docs/ApiTransactionsIdGet200Response.md
 docs/ApiTransactionsSellPost201Response.md
 docs/ApiTransactionsSellPost201ResponseData.md
@@ -130,6 +131,7 @@ models/api-transactions-buy-post201-response.ts
 models/api-transactions-buy-post400-response.ts
 models/api-transactions-cash-summary-get200-response-data.ts
 models/api-transactions-cash-summary-get200-response.ts
+models/api-transactions-get200-response-data-items-inner.ts
 models/api-transactions-get200-response-data.ts
 models/api-transactions-get200-response.ts
 models/api-transactions-id-get200-response.ts

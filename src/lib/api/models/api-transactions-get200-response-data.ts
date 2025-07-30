@@ -14,7 +14,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Transaction } from './transaction'
+import type { ApiTransactionsGet200ResponseDataItemsInner } from './api-transactions-get200-response-data-items-inner'
 
 /**
  *
@@ -24,10 +24,10 @@ import type { Transaction } from './transaction'
 export interface ApiTransactionsGet200ResponseData {
   /**
    *
-   * @type {Array<Transaction>}
+   * @type {Array<ApiTransactionsGet200ResponseDataItemsInner>}
    * @memberof ApiTransactionsGet200ResponseData
    */
-  items?: Array<Transaction>
+  items?: Array<ApiTransactionsGet200ResponseDataItemsInner>
   /**
    *
    * @type {number}

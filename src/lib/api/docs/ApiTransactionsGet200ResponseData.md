@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name          | Type                                           | Description | Notes                             |
-| ------------- | ---------------------------------------------- | ----------- | --------------------------------- |
-| **items**     | [**Array&lt;Transaction&gt;**](Transaction.md) |             | [optional] [default to undefined] |
-| **total**     | **number**                                     |             | [optional] [default to undefined] |
-| **page**      | **number**                                     |             | [optional] [default to undefined] |
-| **page_size** | **number**                                     |             | [optional] [default to undefined] |
+| Name          | Type                                                                                                           | Description | Notes                             |
+| ------------- | -------------------------------------------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| **items**     | [**Array&lt;ApiTransactionsGet200ResponseDataItemsInner&gt;**](ApiTransactionsGet200ResponseDataItemsInner.md) |             | [optional] [default to undefined] |
+| **total**     | **number**                                                                                                     |             | [optional] [default to undefined] |
+| **page**      | **number**                                                                                                     |             | [optional] [default to undefined] |
+| **page_size** | **number**                                                                                                     |             | [optional] [default to undefined] |
 
 ## Example
 

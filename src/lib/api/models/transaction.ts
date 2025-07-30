@@ -19,17 +19,17 @@
  */
 export interface Transaction {
   /**
-   * 交易记录ID
+   * Transaction ID
    * @type {number}
    * @memberof Transaction
    */
   id?: number
   /**
-   * 资产ID
+   * Asset ID
    * @type {number}
    * @memberof Transaction
    */
-  asset_id: number
+  asset_id?: number
   /**
    * Asset name
    * @type {string}
@@ -49,37 +49,37 @@ export interface Transaction {
    */
   asset_type_name?: string
   /**
-   * 交易类型(IN=入库, OUT=出库)
+   * Transaction type (IN = add, OUT = remove)
    * @type {string}
    * @memberof Transaction
    */
-  transaction_type: TransactionTransactionTypeEnum
+  transaction_type?: TransactionTransactionTypeEnum
   /**
-   * 交易数量
+   * Quantity involved in transaction
    * @type {number}
    * @memberof Transaction
    */
-  quantity: number
+  quantity?: number
   /**
-   * 交易单价
+   * Unit price at time of transaction
    * @type {number}
    * @memberof Transaction
    */
-  price: number
+  price?: number
   /**
-   * 交易日期
+   * Date and time of transaction
    * @type {string}
    * @memberof Transaction
    */
-  transaction_date: string
+  transaction_date?: string
   /**
-   * 交易后资产余额
+   * Asset balance after this transaction
    * @type {number}
    * @memberof Transaction
    */
-  holding: number
+  holding?: number
   /**
-   * 描述
+   * Transaction description or notes
    * @type {string}
    * @memberof Transaction
    */
