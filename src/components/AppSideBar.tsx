@@ -27,7 +27,19 @@ export default function AppSideBar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className='text-xl font-bold text-center'>Portfolio Manager</div>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className='data-[slot=sidebar-menu-button]:!p-1.5'
+            >
+              <Link to='/'>
+                {/* <IconInnerShadowTop className="!size-5" /> */}
+                <span className='text-base font-semibold'>Portoylio</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
