@@ -57,6 +57,11 @@ export default function TradesPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(15)
   const pageSizeOptions = [10, 50, 100]
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const getAssets = async (currentPage: number, pageSize: number) => {
     const res = await getAssetsAPI(currentPage, pageSize)
@@ -100,6 +105,7 @@ export default function TradesPage() {
 
   const amount = form.watch('amount')
   const shares = form.watch('shares')
+  const direction = form.watch('direction')
   const isLoading = form.formState.isSubmitting
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -327,206 +333,212 @@ export default function TradesPage() {
       </Card>
       <Dialog open={isTradeDialogOpen} onOpenChange={setIsTradeDialogOpen}>
         <DialogContent className="sm:max-w-[480px] p-0">
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 p-6 rounded-t-lg">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold flex items-center gap-2">
-                {form.watch('direction') === 'buy' ? (
-                  <ArrowUpRight className="w-5 h-5 text-green-500" />
-                ) : (
-                  <ArrowDownRight className="w-5 h-5 text-red-500" />
-                )}
-                {form.watch('direction') === 'buy' ? 'Buy' : 'Sell'} {selectedAsset?.name}
-              </DialogTitle>
-              <DialogDescription className="text-base">
-                <div className="flex items-center gap-2 mt-2">
-                  <Badge variant="outline" className="font-mono">
-                    {selectedAsset?.code}
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">•</span>
-                  <span className="font-semibold text-foreground">
-                    ${Number(selectedAsset?.current_price || 0).toFixed(2)}
-                  </span>
-                  <span className="text-sm text-muted-foreground">per share</span>
-                </div>
-              </DialogDescription>
-            </DialogHeader>
-          </div>
-          
-          <div className="p-6 pt-2">
-            <Form {...form}>
-              <form
-                className="space-y-6"
-                autoComplete="off"
-                onSubmit={form.handleSubmit(onSubmit)}
-              >
-                <FormField
-                  control={form.control}
-                  name="direction"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-base font-medium">Transaction Type</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          className="flex gap-4"
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormItem className="flex items-center space-x-3 space-y-0 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-                            <FormControl>
-                              <RadioGroupItem value="buy" />
-                            </FormControl>
-                            <div className="flex items-center gap-2">
-                              <ArrowUpRight className="w-4 h-4 text-green-500" />
-                              <FormLabel className="mb-0 font-medium">Buy</FormLabel>
-                            </div>
-                          </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-                            <FormControl>
-                              <RadioGroupItem value="sell" />
-                            </FormControl>
-                            <div className="flex items-center gap-2">
-                              <ArrowDownRight className="w-4 h-4 text-red-500" />
-                              <FormLabel className="mb-0 font-medium">Sell</FormLabel>
-                            </div>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="amount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-medium flex items-center gap-2">
-                          <DollarSign className="w-4 h-4" />
-                          Total Amount
-                        </FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">$</span>
-                            <Input
-                              {...field}
-                              id="amount"
-                              className="pl-8 text-right font-mono"
-                              placeholder="0.00"
-                              onBlur={() => {
-                                const amt = Number(amount)
-                                if (!isNaN(amt) && amt > 0) {
-                                  const calculatedShares =
-                                    amt / selectedAsset!.current_price
-                                  form.setValue(
-                                    'shares',
-                                    calculatedShares.toFixed(4),
-                                    {
-                                      shouldValidate: true,
-                                    }
-                                  )
-                                }
-                                field.onBlur()
-                              }}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+          {mounted && (
+            <>
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 p-6 rounded-t-lg">
+                <DialogHeader>
+                  <DialogTitle className="text-xl font-semibold flex items-center gap-2">
+                    {direction === 'buy' ? (
+                      <ArrowUpRight className="w-5 h-5 text-green-500" />
+                    ) : (
+                      <ArrowDownRight className="w-5 h-5 text-red-500" />
                     )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="shares"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-medium">Number of Shares</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            id="shares"
-                            className="text-right font-mono"
-                            placeholder="0"
-                            onBlur={() => {
-                              const shs = Number(shares)
-                              if (!isNaN(shs) && shs > 0) {
-                                const calculatedAmount =
-                                  shs * selectedAsset!.current_price
-                                form.setValue(
-                                  'amount',
-                                  calculatedAmount.toFixed(2),
-                                  {
-                                    shouldValidate: true,
-                                  }
-                                )
-                              }
-                              field.onBlur()
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                {/* 交易摘要 */}
-                {amount && shares && (
-                  <div className="bg-accent/30 p-4 rounded-lg space-y-2">
-                    <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Transaction Summary</h4>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span>Shares:</span>
-                        <span className="font-mono">{Number(shares).toFixed(4)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Price per share:</span>
-                        <span className="font-mono">${Number(selectedAsset?.current_price || 0).toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between font-medium border-t pt-1">
-                        <span>Total:</span>
-                        <span className="font-mono">${Number(amount).toFixed(2)}</span>
+                    {direction === 'buy' ? 'Buy' : 'Sell'} {selectedAsset?.name || 'Asset'}
+                  </DialogTitle>
+                  <DialogDescription asChild>
+                    <div className="text-base">
+                      <div className="flex items-center gap-2 mt-2">
+                        <Badge variant="outline" className="font-mono">
+                          {selectedAsset?.code || 'N/A'}
+                        </Badge>
+                        <span className="text-sm text-muted-foreground">•</span>
+                        <span className="font-semibold text-foreground">
+                          ${Number(selectedAsset?.current_price || 0).toFixed(2)}
+                        </span>
+                        <span className="text-sm text-muted-foreground">per share</span>
                       </div>
                     </div>
-                  </div>
-                )}
-                
-                <DialogFooter className="gap-2">
-                  <DialogClose asChild>
-                    <Button type="button" variant="outline" className="flex-1">
-                      Cancel
-                    </Button>
-                  </DialogClose>
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className={`flex-1 ${
-                      form.watch('direction') === 'buy' 
-                        ? 'bg-green-500 hover:bg-green-600' 
-                        : 'bg-red-500 hover:bg-red-600'
-                    } text-white`}
+                  </DialogDescription>
+                </DialogHeader>
+              </div>
+              
+              <div className="p-6 pt-2">
+                <Form {...form}>
+                  <form
+                    className="space-y-6"
+                    autoComplete="off"
+                    onSubmit={form.handleSubmit(onSubmit)}
                   >
-                    {isLoading && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <FormField
+                      control={form.control}
+                      name="direction"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-medium">Transaction Type</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              className="flex gap-4"
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormItem className="flex items-center space-x-3 space-y-0 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                                <FormControl>
+                                  <RadioGroupItem value="buy" />
+                                </FormControl>
+                                <div className="flex items-center gap-2">
+                                  <ArrowUpRight className="w-4 h-4 text-green-500" />
+                                  <FormLabel className="mb-0 font-medium">Buy</FormLabel>
+                                </div>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-3 space-y-0 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                                <FormControl>
+                                  <RadioGroupItem value="sell" />
+                                </FormControl>
+                                <div className="flex items-center gap-2">
+                                  <ArrowDownRight className="w-4 h-4 text-red-500" />
+                                  <FormLabel className="mb-0 font-medium">Sell</FormLabel>
+                                </div>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="amount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-medium flex items-center gap-2">
+                              <DollarSign className="w-4 h-4" />
+                              Total Amount
+                            </FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">$</span>
+                                <Input
+                                  {...field}
+                                  id="amount"
+                                  className="pl-8 text-right font-mono"
+                                  placeholder="0.00"
+                                  onBlur={() => {
+                                    const amt = Number(amount)
+                                    if (!isNaN(amt) && amt > 0 && selectedAsset) {
+                                      const calculatedShares =
+                                        amt / selectedAsset.current_price
+                                      form.setValue(
+                                        'shares',
+                                        calculatedShares.toFixed(4),
+                                        {
+                                          shouldValidate: true,
+                                        }
+                                      )
+                                    }
+                                    field.onBlur()
+                                  }}
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="shares"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base font-medium">Number of Shares</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                id="shares"
+                                className="text-right font-mono"
+                                placeholder="0"
+                                onBlur={() => {
+                                  const shs = Number(shares)
+                                  if (!isNaN(shs) && shs > 0 && selectedAsset) {
+                                    const calculatedAmount =
+                                      shs * selectedAsset.current_price
+                                    form.setValue(
+                                      'amount',
+                                      calculatedAmount.toFixed(2),
+                                      {
+                                        shouldValidate: true,
+                                      }
+                                    )
+                                  }
+                                  field.onBlur()
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    
+                    {/* 交易摘要 */}
+                    {mounted && amount && shares && selectedAsset && (
+                      <div className="bg-accent/30 p-4 rounded-lg space-y-2">
+                        <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Transaction Summary</h4>
+                        <div className="space-y-1 text-sm">
+                          <div className="flex justify-between">
+                            <span>Shares:</span>
+                            <span className="font-mono">{Number(shares).toFixed(4)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Price per share:</span>
+                            <span className="font-mono">${Number(selectedAsset.current_price).toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between font-medium border-t pt-1">
+                            <span>Total:</span>
+                            <span className="font-mono">${Number(amount).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </div>
                     )}
-                    {form.watch('direction') === 'buy' ? (
-                      <>
-                        <ArrowUpRight className="w-4 h-4 mr-2" />
-                        Buy Shares
-                      </>
-                    ) : (
-                      <>
-                        <ArrowDownRight className="w-4 h-4 mr-2" />
-                        Sell Shares
-                      </>
-                    )}
-                  </Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </div>
+                    
+                    <DialogFooter className="gap-2">
+                      <DialogClose asChild>
+                        <Button type="button" variant="outline" className="flex-1">
+                          Cancel
+                        </Button>
+                      </DialogClose>
+                      <Button
+                        type="submit"
+                        disabled={isLoading}
+                        className={`flex-1 ${
+                          direction === 'buy' 
+                            ? 'bg-green-500 hover:bg-green-600' 
+                            : 'bg-red-500 hover:bg-red-600'
+                        } text-white`}
+                      >
+                        {isLoading && (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        {direction === 'buy' ? (
+                          <>
+                            <ArrowUpRight className="w-4 h-4 mr-2" />
+                            Buy Shares
+                          </>
+                        ) : (
+                          <>
+                            <ArrowDownRight className="w-4 h-4 mr-2" />
+                            Sell Shares
+                          </>
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>

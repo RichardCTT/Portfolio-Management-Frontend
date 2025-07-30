@@ -1,4 +1,4 @@
-import { Github, Heart, ExternalLink, HelpCircle, Info, Mail } from 'lucide-react'
+import { Github, Heart, HelpCircle, Info, Mail } from 'lucide-react'
 
 export default function AppFooter() {
   const currentYear = new Date().getFullYear()
@@ -54,17 +54,16 @@ export default function AppFooter() {
 
             {/* GitHub链接 */}
             <div className="flex items-center">
-              <a
-                href="https://github.com/RichardCTT/Portfolio-Management-Frontend"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground bg-accent/30 hover:bg-accent/60 px-2.5 py-1.5 rounded-lg transition-all duration-200 group border border-border/50 hover:border-border"
-                title="View source on GitHub"
-              >
-                <Github className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform duration-200 flex-shrink-0" />
-                <span className="hidden xs:inline">Source Code</span>
-                <ExternalLink className="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity flex-shrink-0" />
-              </a>
+                              <a 
+                  href="https://github.com/richardsun-voyager/Portfolio-Management-Frontend" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="relative inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-accent/30 hover:bg-accent/60 px-3 py-2 rounded-lg transition-all duration-200 border border-border/50 hover:border-border overflow-hidden group"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent -translate-x-full transition-transform duration-500 group-hover:translate-x-full"></span>
+                  <Github className="w-4 h-4 relative z-10" />
+                  <span className="relative z-10">View on GitHub</span>
+                </a>
             </div>
           </div>
         </div>

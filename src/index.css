@@ -287,34 +287,7 @@
     @apply translate-x-full;
   }
 
-  /* Footer 样式优化 */
-  .footer-link {
-    @apply relative inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-accent/50 px-2 py-1 rounded-md group;
-  }
-
-  .footer-link::after {
-    content: '';
-    @apply absolute bottom-0 left-1/2 w-0 h-0.5 bg-current transition-all duration-300 -translate-x-1/2;
-  }
-
-  .footer-link:hover::after {
-    @apply w-full;
-  }
-
-  .footer-github-btn {
-    @apply relative inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-accent/30 hover:bg-accent/60 px-3 py-2 rounded-lg transition-all duration-200 group border border-border/50 hover:border-border overflow-hidden;
-  }
-
-  .footer-github-btn::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent -translate-x-full transition-transform duration-500;
-  }
-
-  .footer-github-btn:hover::before {
-    @apply translate-x-full;
-  }
-
-  /* Footer 技术标签动画 */
+  /* 技术标签动画 */
   .tech-badge {
     @apply relative inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-accent/30 text-accent-foreground transition-all duration-200 hover:bg-accent/50 hover:scale-105;
   }
