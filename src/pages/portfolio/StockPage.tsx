@@ -8,6 +8,7 @@ import {
 } from '@/services/portfolioApi'
 import type { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState, useMemo } from 'react'
+import { AnalysisApi } from '@/lib/api'
 
 // 持仓数据类型
 interface Holding {
@@ -36,6 +37,7 @@ export default function StockPage() {
   )
   const pageSizeOptions = [10, 50, 100]
 
+  // 获取股票交易记录
   const getStockTransactions = async (
     currentPage: number,
     pageSize: number
@@ -59,6 +61,26 @@ export default function StockPage() {
   useEffect(() => {
     getStockTransactions(currentPage, pageSize)
   }, [currentPage, pageSize])
+
+  // get stock holdings analysis
+  const getStockAnaylsis = async () => {
+    setIsLoading(true)
+    try {
+      const analysisApi = new AnalysisApi()
+      const res = await analysisApi.apiAnalysisAssetTotalsByTypeGet({
+        date: new Date().toISOString().split('T')[0], // 使用当前日期
+      })
+      console.log('Stock analysis response:', res)
+    } catch (error) {
+      console.error('Error fetching stock analysis:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getStockAnaylsis()
+  }, [])
 
   // 搜索过滤逻辑
   useEffect(() => {
