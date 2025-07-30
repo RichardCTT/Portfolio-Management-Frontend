@@ -12,43 +12,40 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
  */
 export interface ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis {
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
-     */
-    'initial_holding'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
-     */
-    'final_holding'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
-     */
-    'total_change'?: string;
-    /**
-     * 
-     * @type {Array<object>}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
-     */
-    'daily_analysis'?: Array<object>;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
-     */
-    'period_summary'?: object;
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
+   */
+  initial_holding?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
+   */
+  final_holding?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
+   */
+  total_change?: string
+  /**
+   *
+   * @type {Array<object>}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
+   */
+  daily_analysis?: Array<object>
+  /**
+   *
+   * @type {object}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
+   */
+  period_summary?: object
 }
-

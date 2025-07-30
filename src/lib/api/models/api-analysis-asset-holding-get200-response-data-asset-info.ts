@@ -12,43 +12,40 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
  */
 export interface ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
-     */
-    'symbol'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
-     */
-    'asset_type_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
-     */
-    'unit'?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
+   */
+  id?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
+   */
+  name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
+   */
+  symbol?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
+   */
+  asset_type_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
+   */
+  unit?: string
 }
-

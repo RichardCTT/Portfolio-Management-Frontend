@@ -12,43 +12,40 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface PriceDaily
  */
 export interface PriceDaily {
-    /**
-     * 价格记录ID
-     * @type {number}
-     * @memberof PriceDaily
-     */
-    'id'?: number;
-    /**
-     * 资产ID
-     * @type {number}
-     * @memberof PriceDaily
-     */
-    'asset_id': number;
-    /**
-     * 价格日期
-     * @type {string}
-     * @memberof PriceDaily
-     */
-    'date': string;
-    /**
-     * 当日价格
-     * @type {number}
-     * @memberof PriceDaily
-     */
-    'price': number;
-    /**
-     * 记录创建时间
-     * @type {string}
-     * @memberof PriceDaily
-     */
-    'create_date'?: string;
+  /**
+   * 价格记录ID
+   * @type {number}
+   * @memberof PriceDaily
+   */
+  id?: number
+  /**
+   * 资产ID
+   * @type {number}
+   * @memberof PriceDaily
+   */
+  asset_id: number
+  /**
+   * 价格日期
+   * @type {string}
+   * @memberof PriceDaily
+   */
+  date: string
+  /**
+   * 当日价格
+   * @type {number}
+   * @memberof PriceDaily
+   */
+  price: number
+  /**
+   * 记录创建时间
+   * @type {string}
+   * @memberof PriceDaily
+   */
+  create_date?: string
 }
-

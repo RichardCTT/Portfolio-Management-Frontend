@@ -12,25 +12,22 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiPriceDailyDebugTimezonePostRequest
  */
 export interface ApiPriceDailyDebugTimezonePostRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyDebugTimezonePostRequest
-     */
-    'asset_id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiPriceDailyDebugTimezonePostRequest
-     */
-    'test_date': string;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyDebugTimezonePostRequest
+   */
+  asset_id: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiPriceDailyDebugTimezonePostRequest
+   */
+  test_date: string
 }
-

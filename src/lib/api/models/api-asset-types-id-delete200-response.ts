@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAssetTypesIdDelete200Response
  */
 export interface ApiAssetTypesIdDelete200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetTypesIdDelete200Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetTypesIdDelete200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiAssetTypesIdDelete200Response
-     */
-    'data'?: object | null;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetTypesIdDelete200Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetTypesIdDelete200Response
+   */
+  message?: string
+  /**
+   *
+   * @type {object}
+   * @memberof ApiAssetTypesIdDelete200Response
+   */
+  data?: object | null
 }
-

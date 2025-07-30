@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsBuyPost400Response
  */
 export interface ApiTransactionsBuyPost400Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsBuyPost400Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiTransactionsBuyPost400Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiTransactionsBuyPost400Response
-     */
-    'data'?: object | null;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsBuyPost400Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiTransactionsBuyPost400Response
+   */
+  message?: string
+  /**
+   *
+   * @type {object}
+   * @memberof ApiTransactionsBuyPost400Response
+   */
+  data?: object | null
 }
-

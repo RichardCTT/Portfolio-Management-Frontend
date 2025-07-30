@@ -12,40 +12,38 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Transaction } from './transaction';
+import type { Transaction } from './transaction'
 
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsGet200ResponseData
  */
 export interface ApiTransactionsGet200ResponseData {
-    /**
-     * 
-     * @type {Array<Transaction>}
-     * @memberof ApiTransactionsGet200ResponseData
-     */
-    'items'?: Array<Transaction>;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsGet200ResponseData
-     */
-    'total'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsGet200ResponseData
-     */
-    'page'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsGet200ResponseData
-     */
-    'page_size'?: number;
+  /**
+   *
+   * @type {Array<Transaction>}
+   * @memberof ApiTransactionsGet200ResponseData
+   */
+  items?: Array<Transaction>
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsGet200ResponseData
+   */
+  total?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsGet200ResponseData
+   */
+  page?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsGet200ResponseData
+   */
+  page_size?: number
 }
-

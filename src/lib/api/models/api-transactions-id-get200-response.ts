@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Transaction } from './transaction';
+import type { Transaction } from './transaction'
 
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsIdGet200Response
  */
 export interface ApiTransactionsIdGet200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsIdGet200Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiTransactionsIdGet200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {Transaction}
-     * @memberof ApiTransactionsIdGet200Response
-     */
-    'data'?: Transaction;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsIdGet200Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiTransactionsIdGet200Response
+   */
+  message?: string
+  /**
+   *
+   * @type {Transaction}
+   * @memberof ApiTransactionsIdGet200Response
+   */
+  data?: Transaction
 }
-

@@ -12,25 +12,22 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface AssetTypeResponseDataSummary
  */
 export interface AssetTypeResponseDataSummary {
-    /**
-     * Total number of assets
-     * @type {number}
-     * @memberof AssetTypeResponseDataSummary
-     */
-    'totalAssets'?: number;
-    /**
-     * Total value in USD
-     * @type {number}
-     * @memberof AssetTypeResponseDataSummary
-     */
-    'totalValueUSD'?: number;
+  /**
+   * Total number of assets
+   * @type {number}
+   * @memberof AssetTypeResponseDataSummary
+   */
+  totalAssets?: number
+  /**
+   * Total value in USD
+   * @type {number}
+   * @memberof AssetTypeResponseDataSummary
+   */
+  totalValueUSD?: number
 }
-

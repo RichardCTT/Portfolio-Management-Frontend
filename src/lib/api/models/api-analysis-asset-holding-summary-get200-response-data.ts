@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAnalysisAssetHoldingSummaryGet200ResponseData
  */
 export interface ApiAnalysisAssetHoldingSummaryGet200ResponseData {
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiAnalysisAssetHoldingSummaryGet200ResponseData
-     */
-    'asset_info'?: object;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiAnalysisAssetHoldingSummaryGet200ResponseData
-     */
-    'summary'?: object;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiAnalysisAssetHoldingSummaryGet200ResponseData
-     */
-    'period_summary'?: object;
+  /**
+   *
+   * @type {object}
+   * @memberof ApiAnalysisAssetHoldingSummaryGet200ResponseData
+   */
+  asset_info?: object
+  /**
+   *
+   * @type {object}
+   * @memberof ApiAnalysisAssetHoldingSummaryGet200ResponseData
+   */
+  summary?: object
+  /**
+   *
+   * @type {object}
+   * @memberof ApiAnalysisAssetHoldingSummaryGet200ResponseData
+   */
+  period_summary?: object
 }
-

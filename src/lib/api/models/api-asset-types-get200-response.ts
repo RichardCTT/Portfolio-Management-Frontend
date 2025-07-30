@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAssetTypesGet200ResponseData } from './api-asset-types-get200-response-data';
+import type { ApiAssetTypesGet200ResponseData } from './api-asset-types-get200-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface ApiAssetTypesGet200Response
  */
 export interface ApiAssetTypesGet200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetTypesGet200Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetTypesGet200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {ApiAssetTypesGet200ResponseData}
-     * @memberof ApiAssetTypesGet200Response
-     */
-    'data'?: ApiAssetTypesGet200ResponseData;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetTypesGet200Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetTypesGet200Response
+   */
+  message?: string
+  /**
+   *
+   * @type {ApiAssetTypesGet200ResponseData}
+   * @memberof ApiAssetTypesGet200Response
+   */
+  data?: ApiAssetTypesGet200ResponseData
 }
-

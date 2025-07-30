@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { PriceDaily } from './price-daily';
+import type { PriceDaily } from './price-daily'
 
 /**
- * 
+ *
  * @export
  * @interface ApiPriceDailyPost200Response
  */
 export interface ApiPriceDailyPost200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyPost200Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiPriceDailyPost200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {PriceDaily}
-     * @memberof ApiPriceDailyPost200Response
-     */
-    'data'?: PriceDaily;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyPost200Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiPriceDailyPost200Response
+   */
+  message?: string
+  /**
+   *
+   * @type {PriceDaily}
+   * @memberof ApiPriceDailyPost200Response
+   */
+  data?: PriceDaily
 }
-

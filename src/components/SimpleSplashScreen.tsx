@@ -6,7 +6,10 @@ interface SimpleSplashScreenProps {
   duration?: number
 }
 
-export default function SimpleSplashScreen({ onFinish, duration = 2000 }: SimpleSplashScreenProps) {
+export default function SimpleSplashScreen({
+  onFinish,
+  duration = 2000,
+}: SimpleSplashScreenProps) {
   const [fadeOut, setFadeOut] = useState(false)
 
   useEffect(() => {
@@ -19,7 +22,9 @@ export default function SimpleSplashScreen({ onFinish, duration = 2000 }: Simple
   }, [onFinish, duration])
 
   return (
-    <div className={`fixed inset-0 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center z-50 transition-opacity duration-300 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
+    <div
+      className={`fixed inset-0 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center z-50 transition-opacity duration-300 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}
+    >
       <div className="text-center space-y-6">
         {/* Logo */}
         <div className="flex items-center justify-center space-x-4">
@@ -31,16 +36,16 @@ export default function SimpleSplashScreen({ onFinish, duration = 2000 }: Simple
             <h2 className="text-3xl font-light text-blue-200">Manager</h2>
           </div>
         </div>
-        
+
         {/* Loading dots */}
         <div className="flex justify-center space-x-2">
-          {[0, 1, 2].map((i) => (
+          {[0, 1, 2].map(i => (
             <div
               key={i}
               className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"
               style={{
                 animationDelay: `${i * 0.2}s`,
-                animationDuration: '1s'
+                animationDuration: '1s',
               }}
             />
           ))}

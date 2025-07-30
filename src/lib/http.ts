@@ -9,19 +9,19 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(
-  (config) => {
+  config => {
     return config
   },
-  (error) => {
+  error => {
     return Promise.reject(error)
   }
 )
 
 http.interceptors.response.use(
-  (response) => {
+  response => {
     return response.data
   },
-  (error) => {
+  error => {
     return Promise.reject(error)
   }
 )

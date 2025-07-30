@@ -11,7 +11,7 @@ interface State {
   remove: (id: number) => Promise<void>
 }
 
-export const usePortfolioStore = create<State>((set) => ({
+export const usePortfolioStore = create<State>(set => ({
   items: [],
   loading: false,
   fetch: async () => {
@@ -25,11 +25,11 @@ export const usePortfolioStore = create<State>((set) => ({
       set({ loading: false })
     }
   },
-  add: async (item) => {
+  add: async item => {
     await addItem(item)
     await usePortfolioStore.getState().fetch()
   },
-  remove: async (id) => {
+  remove: async id => {
     await deleteItem(id)
     await usePortfolioStore.getState().fetch()
   },

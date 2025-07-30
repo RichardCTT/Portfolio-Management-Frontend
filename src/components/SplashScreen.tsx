@@ -12,26 +12,26 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const [progress, setProgress] = useState(0)
   const [showButton, setShowButton] = useState(false)
   const [currentSloganIndex, setCurrentSloganIndex] = useState(0)
-  
+
   // 循环播放的宣传文案 (替换原来的加载步骤)
   const slogans = [
-    "📊 Real-time market insights at your fingertips",
-    "💰 Maximize your investment returns today",
-    "🚀 Advanced analytics for smart investing",
-    "🛡️ Secure and professional portfolio management",
-    "⚡ Lightning-fast trade execution",
-    "🎯 Data-driven investment strategies",
-    "💎 Discover hidden investment opportunities",
-    "📈 Track your wealth growth in real-time",
-    "🌟 Smart portfolio diversification",
-    "💡 AI-powered investment insights",
-    "🔔 Real-time market alerts",
-    "📱 Mobile-first trading experience"
+    '📊 Real-time market insights at your fingertips',
+    '💰 Maximize your investment returns today',
+    '🚀 Advanced analytics for smart investing',
+    '🛡️ Secure and professional portfolio management',
+    '⚡ Lightning-fast trade execution',
+    '🎯 Data-driven investment strategies',
+    '💎 Discover hidden investment opportunities',
+    '📈 Track your wealth growth in real-time',
+    '🌟 Smart portfolio diversification',
+    '💡 AI-powered investment insights',
+    '🔔 Real-time market alerts',
+    '📱 Mobile-first trading experience',
   ]
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prev) => {
+      setProgress(prev => {
         if (prev >= 100) {
           clearInterval(timer)
           // 进度完成后显示按钮
@@ -48,7 +48,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   // 文案循环切换 (无限循环)
   useEffect(() => {
     const sloganTimer = setInterval(() => {
-      setCurrentSloganIndex((prev) => (prev + 1) % slogans.length)
+      setCurrentSloganIndex(prev => (prev + 1) % slogans.length)
     }, 1500) // 每1.5秒切换一次文案，更快节奏
 
     return () => clearInterval(sloganTimer)
@@ -92,7 +92,9 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
             <div className="absolute inset-0 w-24 h-24 bg-gradient-to-r from-gray-600 to-slate-600 rounded-2xl animate-ping opacity-20"></div>
           </div>
           <div>
-            <h1 className="text-6xl font-bold text-gray-100 glow-text">Portfolio Manager</h1>
+            <h1 className="text-6xl font-bold text-gray-100 glow-text">
+              Portfolio Manager
+            </h1>
           </div>
         </div>
 
@@ -101,7 +103,9 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
           <div className="text-gray-400 animate-bounce">
             <TrendingUp className="w-5 h-5" />
           </div>
-          <span className="text-lg font-medium">{slogans[currentSloganIndex]}</span>
+          <span className="text-lg font-medium">
+            {slogans[currentSloganIndex]}
+          </span>
         </div>
 
         {/* 金钱飞行动画 */}

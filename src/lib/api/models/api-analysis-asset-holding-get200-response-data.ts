@@ -12,46 +12,44 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod } from './api-analysis-asset-holding-get200-response-data-analysis-period';
+import type { ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod } from './api-analysis-asset-holding-get200-response-data-analysis-period'
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo } from './api-analysis-asset-holding-get200-response-data-asset-info';
+import type { ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo } from './api-analysis-asset-holding-get200-response-data-asset-info'
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis } from './api-analysis-asset-holding-get200-response-data-holding-analysis';
+import type { ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis } from './api-analysis-asset-holding-get200-response-data-holding-analysis'
 
 /**
- * 
+ *
  * @export
  * @interface ApiAnalysisAssetHoldingGet200ResponseData
  */
 export interface ApiAnalysisAssetHoldingGet200ResponseData {
-    /**
-     * 
-     * @type {ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseData
-     */
-    'asset_info'?: ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo;
-    /**
-     * 
-     * @type {ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseData
-     */
-    'analysis_period'?: ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod;
-    /**
-     * 
-     * @type {ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseData
-     */
-    'holding_analysis'?: ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis;
-    /**
-     * 
-     * @type {object}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseData
-     */
-    'summary'?: object;
+  /**
+   *
+   * @type {ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseData
+   */
+  asset_info?: ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo
+  /**
+   *
+   * @type {ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseData
+   */
+  analysis_period?: ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
+  /**
+   *
+   * @type {ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseData
+   */
+  holding_analysis?: ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis
+  /**
+   *
+   * @type {object}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseData
+   */
+  summary?: object
 }
-

@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Transaction } from './transaction';
+import type { Transaction } from './transaction'
 
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsSellPost201ResponseData
  */
 export interface ApiTransactionsSellPost201ResponseData {
-    /**
-     * 
-     * @type {Transaction}
-     * @memberof ApiTransactionsSellPost201ResponseData
-     */
-    'transaction'?: Transaction;
-    /**
-     * 总收到金额
-     * @type {number}
-     * @memberof ApiTransactionsSellPost201ResponseData
-     */
-    'total_received'?: number;
-    /**
-     * 新的现金余额
-     * @type {number}
-     * @memberof ApiTransactionsSellPost201ResponseData
-     */
-    'new_cash_balance'?: number;
+  /**
+   *
+   * @type {Transaction}
+   * @memberof ApiTransactionsSellPost201ResponseData
+   */
+  transaction?: Transaction
+  /**
+   * 总收到金额
+   * @type {number}
+   * @memberof ApiTransactionsSellPost201ResponseData
+   */
+  total_received?: number
+  /**
+   * 新的现金余额
+   * @type {number}
+   * @memberof ApiTransactionsSellPost201ResponseData
+   */
+  new_cash_balance?: number
 }
-

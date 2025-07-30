@@ -27,7 +27,7 @@ let mockData: PortfolioItem[] = [
 let nextId = 4
 
 function simulateDelay<T>(data: T, ms = 300): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(data), ms))
+  return new Promise(resolve => setTimeout(() => resolve(data), ms))
 }
 
 export const getPortfolio = async () => {
@@ -41,6 +41,6 @@ export const addItem = async (item: Omit<PortfolioItem, 'id'>) => {
 }
 
 export const deleteItem = async (id: number) => {
-  mockData = mockData.filter((item) => item.id !== id)
+  mockData = mockData.filter(item => item.id !== id)
   return simulateDelay(true)
 }

@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiTransactionsBuyPost201ResponseData } from './api-transactions-buy-post201-response-data';
+import type { ApiTransactionsBuyPost201ResponseData } from './api-transactions-buy-post201-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsBuyPost201Response
  */
 export interface ApiTransactionsBuyPost201Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsBuyPost201Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiTransactionsBuyPost201Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {ApiTransactionsBuyPost201ResponseData}
-     * @memberof ApiTransactionsBuyPost201Response
-     */
-    'data'?: ApiTransactionsBuyPost201ResponseData;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsBuyPost201Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiTransactionsBuyPost201Response
+   */
+  message?: string
+  /**
+   *
+   * @type {ApiTransactionsBuyPost201ResponseData}
+   * @memberof ApiTransactionsBuyPost201Response
+   */
+  data?: ApiTransactionsBuyPost201ResponseData
 }
-

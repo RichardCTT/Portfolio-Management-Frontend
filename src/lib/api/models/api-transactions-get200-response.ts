@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiTransactionsGet200ResponseData } from './api-transactions-get200-response-data';
+import type { ApiTransactionsGet200ResponseData } from './api-transactions-get200-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsGet200Response
  */
 export interface ApiTransactionsGet200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiTransactionsGet200Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiTransactionsGet200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {ApiTransactionsGet200ResponseData}
-     * @memberof ApiTransactionsGet200Response
-     */
-    'data'?: ApiTransactionsGet200ResponseData;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiTransactionsGet200Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiTransactionsGet200Response
+   */
+  message?: string
+  /**
+   *
+   * @type {ApiTransactionsGet200ResponseData}
+   * @memberof ApiTransactionsGet200Response
+   */
+  data?: ApiTransactionsGet200ResponseData
 }
-

@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiPriceDailyGet200ResponseData } from './api-price-daily-get200-response-data';
+import type { ApiPriceDailyGet200ResponseData } from './api-price-daily-get200-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface ApiPriceDailyGet200Response
  */
 export interface ApiPriceDailyGet200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyGet200Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiPriceDailyGet200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {ApiPriceDailyGet200ResponseData}
-     * @memberof ApiPriceDailyGet200Response
-     */
-    'data'?: ApiPriceDailyGet200ResponseData;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyGet200Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiPriceDailyGet200Response
+   */
+  message?: string
+  /**
+   *
+   * @type {ApiPriceDailyGet200ResponseData}
+   * @memberof ApiPriceDailyGet200Response
+   */
+  data?: ApiPriceDailyGet200ResponseData
 }
-

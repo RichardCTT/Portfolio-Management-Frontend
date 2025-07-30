@@ -1,5 +1,4 @@
-import { Github } from "lucide-react"
-
+import { Github } from 'lucide-react'
 
 export default function AppFooter() {
   return (
@@ -9,29 +8,20 @@ export default function AppFooter() {
           <span>© 2025 Portfolio Manager</span>
         </div>
         <div className="flex items-center space-x-4">
-          <a 
-            href="#" 
-            className="hover:text-gray-900 transition-colors"
-          >
+          <a href="#" className="hover:text-gray-900 transition-colors">
             Help
           </a>
           <span className="text-gray-400">|</span>
-          <a 
-            href="#" 
-            className="hover:text-gray-900 transition-colors"
-          >
+          <a href="#" className="hover:text-gray-900 transition-colors">
             About
           </a>
           <span className="text-gray-400">|</span>
-          <a 
-            href="#" 
-            className="hover:text-gray-900 transition-colors"
-          >
+          <a href="#" className="hover:text-gray-900 transition-colors">
             Contact us
           </a>
           <span className="text-gray-400">|</span>
-          <a 
-            href="https://github.com/RichardCTT/Portfolio-Management-Frontend" 
+          <a
+            href="https://github.com/RichardCTT/Portfolio-Management-Frontend"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-gray-900 transition-colors flex items-center"

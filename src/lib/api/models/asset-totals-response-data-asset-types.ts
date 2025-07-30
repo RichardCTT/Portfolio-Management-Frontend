@@ -12,52 +12,50 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetTypeSummary } from './asset-type-summary';
+import type { AssetTypeSummary } from './asset-type-summary'
 
 /**
- * 
+ *
  * @export
  * @interface AssetTotalsResponseDataAssetTypes
  */
 export interface AssetTotalsResponseDataAssetTypes {
-    /**
-     * 
-     * @type {AssetTypeSummary}
-     * @memberof AssetTotalsResponseDataAssetTypes
-     */
-    'cash'?: AssetTypeSummary;
-    /**
-     * 
-     * @type {AssetTypeSummary}
-     * @memberof AssetTotalsResponseDataAssetTypes
-     */
-    'stock'?: AssetTypeSummary;
-    /**
-     * 
-     * @type {AssetTypeSummary}
-     * @memberof AssetTotalsResponseDataAssetTypes
-     */
-    'bond'?: AssetTypeSummary;
-    /**
-     * 
-     * @type {AssetTypeSummary}
-     * @memberof AssetTotalsResponseDataAssetTypes
-     */
-    'cryptocurrency'?: AssetTypeSummary;
-    /**
-     * 
-     * @type {AssetTypeSummary}
-     * @memberof AssetTotalsResponseDataAssetTypes
-     */
-    'foreignCurrency'?: AssetTypeSummary;
-    /**
-     * 
-     * @type {AssetTypeSummary}
-     * @memberof AssetTotalsResponseDataAssetTypes
-     */
-    'futures'?: AssetTypeSummary;
+  /**
+   *
+   * @type {AssetTypeSummary}
+   * @memberof AssetTotalsResponseDataAssetTypes
+   */
+  cash?: AssetTypeSummary
+  /**
+   *
+   * @type {AssetTypeSummary}
+   * @memberof AssetTotalsResponseDataAssetTypes
+   */
+  stock?: AssetTypeSummary
+  /**
+   *
+   * @type {AssetTypeSummary}
+   * @memberof AssetTotalsResponseDataAssetTypes
+   */
+  bond?: AssetTypeSummary
+  /**
+   *
+   * @type {AssetTypeSummary}
+   * @memberof AssetTotalsResponseDataAssetTypes
+   */
+  cryptocurrency?: AssetTypeSummary
+  /**
+   *
+   * @type {AssetTypeSummary}
+   * @memberof AssetTotalsResponseDataAssetTypes
+   */
+  foreignCurrency?: AssetTypeSummary
+  /**
+   *
+   * @type {AssetTypeSummary}
+   * @memberof AssetTotalsResponseDataAssetTypes
+   */
+  futures?: AssetTypeSummary
 }
-

@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAssetTypesIdPutRequest
  */
 export interface ApiAssetTypesIdPutRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetTypesIdPutRequest
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetTypesIdPutRequest
-     */
-    'unit'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetTypesIdPutRequest
-     */
-    'description'?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetTypesIdPutRequest
+   */
+  name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetTypesIdPutRequest
+   */
+  unit?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetTypesIdPutRequest
+   */
+  description?: string
 }
-

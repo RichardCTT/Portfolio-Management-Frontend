@@ -1,4 +1,9 @@
-import { Configuration, AnalysisApi, AssetsApi, TransactionsApi } from '@/lib/api/'
+import {
+  Configuration,
+  AnalysisApi,
+  AssetsApi,
+  TransactionsApi,
+} from '@/lib/api/'
 
 // 根据环境动态配置 basePath
 const getBasePath = () => {

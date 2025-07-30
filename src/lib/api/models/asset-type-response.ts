@@ -12,28 +12,26 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetTypeResponseData } from './asset-type-response-data';
+import type { AssetTypeResponseData } from './asset-type-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface AssetTypeResponse
  */
 export interface AssetTypeResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AssetTypeResponse
-     */
-    'success'?: boolean;
-    /**
-     * 
-     * @type {AssetTypeResponseData}
-     * @memberof AssetTypeResponse
-     */
-    'data'?: AssetTypeResponseData;
+  /**
+   *
+   * @type {boolean}
+   * @memberof AssetTypeResponse
+   */
+  success?: boolean
+  /**
+   *
+   * @type {AssetTypeResponseData}
+   * @memberof AssetTypeResponse
+   */
+  data?: AssetTypeResponseData
 }
-

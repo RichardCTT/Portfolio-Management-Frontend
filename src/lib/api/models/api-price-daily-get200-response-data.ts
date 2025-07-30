@@ -12,40 +12,38 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { PriceDaily } from './price-daily';
+import type { PriceDaily } from './price-daily'
 
 /**
- * 
+ *
  * @export
  * @interface ApiPriceDailyGet200ResponseData
  */
 export interface ApiPriceDailyGet200ResponseData {
-    /**
-     * 
-     * @type {Array<PriceDaily>}
-     * @memberof ApiPriceDailyGet200ResponseData
-     */
-    'items'?: Array<PriceDaily>;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyGet200ResponseData
-     */
-    'total'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyGet200ResponseData
-     */
-    'page'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyGet200ResponseData
-     */
-    'page_size'?: number;
+  /**
+   *
+   * @type {Array<PriceDaily>}
+   * @memberof ApiPriceDailyGet200ResponseData
+   */
+  items?: Array<PriceDaily>
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyGet200ResponseData
+   */
+  total?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyGet200ResponseData
+   */
+  page?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyGet200ResponseData
+   */
+  page_size?: number
 }
-

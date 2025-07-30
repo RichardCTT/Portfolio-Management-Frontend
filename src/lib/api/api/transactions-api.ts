@@ -12,361 +12,596 @@
  * Do not edit the class manually.
  */
 
-
-import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
-import globalAxios from 'axios';
+import type { Configuration } from '../configuration'
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios'
+import globalAxios from 'axios'
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
+import {
+  DUMMY_BASE_URL,
+  assertParamExists,
+  setApiKeyToObject,
+  setBasicAuthToObject,
+  setBearerAuthToObject,
+  setOAuthToObject,
+  setSearchParams,
+  serializeDataIfNeeded,
+  toPathString,
+  createRequestFunction,
+} from '../common'
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
+import {
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  type RequestArgs,
+  BaseAPI,
+  RequiredError,
+  operationServerMap,
+} from '../base'
 // @ts-ignore
-import type { ApiAssetTypesIdDelete200Response } from '../models';
+import type { ApiAssetTypesIdDelete200Response } from '../models'
 // @ts-ignore
-import type { ApiTransactionsBuyPost201Response } from '../models';
+import type { ApiTransactionsBuyPost201Response } from '../models'
 // @ts-ignore
-import type { ApiTransactionsBuyPost400Response } from '../models';
+import type { ApiTransactionsBuyPost400Response } from '../models'
 // @ts-ignore
-import type { ApiTransactionsBuyPostRequest } from '../models';
+import type { ApiTransactionsBuyPostRequest } from '../models'
 // @ts-ignore
-import type { ApiTransactionsGet200Response } from '../models';
+import type { ApiTransactionsGet200Response } from '../models'
 // @ts-ignore
-import type { ApiTransactionsIdGet200Response } from '../models';
+import type { ApiTransactionsIdGet200Response } from '../models'
 // @ts-ignore
-import type { ApiTransactionsSellPost201Response } from '../models';
+import type { ApiTransactionsSellPost201Response } from '../models'
 // @ts-ignore
-import type { ApiTransactionsSellPostRequest } from '../models';
+import type { ApiTransactionsSellPostRequest } from '../models'
 /**
  * TransactionsApi - axios parameter creator
  * @export
  */
-export const TransactionsApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
-         * @summary 买入资产
-         * @param {ApiTransactionsBuyPostRequest} apiTransactionsBuyPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsBuyPost: async (apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'apiTransactionsBuyPostRequest' is not null or undefined
-            assertParamExists('apiTransactionsBuyPost', 'apiTransactionsBuyPostRequest', apiTransactionsBuyPostRequest)
-            const localVarPath = `/api/transactions/buy`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+export const TransactionsApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
+     * @summary 买入资产
+     * @param {ApiTransactionsBuyPostRequest} apiTransactionsBuyPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsBuyPost: async (
+      apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'apiTransactionsBuyPostRequest' is not null or undefined
+      assertParamExists(
+        'apiTransactionsBuyPost',
+        'apiTransactionsBuyPostRequest',
+        apiTransactionsBuyPostRequest
+      )
+      const localVarPath = `/api/transactions/buy`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
+      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        apiTransactionsBuyPostRequest,
+        localVarRequestOptions,
+        configuration
+      )
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(apiTransactionsBuyPostRequest, localVarRequestOptions, configuration)
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
+     * @summary 获取所有交易记录
+     * @param {number} [page] 页码
+     * @param {number} [pageSize] 每页条目数
+     * @param {number} [assetId] 筛选特定资产的交易
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsGet: async (
+      page?: number,
+      pageSize?: number,
+      assetId?: number,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/transactions`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取所有交易记录
-         * @param {number} [page] 页码
-         * @param {number} [pageSize] 每页条目数
-         * @param {number} [assetId] 筛选特定资产的交易
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsGet: async (page?: number, pageSize?: number, assetId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/transactions`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
 
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
 
-            if (pageSize !== undefined) {
-                localVarQueryParameter['page_size'] = pageSize;
-            }
+      if (assetId !== undefined) {
+        localVarQueryParameter['asset_id'] = assetId
+      }
 
-            if (assetId !== undefined) {
-                localVarQueryParameter['asset_id'] = assetId;
-            }
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
+     * @summary 删除交易记录
+     * @param {number} id 交易记录ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsIdDelete: async (
+      id: number,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('apiTransactionsIdDelete', 'id', id)
+      const localVarPath = `/api/transactions/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 删除交易记录
-         * @param {number} id 交易记录ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsIdDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiTransactionsIdDelete', 'id', id)
-            const localVarPath = `/api/transactions/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
+     * @summary 获取单个交易记录详情
+     * @param {number} id 交易记录ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsIdGet: async (
+      id: number,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('apiTransactionsIdGet', 'id', id)
+      const localVarPath = `/api/transactions/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取单个交易记录详情
-         * @param {number} id 交易记录ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsIdGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiTransactionsIdGet', 'id', id)
-            const localVarPath = `/api/transactions/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
+     * @summary 卖出资产
+     * @param {ApiTransactionsSellPostRequest} apiTransactionsSellPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsSellPost: async (
+      apiTransactionsSellPostRequest: ApiTransactionsSellPostRequest,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'apiTransactionsSellPostRequest' is not null or undefined
+      assertParamExists(
+        'apiTransactionsSellPost',
+        'apiTransactionsSellPostRequest',
+        apiTransactionsSellPostRequest
+      )
+      const localVarPath = `/api/transactions/sell`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
+      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        apiTransactionsSellPostRequest,
+        localVarRequestOptions,
+        configuration
+      )
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
-         * @summary 卖出资产
-         * @param {ApiTransactionsSellPostRequest} apiTransactionsSellPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsSellPost: async (apiTransactionsSellPostRequest: ApiTransactionsSellPostRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'apiTransactionsSellPostRequest' is not null or undefined
-            assertParamExists('apiTransactionsSellPost', 'apiTransactionsSellPostRequest', apiTransactionsSellPostRequest)
-            const localVarPath = `/api/transactions/sell`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(apiTransactionsSellPostRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
 
 /**
  * TransactionsApi - functional programming interface
  * @export
  */
-export const TransactionsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = TransactionsApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
-         * @summary 买入资产
-         * @param {ApiTransactionsBuyPostRequest} apiTransactionsBuyPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiTransactionsBuyPost(apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiTransactionsBuyPost201Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTransactionsBuyPost(apiTransactionsBuyPostRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TransactionsApi.apiTransactionsBuyPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary 获取所有交易记录
-         * @param {number} [page] 页码
-         * @param {number} [pageSize] 每页条目数
-         * @param {number} [assetId] 筛选特定资产的交易
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiTransactionsGet(page?: number, pageSize?: number, assetId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiTransactionsGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTransactionsGet(page, pageSize, assetId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TransactionsApi.apiTransactionsGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary 删除交易记录
-         * @param {number} id 交易记录ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiTransactionsIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiAssetTypesIdDelete200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTransactionsIdDelete(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TransactionsApi.apiTransactionsIdDelete']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary 获取单个交易记录详情
-         * @param {number} id 交易记录ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiTransactionsIdGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiTransactionsIdGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTransactionsIdGet(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TransactionsApi.apiTransactionsIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
-         * @summary 卖出资产
-         * @param {ApiTransactionsSellPostRequest} apiTransactionsSellPostRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiTransactionsSellPost(apiTransactionsSellPostRequest: ApiTransactionsSellPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiTransactionsSellPost201Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTransactionsSellPost(apiTransactionsSellPostRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TransactionsApi.apiTransactionsSellPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
+export const TransactionsApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator =
+    TransactionsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
+     * @summary 买入资产
+     * @param {ApiTransactionsBuyPostRequest} apiTransactionsBuyPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiTransactionsBuyPost(
+      apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiTransactionsBuyPost201Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiTransactionsBuyPost(
+          apiTransactionsBuyPostRequest,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TransactionsApi.apiTransactionsBuyPost']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     *
+     * @summary 获取所有交易记录
+     * @param {number} [page] 页码
+     * @param {number} [pageSize] 每页条目数
+     * @param {number} [assetId] 筛选特定资产的交易
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiTransactionsGet(
+      page?: number,
+      pageSize?: number,
+      assetId?: number,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiTransactionsGet200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiTransactionsGet(
+          page,
+          pageSize,
+          assetId,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TransactionsApi.apiTransactionsGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     *
+     * @summary 删除交易记录
+     * @param {number} id 交易记录ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiTransactionsIdDelete(
+      id: number,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiAssetTypesIdDelete200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiTransactionsIdDelete(id, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TransactionsApi.apiTransactionsIdDelete']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     *
+     * @summary 获取单个交易记录详情
+     * @param {number} id 交易记录ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiTransactionsIdGet(
+      id: number,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiTransactionsIdGet200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiTransactionsIdGet(id, options)
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TransactionsApi.apiTransactionsIdGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
+     * @summary 卖出资产
+     * @param {ApiTransactionsSellPostRequest} apiTransactionsSellPostRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiTransactionsSellPost(
+      apiTransactionsSellPostRequest: ApiTransactionsSellPostRequest,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiTransactionsSellPost201Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiTransactionsSellPost(
+          apiTransactionsSellPostRequest,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TransactionsApi.apiTransactionsSellPost']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
 
 /**
  * TransactionsApi - factory interface
  * @export
  */
-export const TransactionsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = TransactionsApiFp(configuration)
-    return {
-        /**
-         * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
-         * @summary 买入资产
-         * @param {TransactionsApiApiTransactionsBuyPostRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsBuyPost(requestParameters: TransactionsApiApiTransactionsBuyPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsBuyPost201Response> {
-            return localVarFp.apiTransactionsBuyPost(requestParameters.apiTransactionsBuyPostRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取所有交易记录
-         * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsGet(requestParameters: TransactionsApiApiTransactionsGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsGet200Response> {
-            return localVarFp.apiTransactionsGet(requestParameters.page, requestParameters.pageSize, requestParameters.assetId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 删除交易记录
-         * @param {TransactionsApiApiTransactionsIdDeleteRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsIdDelete(requestParameters: TransactionsApiApiTransactionsIdDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiAssetTypesIdDelete200Response> {
-            return localVarFp.apiTransactionsIdDelete(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取单个交易记录详情
-         * @param {TransactionsApiApiTransactionsIdGetRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsIdGet(requestParameters: TransactionsApiApiTransactionsIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsIdGet200Response> {
-            return localVarFp.apiTransactionsIdGet(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
-         * @summary 卖出资产
-         * @param {TransactionsApiApiTransactionsSellPostRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiTransactionsSellPost(requestParameters: TransactionsApiApiTransactionsSellPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsSellPost201Response> {
-            return localVarFp.apiTransactionsSellPost(requestParameters.apiTransactionsSellPostRequest, options).then((request) => request(axios, basePath));
-        },
-    };
-};
+export const TransactionsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = TransactionsApiFp(configuration)
+  return {
+    /**
+     * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
+     * @summary 买入资产
+     * @param {TransactionsApiApiTransactionsBuyPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsBuyPost(
+      requestParameters: TransactionsApiApiTransactionsBuyPostRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiTransactionsBuyPost201Response> {
+      return localVarFp
+        .apiTransactionsBuyPost(
+          requestParameters.apiTransactionsBuyPostRequest,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary 获取所有交易记录
+     * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsGet(
+      requestParameters: TransactionsApiApiTransactionsGetRequest = {},
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiTransactionsGet200Response> {
+      return localVarFp
+        .apiTransactionsGet(
+          requestParameters.page,
+          requestParameters.pageSize,
+          requestParameters.assetId,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary 删除交易记录
+     * @param {TransactionsApiApiTransactionsIdDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsIdDelete(
+      requestParameters: TransactionsApiApiTransactionsIdDeleteRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiAssetTypesIdDelete200Response> {
+      return localVarFp
+        .apiTransactionsIdDelete(requestParameters.id, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary 获取单个交易记录详情
+     * @param {TransactionsApiApiTransactionsIdGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsIdGet(
+      requestParameters: TransactionsApiApiTransactionsIdGetRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiTransactionsIdGet200Response> {
+      return localVarFp
+        .apiTransactionsIdGet(requestParameters.id, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
+     * @summary 卖出资产
+     * @param {TransactionsApiApiTransactionsSellPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsSellPost(
+      requestParameters: TransactionsApiApiTransactionsSellPostRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiTransactionsSellPost201Response> {
+      return localVarFp
+        .apiTransactionsSellPost(
+          requestParameters.apiTransactionsSellPostRequest,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+  }
+}
 
 /**
  * TransactionsApi - interface
@@ -374,56 +609,70 @@ export const TransactionsApiFactory = function (configuration?: Configuration, b
  * @interface TransactionsApi
  */
 export interface TransactionsApiInterface {
-    /**
-     * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
-     * @summary 买入资产
-     * @param {TransactionsApiApiTransactionsBuyPostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApiInterface
-     */
-    apiTransactionsBuyPost(requestParameters: TransactionsApiApiTransactionsBuyPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsBuyPost201Response>;
+  /**
+   * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
+   * @summary 买入资产
+   * @param {TransactionsApiApiTransactionsBuyPostRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApiInterface
+   */
+  apiTransactionsBuyPost(
+    requestParameters: TransactionsApiApiTransactionsBuyPostRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiTransactionsBuyPost201Response>
 
-    /**
-     * 
-     * @summary 获取所有交易记录
-     * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApiInterface
-     */
-    apiTransactionsGet(requestParameters?: TransactionsApiApiTransactionsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsGet200Response>;
+  /**
+   *
+   * @summary 获取所有交易记录
+   * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApiInterface
+   */
+  apiTransactionsGet(
+    requestParameters?: TransactionsApiApiTransactionsGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiTransactionsGet200Response>
 
-    /**
-     * 
-     * @summary 删除交易记录
-     * @param {TransactionsApiApiTransactionsIdDeleteRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApiInterface
-     */
-    apiTransactionsIdDelete(requestParameters: TransactionsApiApiTransactionsIdDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiAssetTypesIdDelete200Response>;
+  /**
+   *
+   * @summary 删除交易记录
+   * @param {TransactionsApiApiTransactionsIdDeleteRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApiInterface
+   */
+  apiTransactionsIdDelete(
+    requestParameters: TransactionsApiApiTransactionsIdDeleteRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiAssetTypesIdDelete200Response>
 
-    /**
-     * 
-     * @summary 获取单个交易记录详情
-     * @param {TransactionsApiApiTransactionsIdGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApiInterface
-     */
-    apiTransactionsIdGet(requestParameters: TransactionsApiApiTransactionsIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsIdGet200Response>;
+  /**
+   *
+   * @summary 获取单个交易记录详情
+   * @param {TransactionsApiApiTransactionsIdGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApiInterface
+   */
+  apiTransactionsIdGet(
+    requestParameters: TransactionsApiApiTransactionsIdGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiTransactionsIdGet200Response>
 
-    /**
-     * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
-     * @summary 卖出资产
-     * @param {TransactionsApiApiTransactionsSellPostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApiInterface
-     */
-    apiTransactionsSellPost(requestParameters: TransactionsApiApiTransactionsSellPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiTransactionsSellPost201Response>;
-
+  /**
+   * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
+   * @summary 卖出资产
+   * @param {TransactionsApiApiTransactionsSellPostRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApiInterface
+   */
+  apiTransactionsSellPost(
+    requestParameters: TransactionsApiApiTransactionsSellPostRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiTransactionsSellPost201Response>
 }
 
 /**
@@ -432,12 +681,12 @@ export interface TransactionsApiInterface {
  * @interface TransactionsApiApiTransactionsBuyPostRequest
  */
 export interface TransactionsApiApiTransactionsBuyPostRequest {
-    /**
-     * 
-     * @type {ApiTransactionsBuyPostRequest}
-     * @memberof TransactionsApiApiTransactionsBuyPost
-     */
-    readonly apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest
+  /**
+   *
+   * @type {ApiTransactionsBuyPostRequest}
+   * @memberof TransactionsApiApiTransactionsBuyPost
+   */
+  readonly apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest
 }
 
 /**
@@ -446,26 +695,26 @@ export interface TransactionsApiApiTransactionsBuyPostRequest {
  * @interface TransactionsApiApiTransactionsGetRequest
  */
 export interface TransactionsApiApiTransactionsGetRequest {
-    /**
-     * 页码
-     * @type {number}
-     * @memberof TransactionsApiApiTransactionsGet
-     */
-    readonly page?: number
+  /**
+   * 页码
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsGet
+   */
+  readonly page?: number
 
-    /**
-     * 每页条目数
-     * @type {number}
-     * @memberof TransactionsApiApiTransactionsGet
-     */
-    readonly pageSize?: number
+  /**
+   * 每页条目数
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsGet
+   */
+  readonly pageSize?: number
 
-    /**
-     * 筛选特定资产的交易
-     * @type {number}
-     * @memberof TransactionsApiApiTransactionsGet
-     */
-    readonly assetId?: number
+  /**
+   * 筛选特定资产的交易
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsGet
+   */
+  readonly assetId?: number
 }
 
 /**
@@ -474,12 +723,12 @@ export interface TransactionsApiApiTransactionsGetRequest {
  * @interface TransactionsApiApiTransactionsIdDeleteRequest
  */
 export interface TransactionsApiApiTransactionsIdDeleteRequest {
-    /**
-     * 交易记录ID
-     * @type {number}
-     * @memberof TransactionsApiApiTransactionsIdDelete
-     */
-    readonly id: number
+  /**
+   * 交易记录ID
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsIdDelete
+   */
+  readonly id: number
 }
 
 /**
@@ -488,12 +737,12 @@ export interface TransactionsApiApiTransactionsIdDeleteRequest {
  * @interface TransactionsApiApiTransactionsIdGetRequest
  */
 export interface TransactionsApiApiTransactionsIdGetRequest {
-    /**
-     * 交易记录ID
-     * @type {number}
-     * @memberof TransactionsApiApiTransactionsIdGet
-     */
-    readonly id: number
+  /**
+   * 交易记录ID
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsIdGet
+   */
+  readonly id: number
 }
 
 /**
@@ -502,12 +751,12 @@ export interface TransactionsApiApiTransactionsIdGetRequest {
  * @interface TransactionsApiApiTransactionsSellPostRequest
  */
 export interface TransactionsApiApiTransactionsSellPostRequest {
-    /**
-     * 
-     * @type {ApiTransactionsSellPostRequest}
-     * @memberof TransactionsApiApiTransactionsSellPost
-     */
-    readonly apiTransactionsSellPostRequest: ApiTransactionsSellPostRequest
+  /**
+   *
+   * @type {ApiTransactionsSellPostRequest}
+   * @memberof TransactionsApiApiTransactionsSellPost
+   */
+  readonly apiTransactionsSellPostRequest: ApiTransactionsSellPostRequest
 }
 
 /**
@@ -516,65 +765,103 @@ export interface TransactionsApiApiTransactionsSellPostRequest {
  * @class TransactionsApi
  * @extends {BaseAPI}
  */
-export class TransactionsApi extends BaseAPI implements TransactionsApiInterface {
-    /**
-     * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
-     * @summary 买入资产
-     * @param {TransactionsApiApiTransactionsBuyPostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApi
-     */
-    public apiTransactionsBuyPost(requestParameters: TransactionsApiApiTransactionsBuyPostRequest, options?: RawAxiosRequestConfig) {
-        return TransactionsApiFp(this.configuration).apiTransactionsBuyPost(requestParameters.apiTransactionsBuyPostRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+export class TransactionsApi
+  extends BaseAPI
+  implements TransactionsApiInterface
+{
+  /**
+   * 根据指定日期的价格买入资产，自动从现金账户扣除对应金额
+   * @summary 买入资产
+   * @param {TransactionsApiApiTransactionsBuyPostRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApi
+   */
+  public apiTransactionsBuyPost(
+    requestParameters: TransactionsApiApiTransactionsBuyPostRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransactionsApiFp(this.configuration)
+      .apiTransactionsBuyPost(
+        requestParameters.apiTransactionsBuyPostRequest,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
 
-    /**
-     * 
-     * @summary 获取所有交易记录
-     * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApi
-     */
-    public apiTransactionsGet(requestParameters: TransactionsApiApiTransactionsGetRequest = {}, options?: RawAxiosRequestConfig) {
-        return TransactionsApiFp(this.configuration).apiTransactionsGet(requestParameters.page, requestParameters.pageSize, requestParameters.assetId, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   *
+   * @summary 获取所有交易记录
+   * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApi
+   */
+  public apiTransactionsGet(
+    requestParameters: TransactionsApiApiTransactionsGetRequest = {},
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransactionsApiFp(this.configuration)
+      .apiTransactionsGet(
+        requestParameters.page,
+        requestParameters.pageSize,
+        requestParameters.assetId,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
 
-    /**
-     * 
-     * @summary 删除交易记录
-     * @param {TransactionsApiApiTransactionsIdDeleteRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApi
-     */
-    public apiTransactionsIdDelete(requestParameters: TransactionsApiApiTransactionsIdDeleteRequest, options?: RawAxiosRequestConfig) {
-        return TransactionsApiFp(this.configuration).apiTransactionsIdDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   *
+   * @summary 删除交易记录
+   * @param {TransactionsApiApiTransactionsIdDeleteRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApi
+   */
+  public apiTransactionsIdDelete(
+    requestParameters: TransactionsApiApiTransactionsIdDeleteRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransactionsApiFp(this.configuration)
+      .apiTransactionsIdDelete(requestParameters.id, options)
+      .then(request => request(this.axios, this.basePath))
+  }
 
-    /**
-     * 
-     * @summary 获取单个交易记录详情
-     * @param {TransactionsApiApiTransactionsIdGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApi
-     */
-    public apiTransactionsIdGet(requestParameters: TransactionsApiApiTransactionsIdGetRequest, options?: RawAxiosRequestConfig) {
-        return TransactionsApiFp(this.configuration).apiTransactionsIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   *
+   * @summary 获取单个交易记录详情
+   * @param {TransactionsApiApiTransactionsIdGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApi
+   */
+  public apiTransactionsIdGet(
+    requestParameters: TransactionsApiApiTransactionsIdGetRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransactionsApiFp(this.configuration)
+      .apiTransactionsIdGet(requestParameters.id, options)
+      .then(request => request(this.axios, this.basePath))
+  }
 
-    /**
-     * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
-     * @summary 卖出资产
-     * @param {TransactionsApiApiTransactionsSellPostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TransactionsApi
-     */
-    public apiTransactionsSellPost(requestParameters: TransactionsApiApiTransactionsSellPostRequest, options?: RawAxiosRequestConfig) {
-        return TransactionsApiFp(this.configuration).apiTransactionsSellPost(requestParameters.apiTransactionsSellPostRequest, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * 根据指定日期的价格卖出资产，自动向现金账户添加对应金额
+   * @summary 卖出资产
+   * @param {TransactionsApiApiTransactionsSellPostRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApi
+   */
+  public apiTransactionsSellPost(
+    requestParameters: TransactionsApiApiTransactionsSellPostRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransactionsApiFp(this.configuration)
+      .apiTransactionsSellPost(
+        requestParameters.apiTransactionsSellPostRequest,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
 }
-
