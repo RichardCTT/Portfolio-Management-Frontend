@@ -12,10 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from './api/analysis-api'
-export * from './api/asset-types-api'
-export * from './api/assets-api'
-export * from './api/main-page-api'
-export * from './api/portfolio-analysis-api'
-export * from './api/price-daily-api'
-export * from './api/transactions-api'
+/**
+ *
+ * @export
+ * @interface ApiMainPageTotalAssetsHistoryGet200ResponseDataInner
+ */
+export interface ApiMainPageTotalAssetsHistoryGet200ResponseDataInner {
+  /**
+   * 日期
+   * @type {string}
+   * @memberof ApiMainPageTotalAssetsHistoryGet200ResponseDataInner
+   */
+  date?: string
+  /**
+   * 当日总资产价值
+   * @type {number}
+   * @memberof ApiMainPageTotalAssetsHistoryGet200ResponseDataInner
+   */
+  total_asset_value?: number
+}

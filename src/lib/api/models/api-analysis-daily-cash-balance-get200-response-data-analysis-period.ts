@@ -12,38 +12,34 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
-
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod
  */
-export interface ApiAssetsGet200ResponseData {
+export interface ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod {
   /**
    *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod
    */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
+  start_date?: string
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod
    */
-  total?: number
-  /**
-   *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  page?: number
+  end_date?: string
   /**
    *
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod
    */
-  page_size?: number
+  days?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod
+   */
+  actual_days?: number
 }

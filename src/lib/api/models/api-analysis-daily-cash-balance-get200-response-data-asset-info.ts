@@ -12,38 +12,34 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
-
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo
  */
-export interface ApiAssetsGet200ResponseData {
-  /**
-   *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
+export interface ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo {
   /**
    *
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo
    */
-  total?: number
+  id?: number
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo
    */
-  page?: number
+  name?: string
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo
    */
-  page_size?: number
+  code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo
+   */
+  type?: string
 }

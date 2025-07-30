@@ -2,13 +2,14 @@
 
 All URIs are relative to _http://localhost:3000_
 
-| Method                                                  | HTTP request                      | Description          |
-| ------------------------------------------------------- | --------------------------------- | -------------------- |
-| [**apiTransactionsBuyPost**](#apitransactionsbuypost)   | **POST** /api/transactions/buy    | 买入资产             |
-| [**apiTransactionsGet**](#apitransactionsget)           | **GET** /api/transactions         | 获取所有交易记录     |
-| [**apiTransactionsIdDelete**](#apitransactionsiddelete) | **DELETE** /api/transactions/{id} | 删除交易记录         |
-| [**apiTransactionsIdGet**](#apitransactionsidget)       | **GET** /api/transactions/{id}    | 获取单个交易记录详情 |
-| [**apiTransactionsSellPost**](#apitransactionssellpost) | **POST** /api/transactions/sell   | 卖出资产             |
+| Method                                                              | HTTP request                           | Description          |
+| ------------------------------------------------------------------- | -------------------------------------- | -------------------- |
+| [**apiTransactionsBuyPost**](#apitransactionsbuypost)               | **POST** /api/transactions/buy         | 买入资产             |
+| [**apiTransactionsCashSummaryGet**](#apitransactionscashsummaryget) | **GET** /api/transactions/cash-summary | 获取现金账户汇总信息 |
+| [**apiTransactionsGet**](#apitransactionsget)                       | **GET** /api/transactions              | 获取所有交易记录     |
+| [**apiTransactionsIdDelete**](#apitransactionsiddelete)             | **DELETE** /api/transactions/{id}      | 删除交易记录         |
+| [**apiTransactionsIdGet**](#apitransactionsidget)                   | **GET** /api/transactions/{id}         | 获取单个交易记录详情 |
+| [**apiTransactionsSellPost**](#apitransactionssellpost)             | **POST** /api/transactions/sell        | 卖出资产             |
 
 # **apiTransactionsBuyPost**
 
@@ -62,6 +63,58 @@ No authorization required
 | **400**     | 请求参数错误或资金不足     | -                |
 | **404**     | 资产未找到或当日无价格数据 | -                |
 | **500**     | 服务器错误                 | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiTransactionsCashSummaryGet**
+
+> ApiTransactionsCashSummaryGet200Response apiTransactionsCashSummaryGet()
+
+获取现金账户的总金额、当月支出、收入和净流水
+
+### Example
+
+```typescript
+import { TransactionsApi, Configuration } from './api'
+
+const configuration = new Configuration()
+const apiInstance = new TransactionsApi(configuration)
+
+let year: number //年份（默认为当前年份） (optional) (default to undefined)
+let month: number //月份（默认为当前月份） (optional) (default to undefined)
+
+const { status, data } = await apiInstance.apiTransactionsCashSummaryGet(
+  year,
+  month
+)
+```
+
+### Parameters
+
+| Name      | Type         | Description            | Notes                            |
+| --------- | ------------ | ---------------------- | -------------------------------- |
+| **year**  | [**number**] | 年份（默认为当前年份） | (optional) defaults to undefined |
+| **month** | [**number**] | 月份（默认为当前月份） | (optional) defaults to undefined |
+
+### Return type
+
+**ApiTransactionsCashSummaryGet200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description              | Response headers |
+| ----------- | ------------------------ | ---------------- |
+| **200**     | 成功获取现金账户汇总信息 | -                |
+| **500**     | 服务器错误               | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

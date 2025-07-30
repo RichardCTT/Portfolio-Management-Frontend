@@ -7,6 +7,7 @@ All URIs are relative to _http://localhost:3000_
 | [**apiAnalysisAssetHoldingGet**](#apianalysisassetholdingget)               | **GET** /api/analysis/asset-holding         | 获取资产持仓分析                                   |
 | [**apiAnalysisAssetHoldingSummaryGet**](#apianalysisassetholdingsummaryget) | **GET** /api/analysis/asset-holding/summary | 获取资产持仓简要分析                               |
 | [**apiAnalysisAssetTotalsByTypeGet**](#apianalysisassettotalsbytypeget)     | **GET** /api/analysis/asset-totals-by-type  | Get total asset values by type for a specific date |
+| [**apiAnalysisDailyCashBalanceGet**](#apianalysisdailycashbalanceget)       | **GET** /api/analysis/daily-cash-balance    | Get daily cash balance for the past N days         |
 
 # **apiAnalysisAssetHoldingGet**
 
@@ -163,5 +164,53 @@ No authorization required
 | ----------- | ------------------------------------------- | ---------------- |
 | **200**     | Successfully retrieved asset totals by type | -                |
 | **500**     | Internal server error                       | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiAnalysisDailyCashBalanceGet**
+
+> ApiAnalysisDailyCashBalanceGet200Response apiAnalysisDailyCashBalanceGet()
+
+Retrieves daily cash balance changes from today going back the specified number of days
+
+### Example
+
+```typescript
+import { AnalysisApi, Configuration } from './api'
+
+const configuration = new Configuration()
+const apiInstance = new AnalysisApi(configuration)
+
+let days: number //Number of days to look back from today (default 30) (optional) (default to 30)
+
+const { status, data } = await apiInstance.apiAnalysisDailyCashBalanceGet(days)
+```
+
+### Parameters
+
+| Name     | Type         | Description                                         | Notes                     |
+| -------- | ------------ | --------------------------------------------------- | ------------------------- |
+| **days** | [**number**] | Number of days to look back from today (default 30) | (optional) defaults to 30 |
+
+### Return type
+
+**ApiAnalysisDailyCashBalanceGet200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description                               | Response headers |
+| ----------- | ----------------------------------------- | ---------------- |
+| **200**     | Daily cash balance retrieved successfully | -                |
+| **400**     | Invalid parameters                        | -                |
+| **500**     | Server error                              | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

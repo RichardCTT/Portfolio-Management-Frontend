@@ -12,38 +12,40 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
-
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiMainPageSummaryGet200ResponseData
  */
-export interface ApiAssetsGet200ResponseData {
+export interface ApiMainPageSummaryGet200ResponseData {
   /**
-   *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
-  /**
-   *
+   * 总资产价值
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiMainPageSummaryGet200ResponseData
    */
-  total?: number
+  total_asset_value?: number
   /**
-   *
+   * 总盈亏
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiMainPageSummaryGet200ResponseData
    */
-  page?: number
+  total_profit_loss?: number
   /**
-   *
+   * 当日盈亏
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiMainPageSummaryGet200ResponseData
    */
-  page_size?: number
+  today_profit_loss?: number
+  /**
+   * 总盈亏百分比
+   * @type {number}
+   * @memberof ApiMainPageSummaryGet200ResponseData
+   */
+  total_profit_loss_percentage?: number
+  /**
+   * 当日盈亏百分比
+   * @type {number}
+   * @memberof ApiMainPageSummaryGet200ResponseData
+   */
+  today_profit_loss_percentage?: number
 }

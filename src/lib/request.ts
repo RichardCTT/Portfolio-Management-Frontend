@@ -1,3 +1,4 @@
+import { PortfolioAnalysisApi } from '@/generated/api'
 import {
   Configuration,
   AnalysisApi,
@@ -25,6 +26,8 @@ const apiConfiguration = new Configuration({
 export const analysisApi = new AnalysisApi(apiConfiguration)
 export const assetsApi = new AssetsApi(apiConfiguration)
 export const transactionsApi = new TransactionsApi(apiConfiguration)
+export const assetTypesApi = new AssetsApi(apiConfiguration) // 假设资产类型 API 也使用 AssetsApi
+export const portfolioAnalysisApi = new PortfolioAnalysisApi(apiConfiguration)
 
 // 如果需要自定义配置，也可以导出配置对象
 export { apiConfiguration }
@@ -34,4 +37,5 @@ export default {
   analysis: analysisApi,
   assets: assetsApi,
   transactions: transactionsApi,
+  portfolioAnalysisApi: portfolioAnalysisApi,
 }

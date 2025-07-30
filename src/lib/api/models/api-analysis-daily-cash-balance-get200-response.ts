@@ -14,36 +14,24 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
+import type { ApiAnalysisDailyCashBalanceGet200ResponseData } from './api-analysis-daily-cash-balance-get200-response-data'
 
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiAnalysisDailyCashBalanceGet200Response
  */
-export interface ApiAssetsGet200ResponseData {
+export interface ApiAnalysisDailyCashBalanceGet200Response {
   /**
    *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {boolean}
+   * @memberof ApiAnalysisDailyCashBalanceGet200Response
    */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
+  success?: boolean
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {ApiAnalysisDailyCashBalanceGet200ResponseData}
+   * @memberof ApiAnalysisDailyCashBalanceGet200Response
    */
-  total?: number
-  /**
-   *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  page?: number
-  /**
-   *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  page_size?: number
+  data?: ApiAnalysisDailyCashBalanceGet200ResponseData
 }

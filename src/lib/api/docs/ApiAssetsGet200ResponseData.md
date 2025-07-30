@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name          | Type                               | Description | Notes                             |
-| ------------- | ---------------------------------- | ----------- | --------------------------------- |
-| **items**     | [**Array&lt;Asset&gt;**](Asset.md) |             | [optional] [default to undefined] |
-| **total**     | **number**                         |             | [optional] [default to undefined] |
-| **page**      | **number**                         |             | [optional] [default to undefined] |
-| **page_size** | **number**                         |             | [optional] [default to undefined] |
+| Name          | Type                                                                                               | Description | Notes                             |
+| ------------- | -------------------------------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| **items**     | [**Array&lt;ApiAssetsGet200ResponseDataItemsInner&gt;**](ApiAssetsGet200ResponseDataItemsInner.md) |             | [optional] [default to undefined] |
+| **total**     | **number**                                                                                         |             | [optional] [default to undefined] |
+| **page**      | **number**                                                                                         |             | [optional] [default to undefined] |
+| **page_size** | **number**                                                                                         |             | [optional] [default to undefined] |
 
 ## Example
 

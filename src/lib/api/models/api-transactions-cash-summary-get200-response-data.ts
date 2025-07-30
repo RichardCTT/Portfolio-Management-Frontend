@@ -12,38 +12,34 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
-
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiTransactionsCashSummaryGet200ResponseData
  */
-export interface ApiAssetsGet200ResponseData {
+export interface ApiTransactionsCashSummaryGet200ResponseData {
   /**
-   *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
-  /**
-   *
+   * 总现金金额
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiTransactionsCashSummaryGet200ResponseData
    */
-  total?: number
+  total_cash?: number
   /**
-   *
+   * 当月支出
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiTransactionsCashSummaryGet200ResponseData
    */
-  page?: number
+  monthly_expense?: number
   /**
-   *
+   * 当月收入
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiTransactionsCashSummaryGet200ResponseData
    */
-  page_size?: number
+  monthly_income?: number
+  /**
+   * 净现金流（收入-支出）
+   * @type {number}
+   * @memberof ApiTransactionsCashSummaryGet200ResponseData
+   */
+  net_flow?: number
 }
