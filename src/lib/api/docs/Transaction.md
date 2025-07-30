@@ -2,19 +2,19 @@
 
 ## Properties
 
-| Name                 | Type       | Description                           | Notes                             |
-| -------------------- | ---------- | ------------------------------------- | --------------------------------- |
-| **id**               | **number** | 交易记录ID                            | [optional] [default to undefined] |
-| **asset_id**         | **number** | 资产ID                                | [default to undefined]            |
-| **asset_name**       | **string** | Asset name                            | [optional] [default to undefined] |
-| **asset_code**       | **string** | Asset code                            | [optional] [default to undefined] |
-| **asset_type_name**  | **string** | Asset type name                       | [optional] [default to undefined] |
-| **transaction_type** | **string** | 交易类型(IN&#x3D;入库, OUT&#x3D;出库) | [default to undefined]            |
-| **quantity**         | **number** | 交易数量                              | [default to undefined]            |
-| **price**            | **number** | 交易单价                              | [default to undefined]            |
-| **transaction_date** | **string** | 交易日期                              | [default to undefined]            |
-| **holding**          | **number** | 交易后资产余额                        | [default to undefined]            |
-| **description**      | **string** | 描述                                  | [optional] [default to undefined] |
+| Name                 | Type       | Description                                         | Notes                             |
+| -------------------- | ---------- | --------------------------------------------------- | --------------------------------- |
+| **id**               | **number** | Transaction ID                                      | [optional] [default to undefined] |
+| **asset_id**         | **number** | Asset ID                                            | [optional] [default to undefined] |
+| **asset_name**       | **string** | Asset name                                          | [optional] [default to undefined] |
+| **asset_code**       | **string** | Asset code                                          | [optional] [default to undefined] |
+| **asset_type_name**  | **string** | Asset type name                                     | [optional] [default to undefined] |
+| **transaction_type** | **string** | Transaction type (IN &#x3D; add, OUT &#x3D; remove) | [optional] [default to undefined] |
+| **quantity**         | **number** | Quantity involved in transaction                    | [optional] [default to undefined] |
+| **price**            | **number** | Unit price at time of transaction                   | [optional] [default to undefined] |
+| **transaction_date** | **string** | Date and time of transaction                        | [optional] [default to undefined] |
+| **holding**          | **number** | Asset balance after this transaction                | [optional] [default to undefined] |
+| **description**      | **string** | Transaction description or notes                    | [optional] [default to undefined] |
 
 ## Example
 

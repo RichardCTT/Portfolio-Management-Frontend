@@ -18,7 +18,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { analysisApi, assetsApi } from '@/lib/request'
+import {
+  analysisApi,
+  assetsApi,
+  transactionsApi,
+  portfolioAnalysisApi,
+} from '@/lib/request'
 import { TrendingUp, TrendingDown } from 'lucide-react'
 
 interface Stock {
@@ -40,6 +45,20 @@ interface HoldingTableData {
   marketValue: number
   priceChangeRate: number
   color: string
+}
+
+interface TransactionStock {
+  id: number
+  name: string
+  code: string
+  transaction_date: string
+  transaction_type: string
+  amount: number
+  balance: number
+  price: number
+  stock?: string
+  total?: number
+  // 可以添加更多字段转换
 }
 
 const COLORS = [
@@ -77,7 +96,6 @@ export default function StockPage() {
   const [stockHoldTablePageSize, setStockHoldTablePageSize] =
     useState<number>(10)
   const [stockHoldTableTotal, setStockHoldTableTotal] = useState<number>(1)
-
   // State to hold stock holdings data for table
   const [holdingsData, setHoldingsData] = useState<HoldingTableData[]>([])
 
@@ -86,6 +104,9 @@ export default function StockPage() {
     useState<number>(1)
   const [stockTransactionTablePageSize, setStockTransactionTablePageSize] =
     useState<number>(10)
+  const [stockTransactionTableTotalPages, setStockTransactionTableTotalPages] =
+    useState<number>(1)
+  const [transactionData, setTransactionData] = useState<TransactionStock[]>([])
 
   // get total stocks, market value, and largest position
   const fetchStockData = async () => {
@@ -144,10 +165,8 @@ export default function StockPage() {
       }))
       setHoldingsData(holdings)
       setStockHoldTableTotal(
-        Math.ceil(
-          (response.data.data?.total || 0) /
-            (response.data.data?.page_size || 10)
-        ) || 1
+        Math.ceil((response.data.data?.total || 0) / stockHoldTablePageSize) ||
+          1
       )
     } catch (error) {
       console.error('Error fetching holdings data:', error)
@@ -158,249 +177,67 @@ export default function StockPage() {
     fetchHoldingsData()
   }, [stockHoldTablePage, stockHoldTablePageSize])
 
-  // 示例交易数据 - 实际应该从API获取
-  const sampleTransactionsData = [
-    {
-      date: '2024-01-15',
-      type: 'Buy',
-      stock: 'AAPL',
-      quantity: 50,
-      price: 180.5,
-      total: 9025.0,
-      status: 'Completed',
-    },
-    {
-      date: '2024-01-10',
-      type: 'Sell',
-      stock: 'MSFT',
-      quantity: 30,
-      price: 350.25,
-      total: 10507.5,
-      status: 'Completed',
-    },
-    {
-      date: '2024-01-08',
-      type: 'Buy',
-      stock: 'GOOGL',
-      quantity: 20,
-      price: 140.75,
-      total: 2815.0,
-      status: 'Pending',
-    },
-    {
-      date: '2024-01-05',
-      type: 'Buy',
-      stock: 'TSLA',
-      quantity: 25,
-      price: 245.8,
-      total: 6145.0,
-      status: 'Completed',
-    },
-    {
-      date: '2024-01-03',
-      type: 'Sell',
-      stock: 'AMZN',
-      quantity: 10,
-      price: 580.45,
-      total: 5804.5,
-      status: 'Completed',
-    },
-    {
-      date: '2024-01-02',
-      type: 'Buy',
-      stock: 'META',
-      quantity: 15,
-      price: 312.25,
-      total: 4683.75,
-      status: 'Completed',
-    },
-    {
-      date: '2023-12-28',
-      type: 'Buy',
-      stock: 'NVDA',
-      quantity: 8,
-      price: 750.2,
-      total: 6001.6,
-      status: 'Completed',
-    },
-    {
-      date: '2023-12-25',
-      type: 'Sell',
-      stock: 'NFLX',
-      quantity: 5,
-      price: 425.6,
-      total: 2128.0,
-      status: 'Completed',
-    },
-    {
-      date: '2023-12-22',
-      type: 'Buy',
-      stock: 'ADBE',
-      quantity: 12,
-      price: 456.78,
-      total: 5481.36,
-      status: 'Completed',
-    },
-    {
-      date: '2023-12-20',
-      type: 'Buy',
-      stock: 'CRM',
-      quantity: 18,
-      price: 245.3,
-      total: 4415.4,
-      status: 'Completed',
-    },
-    {
-      date: '2023-12-18',
-      type: 'Sell',
-      stock: 'ORCL',
-      quantity: 20,
-      price: 189.45,
-      total: 3789.0,
-      status: 'Completed',
-    },
-    {
-      date: '2023-12-15',
-      type: 'Buy',
-      stock: 'INTC',
-      quantity: 50,
-      price: 45.22,
-      total: 2261.0,
-      status: 'Completed',
-    },
-  ]
+  // get transaction data for table
+  const fetchTransactionData = async () => {
+    try {
+      const response =
+        await portfolioAnalysisApi.apiPortfolioTransactionsByTypeAssetTypeIdGet(
+          {
+            page: stockTransactionTablePage,
+            limit: stockTransactionTablePageSize,
+            assetTypeId: 2,
+          }
+        )
 
-  const totalTransactionsPages = Math.ceil(
-    sampleTransactionsData.length / stockTransactionTablePageSize
-  )
-  const currentTransactionsData = sampleTransactionsData.slice(
-    (stockTransactionTablePage - 1) * stockTransactionTablePageSize,
-    stockTransactionTablePage * stockTransactionTablePageSize
-  )
+      const transactions: TransactionStock[] = (
+        response.data.data?.transactions ?? []
+      ).map((item: any) => ({
+        name: item.asset_name,
+        id: item.id,
+        transaction_date: item.transaction_date,
+        transaction_type: item.transaction_type,
+        amount: item.quantity,
+        balance: item.balance,
+        price: item.price || 0,
+        code: item.asset_code || 'N/A',
+        total: Math.abs((item.quantity || 0) * (item.price || 0)),
+      }))
+
+      setTransactionData(transactions)
+      setStockTransactionTableTotalPages(
+        Math.ceil(
+          (response.data.data?.total_transactions || 0) /
+            stockTransactionTablePageSize
+        ) || 1
+      )
+      console.log('Transaction data:', transactions)
+    } catch (error) {
+      console.error('Error fetching transaction data:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchTransactionData()
+  }, [stockTransactionTablePage, stockTransactionTablePageSize])
 
   useEffect(() => {
     fetchStockData()
   }, [])
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/70 to-indigo-100/80 relative">
+      {/* 背景装饰 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-400/10 to-transparent rounded-full blur-3xl" />
+      
+      <div className="relative space-y-8 p-8 max-w-7xl mx-auto">
       {/* 统计卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {/* 持有股票数量 */}
-        <Card>
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white hover:shadow-xl transition-all duration-300 hover:scale-105">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Stocks</CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="m22 21-3-3" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {totalStocks.toLocaleString()}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Different stocks held
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* 总市值 */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Market Value
-            </CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M12 2v20m9-2H3" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${totalMarketValue.toLocaleString()}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Total portfolio value
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* 当前持有最多的股票 */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Largest Position
-            </CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {largestPosition?.name || 'N/A'}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {largestPosition ? `${largestPosition.shares} shares` : 'No data'}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* 饼状图卡片 - 并排显示 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* 持仓量分布饼状图 */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Share Distribution
-            </CardTitle>
-            <div className="flex items-center gap-2">
-              <Select value={selectedStock} onValueChange={setSelectedStock}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select stock" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Stocks</SelectItem>
-                  {stocks.map(stock => (
-                    <SelectItem key={stock.code} value={stock.code}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: stock.color }}
-                        />
-                        {stock.name} ({stock.shares} shares)
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <CardTitle className="text-sm font-medium text-blue-100">Total Stocks</CardTitle>
+            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -409,17 +246,136 @@ export default function StockPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                className="h-4 w-4 text-white"
               >
-                <path d="M3 3v18h18" />
-                <path d="m19 9-5 5-4-4-3 3" />
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="m22 21-3-3" />
               </svg>
             </div>
           </CardHeader>
-          <CardContent className="p-6">
+          <CardContent>
+            <div className="text-3xl font-bold mb-1">
+              {totalStocks.toLocaleString()}
+            </div>
+            <p className="text-xs text-blue-100">
+              Different stocks held
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* 总市值 */}
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-500 to-emerald-600 text-white hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-emerald-100">
+              Total Market Value
+            </CardTitle>
+            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-white"
+              >
+                <path d="M12 2v20m9-2H3" />
+              </svg>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold mb-1">
+              ${totalMarketValue.toLocaleString()}
+            </div>
+            <p className="text-xs text-emerald-100">
+              Total portfolio value
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* 当前持有最多的股票 */}
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-purple-100">
+              Largest Position
+            </CardTitle>
+            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-white"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold mb-1">
+              {largestPosition?.name || 'N/A'}
+            </div>
+            <p className="text-xs text-purple-100">
+              {largestPosition ? `${largestPosition.shares} shares` : 'No data'}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 饼状图卡片 - 并排显示 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        {/* 持仓量分布饼状图 */}
+        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
+            <CardTitle className="text-lg font-semibold text-gray-800">
+              Share Distribution
+            </CardTitle>
+            <div className="flex items-center gap-3">
+              <Select value={selectedStock} onValueChange={setSelectedStock}>
+                <SelectTrigger className="w-[200px] border-0 bg-white/70 shadow-md hover:shadow-lg transition-all duration-300">
+                  <SelectValue placeholder="Select stock" />
+                </SelectTrigger>
+                <SelectContent className="border-0 shadow-xl">
+                  <SelectItem value="all">All Stocks</SelectItem>
+                  {stocks.map(stock => (
+                    <SelectItem key={stock.code} value={stock.code}>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-3 h-3 rounded-full ring-2 ring-white shadow-sm"
+                          style={{ backgroundColor: stock.color }}
+                        />
+                        {stock.name} ({stock.shares} shares)
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center shadow-md">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-white"
+                >
+                  <path d="M3 3v18h18" />
+                  <path d="m19 9-5 5-4-4-3 3" />
+                </svg>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <ResponsiveContainer width="100%" height={350}>
+                <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
                     <Pie
                       data={stocks.map(stock => ({
@@ -430,12 +386,12 @@ export default function StockPage() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      outerRadius={130}
-                      innerRadius={50}
+                      outerRadius={140}
+                      innerRadius={60}
                       fill="#8884d8"
                       dataKey="value"
                       stroke="#ffffff"
-                      strokeWidth={2}
+                      strokeWidth={3}
                       onMouseEnter={(_, index) => setActiveIndex(index)}
                       onMouseLeave={() => setActiveIndex(undefined)}
                     >
@@ -449,16 +405,16 @@ export default function StockPage() {
                             key={`cell-${index}`}
                             fill={stock.color}
                             stroke={isHovered ? '#000' : '#ffffff'}
-                            strokeWidth={isHovered ? 3 : 2}
+                            strokeWidth={isHovered ? 4 : 3}
                             style={{
                               filter:
                                 selectedStock !== 'all' && !isSelected
-                                  ? 'opacity(0.3)'
+                                  ? 'opacity(0.3) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
                                   : activeIndex !== undefined && !isHovered
-                                    ? 'opacity(0.6)'
-                                    : 'none',
+                                    ? 'opacity(0.6) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
+                                    : 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))',
                               cursor: 'pointer',
-                              transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+                              transform: isSelected || isHovered ? 'scale(1.05)' : 'scale(1)',
                               transformOrigin: 'center',
                               transition: 'all 0.3s ease',
                             }}
@@ -472,12 +428,13 @@ export default function StockPage() {
                         name,
                       ]}
                       labelFormatter={() => ''}
-                      labelStyle={{ color: '#000' }}
+                      labelStyle={{ color: '#000', fontWeight: '600' }}
                       contentStyle={{
-                        backgroundColor: '#fff',
-                        border: '1px solid #e5e7eb',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        backdropFilter: 'blur(10px)',
                       }}
                     />
                   </PieChart>
@@ -488,26 +445,26 @@ export default function StockPage() {
         </Card>
 
         {/* 持仓市值分布饼状图 */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 bg-gradient-to-r from-emerald-50 to-green-50 rounded-t-lg">
+            <CardTitle className="text-lg font-semibold text-gray-800">
               Value Distribution
             </CardTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Select
                 value={selectedValueStock}
                 onValueChange={setSelectedValueStock}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[200px] border-0 bg-white/70 shadow-md hover:shadow-lg transition-all duration-300">
                   <SelectValue placeholder="Select stock" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-0 shadow-xl">
                   <SelectItem value="all">All Stocks</SelectItem>
                   {stocks.map(stock => (
                     <SelectItem key={stock.code} value={stock.code}>
                       <div className="flex items-center gap-2">
                         <div
-                          className="w-3 h-3 rounded-full"
+                          className="w-3 h-3 rounded-full ring-2 ring-white shadow-sm"
                           style={{ backgroundColor: stock.color }}
                         />
                         {stock.name} (${stock.marketValue.toLocaleString()})
@@ -516,24 +473,26 @@ export default function StockPage() {
                   ))}
                 </SelectContent>
               </Select>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
-              >
-                <path d="M12 2v20m9-2H3" />
-              </svg>
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-lg flex items-center justify-center shadow-md">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-4 w-4 text-white"
+                >
+                  <path d="M12 2v20m9-2H3" />
+                </svg>
+              </div>
             </div>
           </CardHeader>
-          <CardContent className="p-6">
+          <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <ResponsiveContainer width="100%" height={350}>
+                <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
                     <Pie
                       data={stocks.map(stock => ({
@@ -544,12 +503,12 @@ export default function StockPage() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      outerRadius={130}
-                      innerRadius={50}
+                      outerRadius={140}
+                      innerRadius={60}
                       fill="#8884d8"
                       dataKey="value"
                       stroke="#ffffff"
-                      strokeWidth={2}
+                      strokeWidth={3}
                       onMouseEnter={(_, index) => setActiveValueIndex(index)}
                       onMouseLeave={() => setActiveValueIndex(undefined)}
                     >
@@ -563,16 +522,16 @@ export default function StockPage() {
                             key={`cell-${index}`}
                             fill={stock.color}
                             stroke={isHovered ? '#000' : '#ffffff'}
-                            strokeWidth={isHovered ? 3 : 2}
+                            strokeWidth={isHovered ? 4 : 3}
                             style={{
                               filter:
                                 selectedValueStock !== 'all' && !isSelected
-                                  ? 'opacity(0.3)'
+                                  ? 'opacity(0.3) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
                                   : activeValueIndex !== undefined && !isHovered
-                                    ? 'opacity(0.6)'
-                                    : 'none',
+                                    ? 'opacity(0.6) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
+                                    : 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))',
                               cursor: 'pointer',
-                              transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+                              transform: isSelected || isHovered ? 'scale(1.05)' : 'scale(1)',
                               transformOrigin: 'center',
                               transition: 'all 0.3s ease',
                             }}
@@ -586,12 +545,13 @@ export default function StockPage() {
                         name,
                       ]}
                       labelFormatter={() => ''}
-                      labelStyle={{ color: '#000' }}
+                      labelStyle={{ color: '#000', fontWeight: '600' }}
                       contentStyle={{
-                        backgroundColor: '#fff',
-                        border: '1px solid #e5e7eb',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        backdropFilter: 'blur(10px)',
                       }}
                     />
                   </PieChart>
@@ -603,267 +563,335 @@ export default function StockPage() {
       </div>
 
       {/* 数据表格区域 */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
+      <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-t-lg">
+          <CardTitle className="text-xl font-semibold text-gray-800">
             Stock Information
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Tabs defaultValue="holdings" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="holdings">Holdings</TabsTrigger>
-              <TabsTrigger value="transactions">Transactions</TabsTrigger>
-            </TabsList>
+            <div className="px-8 pt-6">
+              <TabsList className="grid w-full grid-cols-2 bg-white/70 border border-gray-200 shadow-md rounded-lg p-1">
+                <TabsTrigger 
+                  value="holdings" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300 font-medium"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <rect width="7" height="9" x="3" y="3" rx="1" />
+                    <rect width="7" height="5" x="14" y="3" rx="1" />
+                    <rect width="7" height="9" x="14" y="12" rx="1" />
+                    <rect width="7" height="5" x="3" y="16" rx="1" />
+                  </svg>
+                  Holdings
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="transactions" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300 font-medium"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <path d="M3 6h18l-2 13H5L3 6z" />
+                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                  Transactions
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-            <TabsContent value="holdings" className="mt-6">
-              <div className="rounded-md border">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Stock</TableHead>
-                      <TableHead>Code</TableHead>
-                      <TableHead className="text-right">Quantity</TableHead>
-                      <TableHead className="text-right">
-                        Current Price
-                      </TableHead>
-                      <TableHead className="text-right">Avg. Price</TableHead>
-                      <TableHead className="text-right">Market Value</TableHead>
-                      <TableHead className="text-right">Percentage</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {holdingsData.map(holding => (
-                      <TableRow key={holding.code}>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-3 h-3 rounded-full"
-                              style={{ backgroundColor: holding.color }}
-                            ></div>
-                            {holding.name}
-                          </div>
-                        </TableCell>
-                        <TableCell>{holding.code}</TableCell>
-                        <TableCell className="text-right">
-                          {holding.quantity}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          ${(holding.currentPrice || 0).toFixed(2)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          ${holding.average_position_price}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          ${holding.marketValue.toLocaleString()}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex items-center justify-end gap-1">
-                            {holding.priceChangeRate > 0 ? (
-                              <>
-                                <TrendingUp className="w-4 h-4 text-green-600" />
-                                <span className="text-green-600 font-medium">
-                                  +{holding.priceChangeRate.toFixed(2)}%
-                                </span>
-                              </>
-                            ) : holding.priceChangeRate < 0 ? (
-                              <>
-                                <TrendingDown className="w-4 h-4 text-red-600" />
-                                <span className="text-red-600 font-medium">
+            <TabsContent value="holdings" className="p-8 pt-6">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-gray-800">Holdings Portfolio</h3>
+                  <div className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
+                    Total: {holdingsData.length} stocks
+                  </div>
+                </div>
+                <div className="rounded-lg border border-gray-200 shadow-sm overflow-hidden bg-white">
+                  <Table>
+                    <TableHeader className="bg-gradient-to-r from-gray-50 to-slate-50">
+                      <TableRow className="border-b border-gray-200">
+                        <TableHead className="font-semibold text-gray-700 py-4">Stock</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4">Code</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Quantity</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Current Price</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Avg. Price</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Market Value</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Percentage</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {holdingsData.map(holding => (
+                        <TableRow 
+                          key={holding.code} 
+                          className="border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/50 transition-all duration-300"
+                        >
+                          <TableCell className="font-medium py-4">
+                            <div className="flex items-center gap-3">
+                              <div
+                                className="w-4 h-4 rounded-full ring-2 ring-white shadow-sm"
+                                style={{ backgroundColor: holding.color }}
+                              ></div>
+                              <span className="text-gray-800">{holding.name}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-mono font-medium text-blue-600 py-4">{holding.code}</TableCell>
+                          <TableCell className="text-right py-4">{holding.quantity}</TableCell>
+                          <TableCell className="text-right py-4">${(holding.currentPrice || 0).toFixed(2)}</TableCell>
+                          <TableCell className="text-right py-4">${holding.average_position_price}</TableCell>
+                          <TableCell className="text-right font-semibold text-gray-800 py-4">
+                            ${holding.marketValue.toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-right py-4">
+                            <div className="flex items-center justify-end gap-1">
+                              {holding.priceChangeRate > 0 ? (
+                                <>
+                                  <TrendingUp className="w-4 h-4 text-green-500" />
+                                  <span className="text-green-600 font-medium bg-green-50 px-2 py-1 rounded-md">
+                                    +{holding.priceChangeRate.toFixed(2)}%
+                                  </span>
+                                </>
+                              ) : holding.priceChangeRate < 0 ? (
+                                <>
+                                  <TrendingDown className="w-4 h-4 text-red-500" />
+                                  <span className="text-red-600 font-medium bg-red-50 px-2 py-1 rounded-md">
+                                    {holding.priceChangeRate.toFixed(2)}%
+                                  </span>
+                                </>
+                              ) : (
+                                <span className="text-gray-600 font-medium bg-gray-50 px-2 py-1 rounded-md">
                                   {holding.priceChangeRate.toFixed(2)}%
                                 </span>
-                              </>
-                            ) : (
-                              <span className="text-gray-600 font-medium">
-                                {holding.priceChangeRate.toFixed(2)}%
-                              </span>
-                            )}
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-
-              {/* Holdings分页控件 */}
-              <div className="flex items-center justify-between space-x-2 py-4">
-                <div className="flex items-center space-x-2">
-                  <p className="text-sm font-medium">Rows per page</p>
-                  <Select
-                    value={stockHoldTablePageSize.toString()}
-                    onValueChange={value => {
-                      setStockHoldTablePageSize(Number(value))
-                      setStockHoldTablePage(1) // 重置到第一页
-                    }}
-                  >
-                    <SelectTrigger className="h-8 w-[70px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent side="top">
-                      {[5, 10, 20, 30, 50].map(pageSize => (
-                        <SelectItem key={pageSize} value={pageSize.toString()}>
-                          {pageSize}
-                        </SelectItem>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </TableBody>
+                  </Table>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <p className="text-sm font-medium">
-                    Page {stockHoldTablePage} of {stockHoldTableTotal}
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        setStockHoldTablePage(
-                          Math.max(1, stockHoldTablePage - 1)
-                        )
-                      }
-                      disabled={stockHoldTablePage <= 1}
+                {/* Holdings分页控件 */}
+                <div className="flex items-center justify-between space-x-2 py-4 bg-gray-50/50 rounded-lg px-4">
+                  <div className="flex items-center space-x-3">
+                    <p className="text-sm font-medium text-gray-700">Rows per page</p>
+                    <Select
+                      value={stockHoldTablePageSize.toString()}
+                      onValueChange={value => {
+                        setStockHoldTablePageSize(Number(value))
+                        setStockHoldTablePage(1) // 重置到第一页
+                      }}
                     >
-                      Previous
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        setStockHoldTablePage(
-                          Math.min(stockHoldTableTotal, stockHoldTablePage + 1)
-                        )
-                      }
-                      disabled={stockHoldTablePage >= stockHoldTableTotal}
-                    >
-                      Next
-                    </Button>
+                      <SelectTrigger className="h-9 w-[80px] border-0 bg-white shadow-md">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent side="top" className="border-0 shadow-xl">
+                        {[5, 10, 20, 30, 50].map(pageSize => (
+                          <SelectItem key={pageSize} value={pageSize.toString()}>
+                            {pageSize}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    <p className="text-sm font-medium text-gray-700">
+                      Page {stockHoldTablePage} of {stockHoldTableTotal}
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setStockHoldTablePage(
+                            Math.max(1, stockHoldTablePage - 1)
+                          )
+                        }
+                        disabled={stockHoldTablePage <= 1}
+                        className="border-0 bg-white shadow-md hover:shadow-lg transition-all duration-300"
+                      >
+                        Previous
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setStockHoldTablePage(
+                            Math.min(stockHoldTableTotal, stockHoldTablePage + 1)
+                          )
+                        }
+                        disabled={stockHoldTablePage >= stockHoldTableTotal}
+                        className="border-0 bg-white shadow-md hover:shadow-lg transition-all duration-300"
+                      >
+                        Next
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
             </TabsContent>
 
-            <TabsContent value="transactions" className="mt-6">
-              <div className="rounded-md border">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Stock</TableHead>
-                      <TableHead className="text-right">Quantity</TableHead>
-                      <TableHead className="text-right">Price</TableHead>
-                      <TableHead className="text-right">Total</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {currentTransactionsData.map((transaction, index) => (
-                      <TableRow
-                        key={`${transaction.date}-${transaction.stock}-${index}`}
-                      >
-                        <TableCell>{transaction.date}</TableCell>
-                        <TableCell>
-                          <span
-                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                              transaction.type === 'Buy'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-red-100 text-red-800'
-                            }`}
-                          >
-                            {transaction.type}
-                          </span>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {transaction.stock}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {transaction.quantity}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          ${transaction.price.toFixed(2)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          ${transaction.total.toLocaleString()}
-                        </TableCell>
-                        <TableCell>
-                          <span
-                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                              transaction.status === 'Completed'
-                                ? 'bg-blue-100 text-blue-800'
-                                : transaction.status === 'Pending'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : 'bg-gray-100 text-gray-800'
-                            }`}
-                          >
-                            {transaction.status}
-                          </span>
-                        </TableCell>
+            <TabsContent value="transactions" className="p-8 pt-6">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-gray-800">Transaction History</h3>
+                  <div className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
+                    Total: {transactionData.length} transactions
+                  </div>
+                </div>
+                <div className="rounded-lg border border-gray-200 shadow-sm overflow-hidden bg-white">
+                  <Table>
+                    <TableHeader className="bg-gradient-to-r from-gray-50 to-slate-50">
+                      <TableRow className="border-b border-gray-200">
+                        <TableHead className="font-semibold text-gray-700 py-4">Date</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4">Type</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4">Stock</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4">Code</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Quantity</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Price</TableHead>
+                        <TableHead className="font-semibold text-gray-700 py-4 text-right">Total</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-
-              {/* Transactions分页控件 */}
-              <div className="flex items-center justify-between space-x-2 py-4">
-                <div className="flex items-center space-x-2">
-                  <p className="text-sm font-medium">Rows per page</p>
-                  <Select
-                    value={stockTransactionTablePageSize.toString()}
-                    onValueChange={value => {
-                      setStockTransactionTablePageSize(Number(value))
-                      setStockTransactionTablePage(1) // 重置到第一页
-                    }}
-                  >
-                    <SelectTrigger className="h-8 w-[70px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent side="top">
-                      {[5, 10, 20, 30, 50].map(pageSize => (
-                        <SelectItem key={pageSize} value={pageSize.toString()}>
-                          {pageSize}
-                        </SelectItem>
+                    </TableHeader>
+                    <TableBody>
+                      {transactionData.map(transaction => (
+                        <TableRow 
+                          key={transaction.id} 
+                          className="border-b border-gray-100 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-green-50/50 transition-all duration-300"
+                        >
+                          <TableCell className="py-4 text-gray-700">
+                            {new Date(
+                              transaction.transaction_date
+                            ).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="py-4">
+                            <span
+                              className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-sm ${
+                                transaction.transaction_type === 'IN'
+                                  ? 'bg-green-100 text-green-700'
+                                  : 'bg-red-100 text-red-700'
+                              }`}
+                            >
+                              {transaction.transaction_type === 'IN'
+                                ? 'Buy'
+                                : 'Sell'}
+                            </span>
+                          </TableCell>
+                          <TableCell className="font-medium text-gray-800 py-4">
+                            {transaction.name || 'Unknown'}
+                          </TableCell>
+                          <TableCell className="font-mono font-medium text-blue-600 py-4">
+                            {transaction.code || 'N/A'}
+                          </TableCell>
+                          <TableCell className="text-right py-4">
+                            {Math.abs(transaction.amount).toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-right py-4">
+                            ${transaction.price.toFixed(2)}
+                          </TableCell>
+                          <TableCell className="text-right py-4">
+                            <div className="flex items-center justify-end gap-1">
+                              {transaction.transaction_type === 'IN' ? (
+                                <>
+                                  <span className="text-red-600 font-semibold bg-red-50 px-2 py-1 rounded-md">
+                                    -${(transaction.total || 0).toLocaleString()}
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md">
+                                    +${(transaction.total || 0).toLocaleString()}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </TableBody>
+                  </Table>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <p className="text-sm font-medium">
-                    Page {stockTransactionTablePage} of {totalTransactionsPages}
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        setStockTransactionTablePage(
-                          Math.max(1, stockTransactionTablePage - 1)
-                        )
-                      }
-                      disabled={stockTransactionTablePage <= 1}
+                {/* Transactions分页控件 */}
+                <div className="flex items-center justify-between space-x-2 py-4 bg-gray-50/50 rounded-lg px-4">
+                  <div className="flex items-center space-x-3">
+                    <p className="text-sm font-medium text-gray-700">Rows per page</p>
+                    <Select
+                      value={stockTransactionTablePageSize.toString()}
+                      onValueChange={value => {
+                        setStockTransactionTablePageSize(Number(value))
+                        setStockTransactionTablePage(1) // 重置到第一页
+                      }}
                     >
-                      Previous
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        setStockTransactionTablePage(
-                          Math.min(
-                            totalTransactionsPages,
-                            stockTransactionTablePage + 1
+                      <SelectTrigger className="h-9 w-[80px] border-0 bg-white shadow-md">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent side="top" className="border-0 shadow-xl">
+                        {[5, 10, 20, 30, 50].map(pageSize => (
+                          <SelectItem key={pageSize} value={pageSize.toString()}>
+                            {pageSize}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    <p className="text-sm font-medium text-gray-700">
+                      Page {stockTransactionTablePage} of{' '}
+                      {stockTransactionTableTotalPages}
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setStockTransactionTablePage(
+                            Math.max(1, stockTransactionTablePage - 1)
                           )
-                        )
-                      }
-                      disabled={
-                        stockTransactionTablePage >= totalTransactionsPages
-                      }
-                    >
-                      Next
-                    </Button>
+                        }
+                        disabled={stockTransactionTablePage <= 1}
+                        className="border-0 bg-white shadow-md hover:shadow-lg transition-all duration-300"
+                      >
+                        Previous
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setStockTransactionTablePage(
+                            Math.min(
+                              stockTransactionTableTotalPages,
+                              stockTransactionTablePage + 1
+                            )
+                          )
+                        }
+                        disabled={
+                          stockTransactionTablePage >=
+                          stockTransactionTableTotalPages
+                        }
+                        className="border-0 bg-white shadow-md hover:shadow-lg transition-all duration-300"
+                      >
+                        Next
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -871,6 +899,7 @@ export default function StockPage() {
           </Tabs>
         </CardContent>
       </Card>
+      </div>
     </div>
   )
 }
