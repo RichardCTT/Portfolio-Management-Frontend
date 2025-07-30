@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiPriceDailyRangePostRequest
  */
 export interface ApiPriceDailyRangePostRequest {
-    /**
-     * 资产的唯一标识符
-     * @type {number}
-     * @memberof ApiPriceDailyRangePostRequest
-     */
-    'asset_id': number;
-    /**
-     * 开始日期 (YYYY-MM-DD格式)
-     * @type {string}
-     * @memberof ApiPriceDailyRangePostRequest
-     */
-    'start_date': string;
-    /**
-     * 结束日期 (YYYY-MM-DD格式)
-     * @type {string}
-     * @memberof ApiPriceDailyRangePostRequest
-     */
-    'end_date': string;
+  /**
+   * 资产的唯一标识符
+   * @type {number}
+   * @memberof ApiPriceDailyRangePostRequest
+   */
+  asset_id: number
+  /**
+   * 开始日期 (YYYY-MM-DD格式)
+   * @type {string}
+   * @memberof ApiPriceDailyRangePostRequest
+   */
+  start_date: string
+  /**
+   * 结束日期 (YYYY-MM-DD格式)
+   * @type {string}
+   * @memberof ApiPriceDailyRangePostRequest
+   */
+  end_date: string
 }
-

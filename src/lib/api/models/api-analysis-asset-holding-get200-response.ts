@@ -12,28 +12,26 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAnalysisAssetHoldingGet200ResponseData } from './api-analysis-asset-holding-get200-response-data';
+import type { ApiAnalysisAssetHoldingGet200ResponseData } from './api-analysis-asset-holding-get200-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface ApiAnalysisAssetHoldingGet200Response
  */
 export interface ApiAnalysisAssetHoldingGet200Response {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ApiAnalysisAssetHoldingGet200Response
-     */
-    'success'?: boolean;
-    /**
-     * 
-     * @type {ApiAnalysisAssetHoldingGet200ResponseData}
-     * @memberof ApiAnalysisAssetHoldingGet200Response
-     */
-    'data'?: ApiAnalysisAssetHoldingGet200ResponseData;
+  /**
+   *
+   * @type {boolean}
+   * @memberof ApiAnalysisAssetHoldingGet200Response
+   */
+  success?: boolean
+  /**
+   *
+   * @type {ApiAnalysisAssetHoldingGet200ResponseData}
+   * @memberof ApiAnalysisAssetHoldingGet200Response
+   */
+  data?: ApiAnalysisAssetHoldingGet200ResponseData
 }
-

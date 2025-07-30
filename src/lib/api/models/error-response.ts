@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ErrorResponse
-     */
-    'success'?: boolean;
-    /**
-     * Error type
-     * @type {string}
-     * @memberof ErrorResponse
-     */
-    'error'?: string;
-    /**
-     * Error message
-     * @type {string}
-     * @memberof ErrorResponse
-     */
-    'message'?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof ErrorResponse
+   */
+  success?: boolean
+  /**
+   * Error type
+   * @type {string}
+   * @memberof ErrorResponse
+   */
+  error?: string
+  /**
+   * Error message
+   * @type {string}
+   * @memberof ErrorResponse
+   */
+  message?: string
 }
-

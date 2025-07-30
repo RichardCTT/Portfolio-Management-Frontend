@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+.next
+*.min.js
+.git
+.vscode
+coverage
+public/vite.svg
+src/generated
+pnpm-lock.yaml

@@ -12,43 +12,41 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetTotalsResponseDataAssetTypes } from './asset-totals-response-data-asset-types';
+import type { AssetTotalsResponseDataAssetTypes } from './asset-totals-response-data-asset-types'
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetTotalsResponseDataSummary } from './asset-totals-response-data-summary';
+import type { AssetTotalsResponseDataSummary } from './asset-totals-response-data-summary'
 
 /**
- * 
+ *
  * @export
  * @interface AssetTotalsResponseData
  */
 export interface AssetTotalsResponseData {
-    /**
-     * Analysis date
-     * @type {string}
-     * @memberof AssetTotalsResponseData
-     */
-    'date'?: string;
-    /**
-     * Total portfolio value in USD
-     * @type {number}
-     * @memberof AssetTotalsResponseData
-     */
-    'totalValueUSD'?: number;
-    /**
-     * 
-     * @type {AssetTotalsResponseDataAssetTypes}
-     * @memberof AssetTotalsResponseData
-     */
-    'assetTypes'?: AssetTotalsResponseDataAssetTypes;
-    /**
-     * 
-     * @type {AssetTotalsResponseDataSummary}
-     * @memberof AssetTotalsResponseData
-     */
-    'summary'?: AssetTotalsResponseDataSummary;
+  /**
+   * Analysis date
+   * @type {string}
+   * @memberof AssetTotalsResponseData
+   */
+  date?: string
+  /**
+   * Total portfolio value in USD
+   * @type {number}
+   * @memberof AssetTotalsResponseData
+   */
+  totalValueUSD?: number
+  /**
+   *
+   * @type {AssetTotalsResponseDataAssetTypes}
+   * @memberof AssetTotalsResponseData
+   */
+  assetTypes?: AssetTotalsResponseDataAssetTypes
+  /**
+   *
+   * @type {AssetTotalsResponseDataSummary}
+   * @memberof AssetTotalsResponseData
+   */
+  summary?: AssetTotalsResponseDataSummary
 }
-

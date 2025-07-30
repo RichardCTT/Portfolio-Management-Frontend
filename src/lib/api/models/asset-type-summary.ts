@@ -12,40 +12,38 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Asset } from './asset';
+import type { Asset } from './asset'
 
 /**
- * 
+ *
  * @export
  * @interface AssetTypeSummary
  */
 export interface AssetTypeSummary {
-    /**
-     * Number of assets
-     * @type {number}
-     * @memberof AssetTypeSummary
-     */
-    'count'?: number;
-    /**
-     * Total price in USD
-     * @type {number}
-     * @memberof AssetTypeSummary
-     */
-    'totalPrice'?: number;
-    /**
-     * 
-     * @type {Array<Asset>}
-     * @memberof AssetTypeSummary
-     */
-    'assets'?: Array<Asset>;
-    /**
-     * Percentage of total portfolio
-     * @type {number}
-     * @memberof AssetTypeSummary
-     */
-    'percentage'?: number;
+  /**
+   * Number of assets
+   * @type {number}
+   * @memberof AssetTypeSummary
+   */
+  count?: number
+  /**
+   * Total price in USD
+   * @type {number}
+   * @memberof AssetTypeSummary
+   */
+  totalPrice?: number
+  /**
+   *
+   * @type {Array<Asset>}
+   * @memberof AssetTypeSummary
+   */
+  assets?: Array<Asset>
+  /**
+   * Percentage of total portfolio
+   * @type {number}
+   * @memberof AssetTypeSummary
+   */
+  percentage?: number
 }
-

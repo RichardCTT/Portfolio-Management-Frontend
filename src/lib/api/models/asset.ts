@@ -12,73 +12,70 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface Asset
  */
 export interface Asset {
-    /**
-     * 资产ID
-     * @type {number}
-     * @memberof Asset
-     */
-    'id'?: number;
-    /**
-     * 资产名称
-     * @type {string}
-     * @memberof Asset
-     */
-    'name': string;
-    /**
-     * 资产编码
-     * @type {string}
-     * @memberof Asset
-     */
-    'code': string;
-    /**
-     * 数量
-     * @type {number}
-     * @memberof Asset
-     */
-    'quantity': number;
-    /**
-     * Current price
-     * @type {number}
-     * @memberof Asset
-     */
-    'price'?: number;
-    /**
-     * Value in USD
-     * @type {number}
-     * @memberof Asset
-     */
-    'valueUSD'?: number;
-    /**
-     * Percentage of total portfolio
-     * @type {number}
-     * @memberof Asset
-     */
-    'percentage'?: number;
-    /**
-     * 资产类型ID
-     * @type {number}
-     * @memberof Asset
-     */
-    'asset_type_id': number;
-    /**
-     * 描述
-     * @type {string}
-     * @memberof Asset
-     */
-    'description'?: string;
-    /**
-     * 创建时间
-     * @type {string}
-     * @memberof Asset
-     */
-    'create_date'?: string;
+  /**
+   * 资产ID
+   * @type {number}
+   * @memberof Asset
+   */
+  id?: number
+  /**
+   * 资产名称
+   * @type {string}
+   * @memberof Asset
+   */
+  name: string
+  /**
+   * 资产编码
+   * @type {string}
+   * @memberof Asset
+   */
+  code: string
+  /**
+   * 数量
+   * @type {number}
+   * @memberof Asset
+   */
+  quantity: number
+  /**
+   * Current price
+   * @type {number}
+   * @memberof Asset
+   */
+  price?: number
+  /**
+   * Value in USD
+   * @type {number}
+   * @memberof Asset
+   */
+  valueUSD?: number
+  /**
+   * Percentage of total portfolio
+   * @type {number}
+   * @memberof Asset
+   */
+  percentage?: number
+  /**
+   * 资产类型ID
+   * @type {number}
+   * @memberof Asset
+   */
+  asset_type_id: number
+  /**
+   * 描述
+   * @type {string}
+   * @memberof Asset
+   */
+  description?: string
+  /**
+   * 创建时间
+   * @type {string}
+   * @memberof Asset
+   */
+  create_date?: string
 }
-

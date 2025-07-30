@@ -34,51 +34,51 @@ export default function BondPage() {
       accessorKey: 'asset_id',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>ID</div>
+        return <div className="text-center">ID</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_id}</div>
+        return <div className="text-center">{row.original.asset_id}</div>
       },
     },
     {
       accessorKey: 'asset_name',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Name</div>
+        return <div className="text-center">Name</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_name}</div>
+        return <div className="text-center">{row.original.asset_name}</div>
       },
     },
     {
       accessorKey: 'asset_code',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Code</div>
+        return <div className="text-center">Code</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_code}</div>
+        return <div className="text-center">{row.original.asset_code}</div>
       },
     },
     {
       accessorKey: 'asset_type_name',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Type</div>
+        return <div className="text-center">Type</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_type_name}</div>
+        return <div className="text-center">{row.original.asset_type_name}</div>
       },
     },
     {
       accessorKey: 'transaction_type',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Transaction Type</div>
+        return <div className="text-center">Transaction Type</div>
       },
       cell: ({ row }) => {
         return (
-          <div className='text-center'>{row.original.transaction_type}</div>
+          <div className="text-center">{row.original.transaction_type}</div>
         )
       },
     },
@@ -86,31 +86,31 @@ export default function BondPage() {
       accessorKey: 'quantity',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Quantity</div>
+        return <div className="text-center">Quantity</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.quantity}</div>
+        return <div className="text-center">{row.original.quantity}</div>
       },
     },
     {
       accessorKey: 'price',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Price</div>
+        return <div className="text-center">Price</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.price}</div>
+        return <div className="text-center">{row.original.price}</div>
       },
     },
     {
       accessorKey: 'transaction_date',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Transaction Date</div>
+        return <div className="text-center">Transaction Date</div>
       },
       cell: ({ row }) => {
         return (
-          <div className='text-center'>{row.original.transaction_date}</div>
+          <div className="text-center">{row.original.transaction_date}</div>
         )
       },
     },
@@ -118,20 +118,20 @@ export default function BondPage() {
       accessorKey: 'holding',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Holding</div>
+        return <div className="text-center">Holding</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.holding}</div>
+        return <div className="text-center">{row.original.holding}</div>
       },
     },
     {
       accessorKey: 'description',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Description</div>
+        return <div className="text-center">Description</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.description}</div>
+        return <div className="text-center">{row.original.description}</div>
       },
     },
   ]
@@ -139,7 +139,7 @@ export default function BondPage() {
   return (
     <>
       <Card>
-        <CardHeader className='flex items-center justify-between'>
+        <CardHeader className="flex items-center justify-between">
           <CardTitle>Bond Holdings</CardTitle>
           <Button
             onClick={() => console.log('###', 'you clicked search button')}

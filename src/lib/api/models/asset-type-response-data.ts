@@ -12,55 +12,53 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Asset } from './asset';
+import type { Asset } from './asset'
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetTypeResponseDataSummary } from './asset-type-response-data-summary';
+import type { AssetTypeResponseDataSummary } from './asset-type-response-data-summary'
 
 /**
- * 
+ *
  * @export
  * @interface AssetTypeResponseData
  */
 export interface AssetTypeResponseData {
-    /**
-     * Analysis date
-     * @type {string}
-     * @memberof AssetTypeResponseData
-     */
-    'date'?: string;
-    /**
-     * Asset type name
-     * @type {string}
-     * @memberof AssetTypeResponseData
-     */
-    'assetType'?: string;
-    /**
-     * Total value in USD
-     * @type {number}
-     * @memberof AssetTypeResponseData
-     */
-    'totalValueUSD'?: number;
-    /**
-     * Total price in USD
-     * @type {number}
-     * @memberof AssetTypeResponseData
-     */
-    'totalPrice'?: number;
-    /**
-     * 
-     * @type {Array<Asset>}
-     * @memberof AssetTypeResponseData
-     */
-    'assets'?: Array<Asset>;
-    /**
-     * 
-     * @type {AssetTypeResponseDataSummary}
-     * @memberof AssetTypeResponseData
-     */
-    'summary'?: AssetTypeResponseDataSummary;
+  /**
+   * Analysis date
+   * @type {string}
+   * @memberof AssetTypeResponseData
+   */
+  date?: string
+  /**
+   * Asset type name
+   * @type {string}
+   * @memberof AssetTypeResponseData
+   */
+  assetType?: string
+  /**
+   * Total value in USD
+   * @type {number}
+   * @memberof AssetTypeResponseData
+   */
+  totalValueUSD?: number
+  /**
+   * Total price in USD
+   * @type {number}
+   * @memberof AssetTypeResponseData
+   */
+  totalPrice?: number
+  /**
+   *
+   * @type {Array<Asset>}
+   * @memberof AssetTypeResponseData
+   */
+  assets?: Array<Asset>
+  /**
+   *
+   * @type {AssetTypeResponseDataSummary}
+   * @memberof AssetTypeResponseData
+   */
+  summary?: AssetTypeResponseDataSummary
 }
-

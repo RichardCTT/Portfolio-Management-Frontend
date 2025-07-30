@@ -16,9 +16,9 @@ export default function AppBreadcrumb() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem className='hidden md:block'>
+        <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink asChild>
-            <Link to='/'>Overview</Link>
+            <Link to="/">Overview</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         {lastPart !== 'overview' && (

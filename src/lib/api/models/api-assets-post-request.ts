@@ -12,43 +12,40 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAssetsPostRequest
  */
 export interface ApiAssetsPostRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetsPostRequest
-     */
-    'name': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetsPostRequest
-     */
-    'asset_type_id': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetsPostRequest
-     */
-    'quantity': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetsPostRequest
-     */
-    'code': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetsPostRequest
-     */
-    'description'?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetsPostRequest
+   */
+  name: string
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetsPostRequest
+   */
+  asset_type_id: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetsPostRequest
+   */
+  quantity: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetsPostRequest
+   */
+  code: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetsPostRequest
+   */
+  description?: string
 }
-

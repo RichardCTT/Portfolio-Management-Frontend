@@ -12,37 +12,34 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface AssetType
  */
 export interface AssetType {
-    /**
-     * 资产类型ID
-     * @type {number}
-     * @memberof AssetType
-     */
-    'id'?: number;
-    /**
-     * 资产类型名称
-     * @type {string}
-     * @memberof AssetType
-     */
-    'name': string;
-    /**
-     * 计量单位
-     * @type {string}
-     * @memberof AssetType
-     */
-    'unit': string;
-    /**
-     * 描述
-     * @type {string}
-     * @memberof AssetType
-     */
-    'description'?: string;
+  /**
+   * 资产类型ID
+   * @type {number}
+   * @memberof AssetType
+   */
+  id?: number
+  /**
+   * 资产类型名称
+   * @type {string}
+   * @memberof AssetType
+   */
+  name: string
+  /**
+   * 计量单位
+   * @type {string}
+   * @memberof AssetType
+   */
+  unit: string
+  /**
+   * 描述
+   * @type {string}
+   * @memberof AssetType
+   */
+  description?: string
 }
-

@@ -31,7 +31,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const FormSchema = z.object({
-  amount: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  amount: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, {
     message: 'Amount must be a number greater than 0.',
   }),
 })
@@ -95,51 +95,51 @@ export default function CashPage() {
       accessorKey: 'asset_id',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>ID</div>
+        return <div className="text-center">ID</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_id}</div>
+        return <div className="text-center">{row.original.asset_id}</div>
       },
     },
     {
       accessorKey: 'asset_name',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Name</div>
+        return <div className="text-center">Name</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_name}</div>
+        return <div className="text-center">{row.original.asset_name}</div>
       },
     },
     {
       accessorKey: 'asset_code',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Code</div>
+        return <div className="text-center">Code</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_code}</div>
+        return <div className="text-center">{row.original.asset_code}</div>
       },
     },
     {
       accessorKey: 'asset_type_name',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Type</div>
+        return <div className="text-center">Type</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.asset_type_name}</div>
+        return <div className="text-center">{row.original.asset_type_name}</div>
       },
     },
     {
       accessorKey: 'transaction_type',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Transaction Type</div>
+        return <div className="text-center">Transaction Type</div>
       },
       cell: ({ row }) => {
         return (
-          <div className='text-center'>{row.original.transaction_type}</div>
+          <div className="text-center">{row.original.transaction_type}</div>
         )
       },
     },
@@ -147,31 +147,31 @@ export default function CashPage() {
       accessorKey: 'quantity',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Quantity</div>
+        return <div className="text-center">Quantity</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.quantity}</div>
+        return <div className="text-center">{row.original.quantity}</div>
       },
     },
     {
       accessorKey: 'price',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Price</div>
+        return <div className="text-center">Price</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.price}</div>
+        return <div className="text-center">{row.original.price}</div>
       },
     },
     {
       accessorKey: 'transaction_date',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Transaction Date</div>
+        return <div className="text-center">Transaction Date</div>
       },
       cell: ({ row }) => {
         return (
-          <div className='text-center'>{row.original.transaction_date}</div>
+          <div className="text-center">{row.original.transaction_date}</div>
         )
       },
     },
@@ -179,20 +179,20 @@ export default function CashPage() {
       accessorKey: 'holding',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Holding</div>
+        return <div className="text-center">Holding</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.holding}</div>
+        return <div className="text-center">{row.original.holding}</div>
       },
     },
     {
       accessorKey: 'description',
       enableHiding: false,
       header: () => {
-        return <div className='text-center'>Description</div>
+        return <div className="text-center">Description</div>
       },
       cell: ({ row }) => {
-        return <div className='text-center'>{row.original.description}</div>
+        return <div className="text-center">{row.original.description}</div>
       },
     },
   ]
@@ -200,7 +200,7 @@ export default function CashPage() {
   return (
     <>
       <Card>
-        <CardHeader className='flex items-center justify-between'>
+        <CardHeader className="flex items-center justify-between">
           <CardTitle>Cash Holdings</CardTitle>
           <Button onClick={() => setIsAddCashDialogOpen(true)}>Add Cash</Button>
         </CardHeader>
@@ -217,11 +217,8 @@ export default function CashPage() {
           />
         </CardContent>
       </Card>
-      <Dialog
-        open={isAddCashDialogOpen}
-        onOpenChange={setIsAddCashDialogOpen}
-      >
-        <DialogContent className='sm:max-w-[425px]'>
+      <Dialog open={isAddCashDialogOpen} onOpenChange={setIsAddCashDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Add Cash</DialogTitle>
             <DialogDescription>
@@ -230,16 +227,16 @@ export default function CashPage() {
           </DialogHeader>
           <Form {...form}>
             <form
-              className='space-y-8'
-              autoComplete='off'
+              className="space-y-8"
+              autoComplete="off"
               onSubmit={form.handleSubmit(onSubmit)}
             >
               <FormField
                 control={form.control}
-                name='amount'
+                name="amount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='amount'>Amount</FormLabel>
+                    <FormLabel htmlFor="amount">Amount</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -249,20 +246,17 @@ export default function CashPage() {
               ></FormField>
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button
-                    type='button'
-                    variant='outline'
-                  >
+                  <Button type="button" variant="outline">
                     Cancel
                   </Button>
                 </DialogClose>
                 <Button
-                  className='mb-2 md:mb-0'
-                  type='submit'
+                  className="mb-2 md:mb-0"
+                  type="submit"
                   disabled={isLoading}
                 >
                   {isLoading && (
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Confirm
                 </Button>

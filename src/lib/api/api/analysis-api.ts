@@ -12,271 +12,433 @@
  * Do not edit the class manually.
  */
 
-
-import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
-import globalAxios from 'axios';
+import type { Configuration } from '../configuration'
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios'
+import globalAxios from 'axios'
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
+import {
+  DUMMY_BASE_URL,
+  assertParamExists,
+  setApiKeyToObject,
+  setBasicAuthToObject,
+  setBearerAuthToObject,
+  setOAuthToObject,
+  setSearchParams,
+  serializeDataIfNeeded,
+  toPathString,
+  createRequestFunction,
+} from '../common'
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
+import {
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  type RequestArgs,
+  BaseAPI,
+  RequiredError,
+  operationServerMap,
+} from '../base'
 // @ts-ignore
-import type { ApiAnalysisAssetHoldingGet200Response } from '../models';
+import type { ApiAnalysisAssetHoldingGet200Response } from '../models'
 // @ts-ignore
-import type { ApiAnalysisAssetHoldingSummaryGet200Response } from '../models';
+import type { ApiAnalysisAssetHoldingSummaryGet200Response } from '../models'
 // @ts-ignore
-import type { AssetTotalsResponse } from '../models';
+import type { AssetTotalsResponse } from '../models'
 // @ts-ignore
-import type { ErrorResponse } from '../models';
+import type { ErrorResponse } from '../models'
 /**
  * AnalysisApi - axios parameter creator
  * @export
  */
-export const AnalysisApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 获取指定资产在时间范围内的持仓变化和对应的市值分析
-         * @summary 获取资产持仓分析
-         * @param {number} assetId 资产ID
-         * @param {string} startDate 开始日期 (YYYY-MM-DD)
-         * @param {string} endDate 结束日期 (YYYY-MM-DD)
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAnalysisAssetHoldingGet: async (assetId: number, startDate: string, endDate: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'assetId' is not null or undefined
-            assertParamExists('apiAnalysisAssetHoldingGet', 'assetId', assetId)
-            // verify required parameter 'startDate' is not null or undefined
-            assertParamExists('apiAnalysisAssetHoldingGet', 'startDate', startDate)
-            // verify required parameter 'endDate' is not null or undefined
-            assertParamExists('apiAnalysisAssetHoldingGet', 'endDate', endDate)
-            const localVarPath = `/api/analysis/asset-holding`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+export const AnalysisApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     * 获取指定资产在时间范围内的持仓变化和对应的市值分析
+     * @summary 获取资产持仓分析
+     * @param {number} assetId 资产ID
+     * @param {string} startDate 开始日期 (YYYY-MM-DD)
+     * @param {string} endDate 结束日期 (YYYY-MM-DD)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisAssetHoldingGet: async (
+      assetId: number,
+      startDate: string,
+      endDate: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'assetId' is not null or undefined
+      assertParamExists('apiAnalysisAssetHoldingGet', 'assetId', assetId)
+      // verify required parameter 'startDate' is not null or undefined
+      assertParamExists('apiAnalysisAssetHoldingGet', 'startDate', startDate)
+      // verify required parameter 'endDate' is not null or undefined
+      assertParamExists('apiAnalysisAssetHoldingGet', 'endDate', endDate)
+      const localVarPath = `/api/analysis/asset-holding`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
-            if (assetId !== undefined) {
-                localVarQueryParameter['asset_id'] = assetId;
-            }
+      if (assetId !== undefined) {
+        localVarQueryParameter['asset_id'] = assetId
+      }
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['start_date'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString().substring(0,10) :
-                    startDate;
-            }
+      if (startDate !== undefined) {
+        localVarQueryParameter['start_date'] =
+          (startDate as any) instanceof Date
+            ? (startDate as any).toISOString().substring(0, 10)
+            : startDate
+      }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['end_date'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString().substring(0,10) :
-                    endDate;
-            }
+      if (endDate !== undefined) {
+        localVarQueryParameter['end_date'] =
+          (endDate as any) instanceof Date
+            ? (endDate as any).toISOString().substring(0, 10)
+            : endDate
+      }
 
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * 获取资产在指定时间范围内持仓变化的简要信息
+     * @summary 获取资产持仓简要分析
+     * @param {number} assetId 资产ID
+     * @param {string} startDate 开始日期 (YYYY-MM-DD)
+     * @param {string} endDate 结束日期 (YYYY-MM-DD)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisAssetHoldingSummaryGet: async (
+      assetId: number,
+      startDate: string,
+      endDate: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'assetId' is not null or undefined
+      assertParamExists('apiAnalysisAssetHoldingSummaryGet', 'assetId', assetId)
+      // verify required parameter 'startDate' is not null or undefined
+      assertParamExists(
+        'apiAnalysisAssetHoldingSummaryGet',
+        'startDate',
+        startDate
+      )
+      // verify required parameter 'endDate' is not null or undefined
+      assertParamExists('apiAnalysisAssetHoldingSummaryGet', 'endDate', endDate)
+      const localVarPath = `/api/analysis/asset-holding/summary`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 获取资产在指定时间范围内持仓变化的简要信息
-         * @summary 获取资产持仓简要分析
-         * @param {number} assetId 资产ID
-         * @param {string} startDate 开始日期 (YYYY-MM-DD)
-         * @param {string} endDate 结束日期 (YYYY-MM-DD)
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAnalysisAssetHoldingSummaryGet: async (assetId: number, startDate: string, endDate: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'assetId' is not null or undefined
-            assertParamExists('apiAnalysisAssetHoldingSummaryGet', 'assetId', assetId)
-            // verify required parameter 'startDate' is not null or undefined
-            assertParamExists('apiAnalysisAssetHoldingSummaryGet', 'startDate', startDate)
-            // verify required parameter 'endDate' is not null or undefined
-            assertParamExists('apiAnalysisAssetHoldingSummaryGet', 'endDate', endDate)
-            const localVarPath = `/api/analysis/asset-holding/summary`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      if (assetId !== undefined) {
+        localVarQueryParameter['asset_id'] = assetId
+      }
 
-            if (assetId !== undefined) {
-                localVarQueryParameter['asset_id'] = assetId;
-            }
+      if (startDate !== undefined) {
+        localVarQueryParameter['start_date'] =
+          (startDate as any) instanceof Date
+            ? (startDate as any).toISOString().substring(0, 10)
+            : startDate
+      }
 
-            if (startDate !== undefined) {
-                localVarQueryParameter['start_date'] = (startDate as any instanceof Date) ?
-                    (startDate as any).toISOString().substring(0,10) :
-                    startDate;
-            }
+      if (endDate !== undefined) {
+        localVarQueryParameter['end_date'] =
+          (endDate as any) instanceof Date
+            ? (endDate as any).toISOString().substring(0, 10)
+            : endDate
+      }
 
-            if (endDate !== undefined) {
-                localVarQueryParameter['end_date'] = (endDate as any instanceof Date) ?
-                    (endDate as any).toISOString().substring(0,10) :
-                    endDate;
-            }
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today.
+     * @summary Get total asset values by type for a specific date
+     * @param {string} [date] Analysis date (YYYY-MM-DD format). Defaults to today if not provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisAssetTotalsByTypeGet: async (
+      date?: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/analysis/asset-totals-by-type`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
 
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
 
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today. 
-         * @summary Get total asset values by type for a specific date
-         * @param {string} [date] Analysis date (YYYY-MM-DD format). Defaults to today if not provided.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAnalysisAssetTotalsByTypeGet: async (date?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/analysis/asset-totals-by-type`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
+      if (date !== undefined) {
+        localVarQueryParameter['date'] =
+          (date as any) instanceof Date
+            ? (date as any).toISOString().substring(0, 10)
+            : date
+      }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
-            if (date !== undefined) {
-                localVarQueryParameter['date'] = (date as any instanceof Date) ?
-                    (date as any).toISOString().substring(0,10) :
-                    date;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
 
 /**
  * AnalysisApi - functional programming interface
  * @export
  */
-export const AnalysisApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = AnalysisApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 获取指定资产在时间范围内的持仓变化和对应的市值分析
-         * @summary 获取资产持仓分析
-         * @param {number} assetId 资产ID
-         * @param {string} startDate 开始日期 (YYYY-MM-DD)
-         * @param {string} endDate 结束日期 (YYYY-MM-DD)
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiAnalysisAssetHoldingGet(assetId: number, startDate: string, endDate: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiAnalysisAssetHoldingGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAnalysisAssetHoldingGet(assetId, startDate, endDate, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AnalysisApi.apiAnalysisAssetHoldingGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 获取资产在指定时间范围内持仓变化的简要信息
-         * @summary 获取资产持仓简要分析
-         * @param {number} assetId 资产ID
-         * @param {string} startDate 开始日期 (YYYY-MM-DD)
-         * @param {string} endDate 结束日期 (YYYY-MM-DD)
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiAnalysisAssetHoldingSummaryGet(assetId: number, startDate: string, endDate: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiAnalysisAssetHoldingSummaryGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAnalysisAssetHoldingSummaryGet(assetId, startDate, endDate, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AnalysisApi.apiAnalysisAssetHoldingSummaryGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today. 
-         * @summary Get total asset values by type for a specific date
-         * @param {string} [date] Analysis date (YYYY-MM-DD format). Defaults to today if not provided.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiAnalysisAssetTotalsByTypeGet(date?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetTotalsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAnalysisAssetTotalsByTypeGet(date, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AnalysisApi.apiAnalysisAssetTotalsByTypeGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
+export const AnalysisApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = AnalysisApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * 获取指定资产在时间范围内的持仓变化和对应的市值分析
+     * @summary 获取资产持仓分析
+     * @param {number} assetId 资产ID
+     * @param {string} startDate 开始日期 (YYYY-MM-DD)
+     * @param {string} endDate 结束日期 (YYYY-MM-DD)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiAnalysisAssetHoldingGet(
+      assetId: number,
+      startDate: string,
+      endDate: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiAnalysisAssetHoldingGet200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiAnalysisAssetHoldingGet(
+          assetId,
+          startDate,
+          endDate,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['AnalysisApi.apiAnalysisAssetHoldingGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * 获取资产在指定时间范围内持仓变化的简要信息
+     * @summary 获取资产持仓简要分析
+     * @param {number} assetId 资产ID
+     * @param {string} startDate 开始日期 (YYYY-MM-DD)
+     * @param {string} endDate 结束日期 (YYYY-MM-DD)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiAnalysisAssetHoldingSummaryGet(
+      assetId: number,
+      startDate: string,
+      endDate: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiAnalysisAssetHoldingSummaryGet200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiAnalysisAssetHoldingSummaryGet(
+          assetId,
+          startDate,
+          endDate,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['AnalysisApi.apiAnalysisAssetHoldingSummaryGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
+     * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today.
+     * @summary Get total asset values by type for a specific date
+     * @param {string} [date] Analysis date (YYYY-MM-DD format). Defaults to today if not provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiAnalysisAssetTotalsByTypeGet(
+      date?: string,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<AssetTotalsResponse>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiAnalysisAssetTotalsByTypeGet(
+          date,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['AnalysisApi.apiAnalysisAssetTotalsByTypeGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+  }
+}
 
 /**
  * AnalysisApi - factory interface
  * @export
  */
-export const AnalysisApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = AnalysisApiFp(configuration)
-    return {
-        /**
-         * 获取指定资产在时间范围内的持仓变化和对应的市值分析
-         * @summary 获取资产持仓分析
-         * @param {AnalysisApiApiAnalysisAssetHoldingGetRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAnalysisAssetHoldingGet(requestParameters: AnalysisApiApiAnalysisAssetHoldingGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiAnalysisAssetHoldingGet200Response> {
-            return localVarFp.apiAnalysisAssetHoldingGet(requestParameters.assetId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 获取资产在指定时间范围内持仓变化的简要信息
-         * @summary 获取资产持仓简要分析
-         * @param {AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAnalysisAssetHoldingSummaryGet(requestParameters: AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiAnalysisAssetHoldingSummaryGet200Response> {
-            return localVarFp.apiAnalysisAssetHoldingSummaryGet(requestParameters.assetId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today. 
-         * @summary Get total asset values by type for a specific date
-         * @param {AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAnalysisAssetTotalsByTypeGet(requestParameters: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AssetTotalsResponse> {
-            return localVarFp.apiAnalysisAssetTotalsByTypeGet(requestParameters.date, options).then((request) => request(axios, basePath));
-        },
-    };
-};
+export const AnalysisApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  const localVarFp = AnalysisApiFp(configuration)
+  return {
+    /**
+     * 获取指定资产在时间范围内的持仓变化和对应的市值分析
+     * @summary 获取资产持仓分析
+     * @param {AnalysisApiApiAnalysisAssetHoldingGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisAssetHoldingGet(
+      requestParameters: AnalysisApiApiAnalysisAssetHoldingGetRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiAnalysisAssetHoldingGet200Response> {
+      return localVarFp
+        .apiAnalysisAssetHoldingGet(
+          requestParameters.assetId,
+          requestParameters.startDate,
+          requestParameters.endDate,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * 获取资产在指定时间范围内持仓变化的简要信息
+     * @summary 获取资产持仓简要分析
+     * @param {AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisAssetHoldingSummaryGet(
+      requestParameters: AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiAnalysisAssetHoldingSummaryGet200Response> {
+      return localVarFp
+        .apiAnalysisAssetHoldingSummaryGet(
+          requestParameters.assetId,
+          requestParameters.startDate,
+          requestParameters.endDate,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
+     * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today.
+     * @summary Get total asset values by type for a specific date
+     * @param {AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisAssetTotalsByTypeGet(
+      requestParameters: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest = {},
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<AssetTotalsResponse> {
+      return localVarFp
+        .apiAnalysisAssetTotalsByTypeGet(requestParameters.date, options)
+        .then(request => request(axios, basePath))
+    },
+  }
+}
 
 /**
  * AnalysisApi - interface
@@ -284,36 +446,44 @@ export const AnalysisApiFactory = function (configuration?: Configuration, baseP
  * @interface AnalysisApi
  */
 export interface AnalysisApiInterface {
-    /**
-     * 获取指定资产在时间范围内的持仓变化和对应的市值分析
-     * @summary 获取资产持仓分析
-     * @param {AnalysisApiApiAnalysisAssetHoldingGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AnalysisApiInterface
-     */
-    apiAnalysisAssetHoldingGet(requestParameters: AnalysisApiApiAnalysisAssetHoldingGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiAnalysisAssetHoldingGet200Response>;
+  /**
+   * 获取指定资产在时间范围内的持仓变化和对应的市值分析
+   * @summary 获取资产持仓分析
+   * @param {AnalysisApiApiAnalysisAssetHoldingGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApiInterface
+   */
+  apiAnalysisAssetHoldingGet(
+    requestParameters: AnalysisApiApiAnalysisAssetHoldingGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiAnalysisAssetHoldingGet200Response>
 
-    /**
-     * 获取资产在指定时间范围内持仓变化的简要信息
-     * @summary 获取资产持仓简要分析
-     * @param {AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AnalysisApiInterface
-     */
-    apiAnalysisAssetHoldingSummaryGet(requestParameters: AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiAnalysisAssetHoldingSummaryGet200Response>;
+  /**
+   * 获取资产在指定时间范围内持仓变化的简要信息
+   * @summary 获取资产持仓简要分析
+   * @param {AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApiInterface
+   */
+  apiAnalysisAssetHoldingSummaryGet(
+    requestParameters: AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiAnalysisAssetHoldingSummaryGet200Response>
 
-    /**
-     * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today. 
-     * @summary Get total asset values by type for a specific date
-     * @param {AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AnalysisApiInterface
-     */
-    apiAnalysisAssetTotalsByTypeGet(requestParameters?: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<AssetTotalsResponse>;
-
+  /**
+   * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today.
+   * @summary Get total asset values by type for a specific date
+   * @param {AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApiInterface
+   */
+  apiAnalysisAssetTotalsByTypeGet(
+    requestParameters?: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<AssetTotalsResponse>
 }
 
 /**
@@ -322,26 +492,26 @@ export interface AnalysisApiInterface {
  * @interface AnalysisApiApiAnalysisAssetHoldingGetRequest
  */
 export interface AnalysisApiApiAnalysisAssetHoldingGetRequest {
-    /**
-     * 资产ID
-     * @type {number}
-     * @memberof AnalysisApiApiAnalysisAssetHoldingGet
-     */
-    readonly assetId: number
+  /**
+   * 资产ID
+   * @type {number}
+   * @memberof AnalysisApiApiAnalysisAssetHoldingGet
+   */
+  readonly assetId: number
 
-    /**
-     * 开始日期 (YYYY-MM-DD)
-     * @type {string}
-     * @memberof AnalysisApiApiAnalysisAssetHoldingGet
-     */
-    readonly startDate: string
+  /**
+   * 开始日期 (YYYY-MM-DD)
+   * @type {string}
+   * @memberof AnalysisApiApiAnalysisAssetHoldingGet
+   */
+  readonly startDate: string
 
-    /**
-     * 结束日期 (YYYY-MM-DD)
-     * @type {string}
-     * @memberof AnalysisApiApiAnalysisAssetHoldingGet
-     */
-    readonly endDate: string
+  /**
+   * 结束日期 (YYYY-MM-DD)
+   * @type {string}
+   * @memberof AnalysisApiApiAnalysisAssetHoldingGet
+   */
+  readonly endDate: string
 }
 
 /**
@@ -350,26 +520,26 @@ export interface AnalysisApiApiAnalysisAssetHoldingGetRequest {
  * @interface AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest
  */
 export interface AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest {
-    /**
-     * 资产ID
-     * @type {number}
-     * @memberof AnalysisApiApiAnalysisAssetHoldingSummaryGet
-     */
-    readonly assetId: number
+  /**
+   * 资产ID
+   * @type {number}
+   * @memberof AnalysisApiApiAnalysisAssetHoldingSummaryGet
+   */
+  readonly assetId: number
 
-    /**
-     * 开始日期 (YYYY-MM-DD)
-     * @type {string}
-     * @memberof AnalysisApiApiAnalysisAssetHoldingSummaryGet
-     */
-    readonly startDate: string
+  /**
+   * 开始日期 (YYYY-MM-DD)
+   * @type {string}
+   * @memberof AnalysisApiApiAnalysisAssetHoldingSummaryGet
+   */
+  readonly startDate: string
 
-    /**
-     * 结束日期 (YYYY-MM-DD)
-     * @type {string}
-     * @memberof AnalysisApiApiAnalysisAssetHoldingSummaryGet
-     */
-    readonly endDate: string
+  /**
+   * 结束日期 (YYYY-MM-DD)
+   * @type {string}
+   * @memberof AnalysisApiApiAnalysisAssetHoldingSummaryGet
+   */
+  readonly endDate: string
 }
 
 /**
@@ -378,12 +548,12 @@ export interface AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest {
  * @interface AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest
  */
 export interface AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest {
-    /**
-     * Analysis date (YYYY-MM-DD format). Defaults to today if not provided.
-     * @type {string}
-     * @memberof AnalysisApiApiAnalysisAssetTotalsByTypeGet
-     */
-    readonly date?: string
+  /**
+   * Analysis date (YYYY-MM-DD format). Defaults to today if not provided.
+   * @type {string}
+   * @memberof AnalysisApiApiAnalysisAssetTotalsByTypeGet
+   */
+  readonly date?: string
 }
 
 /**
@@ -393,40 +563,64 @@ export interface AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest {
  * @extends {BaseAPI}
  */
 export class AnalysisApi extends BaseAPI implements AnalysisApiInterface {
-    /**
-     * 获取指定资产在时间范围内的持仓变化和对应的市值分析
-     * @summary 获取资产持仓分析
-     * @param {AnalysisApiApiAnalysisAssetHoldingGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AnalysisApi
-     */
-    public apiAnalysisAssetHoldingGet(requestParameters: AnalysisApiApiAnalysisAssetHoldingGetRequest, options?: RawAxiosRequestConfig) {
-        return AnalysisApiFp(this.configuration).apiAnalysisAssetHoldingGet(requestParameters.assetId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * 获取指定资产在时间范围内的持仓变化和对应的市值分析
+   * @summary 获取资产持仓分析
+   * @param {AnalysisApiApiAnalysisAssetHoldingGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApi
+   */
+  public apiAnalysisAssetHoldingGet(
+    requestParameters: AnalysisApiApiAnalysisAssetHoldingGetRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AnalysisApiFp(this.configuration)
+      .apiAnalysisAssetHoldingGet(
+        requestParameters.assetId,
+        requestParameters.startDate,
+        requestParameters.endDate,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
 
-    /**
-     * 获取资产在指定时间范围内持仓变化的简要信息
-     * @summary 获取资产持仓简要分析
-     * @param {AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AnalysisApi
-     */
-    public apiAnalysisAssetHoldingSummaryGet(requestParameters: AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest, options?: RawAxiosRequestConfig) {
-        return AnalysisApiFp(this.configuration).apiAnalysisAssetHoldingSummaryGet(requestParameters.assetId, requestParameters.startDate, requestParameters.endDate, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * 获取资产在指定时间范围内持仓变化的简要信息
+   * @summary 获取资产持仓简要分析
+   * @param {AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApi
+   */
+  public apiAnalysisAssetHoldingSummaryGet(
+    requestParameters: AnalysisApiApiAnalysisAssetHoldingSummaryGetRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return AnalysisApiFp(this.configuration)
+      .apiAnalysisAssetHoldingSummaryGet(
+        requestParameters.assetId,
+        requestParameters.startDate,
+        requestParameters.endDate,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
 
-    /**
-     * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today. 
-     * @summary Get total asset values by type for a specific date
-     * @param {AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AnalysisApi
-     */
-    public apiAnalysisAssetTotalsByTypeGet(requestParameters: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest = {}, options?: RawAxiosRequestConfig) {
-        return AnalysisApiFp(this.configuration).apiAnalysisAssetTotalsByTypeGet(requestParameters.date, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   * Retrieves the total value of all assets categorized by type (cash, stock, bond,  cryptocurrency, foreign currency, futures) for a given date. All values are  converted to USD. If no date is provided, defaults to today.
+   * @summary Get total asset values by type for a specific date
+   * @param {AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApi
+   */
+  public apiAnalysisAssetTotalsByTypeGet(
+    requestParameters: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest = {},
+    options?: RawAxiosRequestConfig
+  ) {
+    return AnalysisApiFp(this.configuration)
+      .apiAnalysisAssetTotalsByTypeGet(requestParameters.date, options)
+      .then(request => request(this.axios, this.basePath))
+  }
 }
-

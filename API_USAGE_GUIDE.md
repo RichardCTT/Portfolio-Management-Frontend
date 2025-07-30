@@ -5,11 +5,12 @@
 ## 🚀 快速开始
 
 ### 1. 生成的文件结构
+
 ```
 src/generated/api/
 ├── api/                  # API 类文件
 │   ├── assets-api.ts        # 资产相关 API
-│   ├── asset-types-api.ts   # 资产类型 API  
+│   ├── asset-types-api.ts   # 资产类型 API
 │   ├── transactions-api.ts  # 交易 API
 │   ├── price-daily-api.ts   # 价格数据 API
 │   └── asset-analysis-api.ts # 分析 API
@@ -29,7 +30,7 @@ import { AssetsApi, Configuration } from '@/generated/api'
 
 // 创建配置
 const config = new Configuration({
-  basePath: 'http://localhost:3000'
+  basePath: 'http://localhost:3000',
 })
 
 // 创建 API 实例
@@ -41,7 +42,7 @@ const fetchAssets = async () => {
     const response = await assetsApi.apiAssetsGet({
       page: 1,
       pageSize: 10,
-      assetTypeId: 1 // 股票类型
+      assetTypeId: 1, // 股票类型
     })
     console.log('Assets:', response.data)
   } catch (error) {
@@ -62,9 +63,11 @@ export function useAssets() {
   const [assets, setAssets] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const assetsApi = new AssetsApi(new Configuration({
-    basePath: 'http://localhost:3000'
-  }))
+  const assetsApi = new AssetsApi(
+    new Configuration({
+      basePath: 'http://localhost:3000',
+    })
+  )
 
   const fetchAssets = async () => {
     setLoading(true)
@@ -113,6 +116,7 @@ export function StockPage() {
 ## 🔧 常用 API 操作
 
 ### 获取数据
+
 ```typescript
 // 获取所有资产
 const assets = await assetsApi.apiAssetsGet({ page: 1, pageSize: 20 })
@@ -125,6 +129,7 @@ const summary = await assetTypesApi.apiAssetTypesGet({})
 ```
 
 ### 创建和更新
+
 ```typescript
 // 创建新资产
 const newAsset = await assetsApi.apiAssetsPost({
@@ -132,20 +137,21 @@ const newAsset = await assetsApi.apiAssetsPost({
     name: 'Apple Inc.',
     ticker: 'AAPL',
     assetTypeId: 1,
-    quantity: 10
-  }
+    quantity: 10,
+  },
 })
 
 // 更新资产
 const updatedAsset = await assetsApi.apiAssetsIdPut({
   id: 123,
   apiAssetsIdPutRequest: {
-    quantity: 15
-  }
+    quantity: 15,
+  },
 })
 ```
 
 ### 删除数据
+
 ```typescript
 // 删除资产
 await assetsApi.apiAssetsIdDelete({ id: 123 })
@@ -160,9 +166,11 @@ await assetsApi.apiAssetsIdDelete({ id: 123 })
 import { create } from 'zustand'
 import { AssetsApi, Configuration } from '@/generated/api'
 
-const assetsApi = new AssetsApi(new Configuration({
-  basePath: process.env.VITE_API_BASE_URL || 'http://localhost:3000'
-}))
+const assetsApi = new AssetsApi(
+  new Configuration({
+    basePath: process.env.VITE_API_BASE_URL || 'http://localhost:3000',
+  })
+)
 
 interface PortfolioState {
   assets: any[]
@@ -175,7 +183,7 @@ interface PortfolioState {
 export const usePortfolioStore = create<PortfolioState>((set, get) => ({
   assets: [],
   loading: false,
-  
+
   fetch: async () => {
     set({ loading: true })
     try {
@@ -188,15 +196,15 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     }
   },
 
-  add: async (assetData) => {
+  add: async assetData => {
     await assetsApi.apiAssetsPost({ apiAssetsPostRequest: assetData })
     get().fetch() // 重新获取数据
   },
 
-  remove: async (id) => {
+  remove: async id => {
     await assetsApi.apiAssetsIdDelete({ id })
     get().fetch() // 重新获取数据
-  }
+  },
 }))
 ```
 
@@ -223,7 +231,7 @@ pnpm generate-api
 ## 🎉 您现在可以：
 
 - ✅ 使用类型安全的 API 调用
-- ✅ 自动补全和 IntelliSense 支持  
+- ✅ 自动补全和 IntelliSense 支持
 - ✅ 自动生成的文档和类型
 - ✅ 与后端 API 保持同步
 

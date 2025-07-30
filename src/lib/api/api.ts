@@ -12,11 +12,9 @@
  * Do not edit the class manually.
  */
 
-
-
-export * from './api/analysis-api';
-export * from './api/asset-types-api';
-export * from './api/assets-api';
-export * from './api/price-daily-api';
-export * from './api/transactions-api';
-
+export * from './api/analysis-api'
+export * from './api/asset-types-api'
+export * from './api/assets-api'
+export * from './api/portfolio-analysis-api'
+export * from './api/price-daily-api'
+export * from './api/transactions-api'

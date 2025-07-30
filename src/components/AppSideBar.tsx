@@ -31,11 +31,11 @@ export default function AppSideBar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className='data-[slot=sidebar-menu-button]:!p-1.5'
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link to='/'>
+              <Link to="/">
                 {/* <IconInnerShadowTop className="!size-5" /> */}
-                <span className='text-base font-semibold'>Portoylio</span>
+                <span className="text-base font-semibold">Portoylio</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -45,27 +45,20 @@ export default function AppSideBar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link
-                to='/'
-                className='text-base hover:underline'
-              >
+              <Link to="/" className="text-base hover:underline">
                 <LayoutDashboard />
                 <span>Overview</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-          <Collapsible
-            asChild
-            defaultOpen
-            className='group/collapsible'
-          >
+          <Collapsible asChild defaultOpen className="group/collapsible">
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip='Portfolio'>
+                <SidebarMenuButton tooltip="Portfolio">
                   <Landmark />
                   <span>Portfolio</span>
-                  <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -73,8 +66,8 @@ export default function AppSideBar() {
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <Link
-                        to='/portfolio/stock'
-                        className='text-sm hover:underline'
+                        to="/portfolio/stock"
+                        className="text-sm hover:underline"
                       >
                         Stock
                       </Link>
@@ -83,8 +76,8 @@ export default function AppSideBar() {
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <Link
-                        to='/portfolio/bond'
-                        className='text-sm hover:underline'
+                        to="/portfolio/bond"
+                        className="text-sm hover:underline"
                       >
                         Bond
                       </Link>
@@ -93,8 +86,8 @@ export default function AppSideBar() {
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <Link
-                        to='/portfolio/cash'
-                        className='text-sm hover:underline'
+                        to="/portfolio/cash"
+                        className="text-sm hover:underline"
                       >
                         Cash
                       </Link>
@@ -107,10 +100,7 @@ export default function AppSideBar() {
 
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link
-                to='/trades'
-                className='text-base hover:underline'
-              >
+              <Link to="/trades" className="text-base hover:underline">
                 <ArrowRightLeft />
                 <span>Trades</span>
               </Link>

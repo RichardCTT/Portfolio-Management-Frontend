@@ -5,6 +5,7 @@ api.ts
 api/analysis-api.ts
 api/asset-types-api.ts
 api/assets-api.ts
+api/portfolio-analysis-api.ts
 api/price-daily-api.ts
 api/transactions-api.ts
 base.ts
@@ -59,10 +60,16 @@ docs/AssetTypeSummary.md
 docs/AssetTypesApi.md
 docs/AssetsApi.md
 docs/ErrorResponse.md
+docs/PortfolioAnalysisApi.md
 docs/PriceDaily.md
 docs/PriceDailyApi.md
 docs/Transaction.md
 docs/TransactionsApi.md
+docs/TransactionsByTypeResponse.md
+docs/TransactionsByTypeResponseData.md
+docs/TransactionsByTypeResponseDataDateRange.md
+docs/TransactionsByTypeResponseDataPagination.md
+docs/TransactionsByTypeResponseDataSummary.md
 git_push.sh
 index.ts
 models/api-analysis-asset-holding-get200-response-data-analysis-period.ts
@@ -114,3 +121,8 @@ models/error-response.ts
 models/index.ts
 models/price-daily.ts
 models/transaction.ts
+models/transactions-by-type-response-data-date-range.ts
+models/transactions-by-type-response-data-pagination.ts
+models/transactions-by-type-response-data-summary.ts
+models/transactions-by-type-response-data.ts
+models/transactions-by-type-response.ts

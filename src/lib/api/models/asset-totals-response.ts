@@ -12,28 +12,26 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetTotalsResponseData } from './asset-totals-response-data';
+import type { AssetTotalsResponseData } from './asset-totals-response-data'
 
 /**
- * 
+ *
  * @export
  * @interface AssetTotalsResponse
  */
 export interface AssetTotalsResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AssetTotalsResponse
-     */
-    'success'?: boolean;
-    /**
-     * 
-     * @type {AssetTotalsResponseData}
-     * @memberof AssetTotalsResponse
-     */
-    'data'?: AssetTotalsResponseData;
+  /**
+   *
+   * @type {boolean}
+   * @memberof AssetTotalsResponse
+   */
+  success?: boolean
+  /**
+   *
+   * @type {AssetTotalsResponseData}
+   * @memberof AssetTotalsResponse
+   */
+  data?: AssetTotalsResponseData
 }
-

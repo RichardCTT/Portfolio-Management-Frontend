@@ -1,24 +1,23 @@
 # ApiAssetsIdPutRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**name** | **string** |  | [optional] [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**description** | **string** |  | [optional] [default to undefined]
+| Name            | Type       | Description | Notes                             |
+| --------------- | ---------- | ----------- | --------------------------------- |
+| **name**        | **string** |             | [optional] [default to undefined] |
+| **code**        | **string** |             | [optional] [default to undefined] |
+| **description** | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
 ```typescript
-import { ApiAssetsIdPutRequest } from './api';
+import { ApiAssetsIdPutRequest } from './api'
 
 const instance: ApiAssetsIdPutRequest = {
-    name,
-    code,
-    description,
-};
+  name,
+  code,
+  description,
+}
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

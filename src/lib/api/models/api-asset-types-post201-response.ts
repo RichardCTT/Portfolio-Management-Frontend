@@ -12,34 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetType } from './asset-type';
+import type { AssetType } from './asset-type'
 
 /**
- * 
+ *
  * @export
  * @interface ApiAssetTypesPost201Response
  */
 export interface ApiAssetTypesPost201Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetTypesPost201Response
-     */
-    'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAssetTypesPost201Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {AssetType}
-     * @memberof ApiAssetTypesPost201Response
-     */
-    'data'?: AssetType;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetTypesPost201Response
+   */
+  code?: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAssetTypesPost201Response
+   */
+  message?: string
+  /**
+   *
+   * @type {AssetType}
+   * @memberof ApiAssetTypesPost201Response
+   */
+  data?: AssetType
 }
-

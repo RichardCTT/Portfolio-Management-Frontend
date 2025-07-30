@@ -12,40 +12,38 @@
  * Do not edit the class manually.
  */
 
-
 // May contain unused imports in some cases
 // @ts-ignore
-import type { AssetType } from './asset-type';
+import type { AssetType } from './asset-type'
 
 /**
- * 
+ *
  * @export
  * @interface ApiAssetTypesGet200ResponseData
  */
 export interface ApiAssetTypesGet200ResponseData {
-    /**
-     * 
-     * @type {Array<AssetType>}
-     * @memberof ApiAssetTypesGet200ResponseData
-     */
-    'items'?: Array<AssetType>;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetTypesGet200ResponseData
-     */
-    'total'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetTypesGet200ResponseData
-     */
-    'page'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAssetTypesGet200ResponseData
-     */
-    'page_size'?: number;
+  /**
+   *
+   * @type {Array<AssetType>}
+   * @memberof ApiAssetTypesGet200ResponseData
+   */
+  items?: Array<AssetType>
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetTypesGet200ResponseData
+   */
+  total?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetTypesGet200ResponseData
+   */
+  page?: number
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAssetTypesGet200ResponseData
+   */
+  page_size?: number
 }
-

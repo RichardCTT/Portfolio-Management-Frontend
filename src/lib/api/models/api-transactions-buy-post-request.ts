@@ -12,37 +12,34 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsBuyPostRequest
  */
 export interface ApiTransactionsBuyPostRequest {
-    /**
-     * 要购买的资产ID
-     * @type {number}
-     * @memberof ApiTransactionsBuyPostRequest
-     */
-    'asset_id': number;
-    /**
-     * 购买数量
-     * @type {number}
-     * @memberof ApiTransactionsBuyPostRequest
-     */
-    'quantity': number;
-    /**
-     * 购买日期（YYYY-MM-DD格式）
-     * @type {string}
-     * @memberof ApiTransactionsBuyPostRequest
-     */
-    'date': string;
-    /**
-     * 交易描述（可选）
-     * @type {string}
-     * @memberof ApiTransactionsBuyPostRequest
-     */
-    'description'?: string;
+  /**
+   * 要购买的资产ID
+   * @type {number}
+   * @memberof ApiTransactionsBuyPostRequest
+   */
+  asset_id: number
+  /**
+   * 购买数量
+   * @type {number}
+   * @memberof ApiTransactionsBuyPostRequest
+   */
+  quantity: number
+  /**
+   * 购买日期（YYYY-MM-DD格式）
+   * @type {string}
+   * @memberof ApiTransactionsBuyPostRequest
+   */
+  date: string
+  /**
+   * 交易描述（可选）
+   * @type {string}
+   * @memberof ApiTransactionsBuyPostRequest
+   */
+  description?: string
 }
-

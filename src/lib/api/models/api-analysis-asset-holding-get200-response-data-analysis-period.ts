@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
  */
 export interface ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod {
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
-     */
-    'start_date'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
-     */
-    'end_date'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
-     */
-    'days'?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
+   */
+  start_date?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
+   */
+  end_date?: string
+  /**
+   *
+   * @type {number}
+   * @memberof ApiAnalysisAssetHoldingGet200ResponseDataAnalysisPeriod
+   */
+  days?: number
 }
-

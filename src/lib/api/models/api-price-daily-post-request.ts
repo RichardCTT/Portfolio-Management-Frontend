@@ -12,31 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiPriceDailyPostRequest
  */
 export interface ApiPriceDailyPostRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyPostRequest
-     */
-    'asset_id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiPriceDailyPostRequest
-     */
-    'date': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiPriceDailyPostRequest
-     */
-    'price': number;
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyPostRequest
+   */
+  asset_id: number
+  /**
+   *
+   * @type {string}
+   * @memberof ApiPriceDailyPostRequest
+   */
+  date: string
+  /**
+   *
+   * @type {number}
+   * @memberof ApiPriceDailyPostRequest
+   */
+  price: number
 }
-

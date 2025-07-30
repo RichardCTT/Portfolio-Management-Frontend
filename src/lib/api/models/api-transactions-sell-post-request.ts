@@ -12,37 +12,34 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface ApiTransactionsSellPostRequest
  */
 export interface ApiTransactionsSellPostRequest {
-    /**
-     * 要卖出的资产ID
-     * @type {number}
-     * @memberof ApiTransactionsSellPostRequest
-     */
-    'asset_id': number;
-    /**
-     * 卖出数量
-     * @type {number}
-     * @memberof ApiTransactionsSellPostRequest
-     */
-    'quantity': number;
-    /**
-     * 卖出日期（YYYY-MM-DD格式）
-     * @type {string}
-     * @memberof ApiTransactionsSellPostRequest
-     */
-    'date': string;
-    /**
-     * 交易描述（可选）
-     * @type {string}
-     * @memberof ApiTransactionsSellPostRequest
-     */
-    'description'?: string;
+  /**
+   * 要卖出的资产ID
+   * @type {number}
+   * @memberof ApiTransactionsSellPostRequest
+   */
+  asset_id: number
+  /**
+   * 卖出数量
+   * @type {number}
+   * @memberof ApiTransactionsSellPostRequest
+   */
+  quantity: number
+  /**
+   * 卖出日期（YYYY-MM-DD格式）
+   * @type {string}
+   * @memberof ApiTransactionsSellPostRequest
+   */
+  date: string
+  /**
+   * 交易描述（可选）
+   * @type {string}
+   * @memberof ApiTransactionsSellPostRequest
+   */
+  description?: string
 }
-

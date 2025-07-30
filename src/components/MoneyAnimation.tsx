@@ -16,28 +16,30 @@ export default function MoneyAnimation({ progress }: MoneyAnimationProps) {
   const moneyEmojis = ['💰', '💵', '💴', '💶', '💷']
 
   return (
-    <div className="w-96 mx-auto"> {/* 增加容器宽度，给钱包更多显示空间 */}
+    <div className="w-96 mx-auto">
+      {' '}
+      {/* 增加容器宽度，给钱包更多显示空间 */}
       <div className="money-animation">
         {/* 动态生成的飞行金钱 */}
         {Array.from({ length: moneyCount }, (_, i) => (
-          <div 
+          <div
             key={i}
             className="money"
-            style={{ 
+            style={{
               animationDelay: `${i * 0.3}s`,
-              fontSize: i === 0 ? '2rem' : '1.5rem' // 第一个更大
+              fontSize: i === 0 ? '2rem' : '1.5rem', // 第一个更大
             }}
           >
             {moneyEmojis[i]}
           </div>
         ))}
-        
+
         {/* 钱包 - 根据进度改变大小 */}
-        <div 
+        <div
           className="wallet"
-          style={{ 
+          style={{
             fontSize: `${2 + progress / 50}rem`, // 随进度变大
-            filter: progress > 80 ? 'drop-shadow(0 0 10px gold)' : 'none' // 快完成时发光
+            filter: progress > 80 ? 'drop-shadow(0 0 10px gold)' : 'none', // 快完成时发光
           }}
         >
           👛

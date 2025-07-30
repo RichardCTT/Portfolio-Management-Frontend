@@ -12,69 +12,84 @@
  * Do not edit the class manually.
  */
 
-
-
 /**
- * 
+ *
  * @export
  * @interface Transaction
  */
 export interface Transaction {
-    /**
-     * 交易记录ID
-     * @type {number}
-     * @memberof Transaction
-     */
-    'id'?: number;
-    /**
-     * 资产ID
-     * @type {number}
-     * @memberof Transaction
-     */
-    'asset_id': number;
-    /**
-     * 交易类型(IN=入库, OUT=出库)
-     * @type {string}
-     * @memberof Transaction
-     */
-    'transaction_type': TransactionTransactionTypeEnum;
-    /**
-     * 交易数量
-     * @type {number}
-     * @memberof Transaction
-     */
-    'quantity': number;
-    /**
-     * 交易单价
-     * @type {number}
-     * @memberof Transaction
-     */
-    'price': number;
-    /**
-     * 交易日期
-     * @type {string}
-     * @memberof Transaction
-     */
-    'transaction_date': string;
-    /**
-     * 交易后资产余额
-     * @type {number}
-     * @memberof Transaction
-     */
-    'holding': number;
-    /**
-     * 描述
-     * @type {string}
-     * @memberof Transaction
-     */
-    'description'?: string;
+  /**
+   * 交易记录ID
+   * @type {number}
+   * @memberof Transaction
+   */
+  id?: number
+  /**
+   * 资产ID
+   * @type {number}
+   * @memberof Transaction
+   */
+  asset_id: number
+  /**
+   * Asset name
+   * @type {string}
+   * @memberof Transaction
+   */
+  asset_name?: string
+  /**
+   * Asset code
+   * @type {string}
+   * @memberof Transaction
+   */
+  asset_code?: string
+  /**
+   * Asset type name
+   * @type {string}
+   * @memberof Transaction
+   */
+  asset_type_name?: string
+  /**
+   * 交易类型(IN=入库, OUT=出库)
+   * @type {string}
+   * @memberof Transaction
+   */
+  transaction_type: TransactionTransactionTypeEnum
+  /**
+   * 交易数量
+   * @type {number}
+   * @memberof Transaction
+   */
+  quantity: number
+  /**
+   * 交易单价
+   * @type {number}
+   * @memberof Transaction
+   */
+  price: number
+  /**
+   * 交易日期
+   * @type {string}
+   * @memberof Transaction
+   */
+  transaction_date: string
+  /**
+   * 交易后资产余额
+   * @type {number}
+   * @memberof Transaction
+   */
+  holding: number
+  /**
+   * 描述
+   * @type {string}
+   * @memberof Transaction
+   */
+  description?: string
 }
 
 export const TransactionTransactionTypeEnum = {
-    In: 'IN',
-    Out: 'OUT'
-} as const;
+  In: 'IN',
+  Out: 'OUT',
+} as const
 
-export type TransactionTransactionTypeEnum = typeof TransactionTransactionTypeEnum[keyof typeof TransactionTransactionTypeEnum];
-
-
+export type TransactionTransactionTypeEnum =
+  (typeof TransactionTransactionTypeEnum)[keyof typeof TransactionTransactionTypeEnum]

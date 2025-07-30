@@ -35,10 +35,7 @@ export function AddCashModal({ open, onOpenChange }: AddCashModalProps) {
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={onOpenChange}
-    >
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Cash</DialogTitle>
@@ -49,15 +46,15 @@ export function AddCashModal({ open, onOpenChange }: AddCashModalProps) {
 
         {/* TODO: limit the input and it can be double */}
         <Input
-          placeholder='Amount'
+          placeholder="Amount"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          type='number'
+          onChange={e => setAmount(e.target.value)}
+          type="number"
         />
 
-        <DialogFooter className='mt-4'>
+        <DialogFooter className="mt-4">
           <DialogClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant="outline">Cancel</Button>
           </DialogClose>
           <Button onClick={handleSubmit}>Confirm</Button>
         </DialogFooter>
