@@ -33,34 +33,36 @@ function App() {
 
   return (
     <>
-      <SidebarProvider className="flex h-screen">
+      <SidebarProvider className="flex min-h-screen">
         <AppSideBar />
 
-        <SidebarInset className="flex flex-col">
-          <header className="flex h-16 shrink-0 items-center gap-2">
-            <div className="flex items-center gap-2 px-4">
-              <SidebarTrigger className="-ml-1" />
+        <SidebarInset className="flex flex-col flex-1">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 header-shadow sticky top-0 z-40">
+            <div className="flex items-center gap-3 px-4">
+              <SidebarTrigger className="-ml-1 hover:bg-accent/80 transition-colors rounded-md" />
               <Separator
                 orientation="vertical"
-                className="mr-2 data-[orientation=vertical]:h-4"
+                className="mr-2 h-5 bg-border/50"
               />
               <AppBreadcrumb />
             </div>
           </header>
 
-          <main className="flex-1 overflow-auto">
-            <InitialRedirect />
-            <Routes>
-              <Route
-                path="/welcome"
-                element={<SplashScreen onFinish={handleSplashFinish} />}
-              />
-              <Route path="/" element={<HomePage />} />
-              <Route path="/portfolio/stock" element={<StockPage />} />
-              <Route path="/portfolio/bond" element={<BondPage />} />
-              <Route path="/portfolio/Cash" element={<CashPage />} />
-              <Route path="/trades" element={<TradesPage />} />
-            </Routes>
+          <main className="flex-1 min-h-0">
+            <div className="h-full">
+              <InitialRedirect />
+              <Routes>
+                <Route
+                  path="/welcome"
+                  element={<SplashScreen onFinish={handleSplashFinish} />}
+                />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/portfolio/stock" element={<StockPage />} />
+                <Route path="/portfolio/bond" element={<BondPage />} />
+                <Route path="/portfolio/cash" element={<CashPage />} />
+                <Route path="/trades" element={<TradesPage />} />
+              </Routes>
+            </div>
           </main>
           <AppFooter />
         </SidebarInset>
