@@ -11,17 +11,17 @@ import { Link, useLocation } from 'react-router-dom'
 export default function AppBreadcrumb() {
   const location = useLocation()
   const pathParts = location.pathname.split('/').filter(Boolean)
-  const lastPart = pathParts[pathParts.length - 1] || 'overview'
+  const lastPart = pathParts[pathParts.length - 1] || 'home'
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink asChild>
-            <Link to="/">Overview</Link>
+            <Link to="/">Home</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
-        {lastPart !== 'overview' && (
+        {lastPart !== 'home' && (
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

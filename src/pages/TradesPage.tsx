@@ -52,7 +52,6 @@ export default function TradesPage() {
   const getAssets = async (currentPage: number, pageSize: number) => {
     const res = await getAssetsAPI(currentPage, pageSize)
     if (res.code === 200) {
-      console.log('###1', res.data.items.length)
       setData(res.data.items.filter(item => item.id !== 1))
       setTotal(Math.max(res.data.total - 1, 0))
     } else {

@@ -9,7 +9,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-import OverviewPage from '@/pages/OverviewPage'
+import HomePage from '@/pages/HomePage'
 import TradesPage from '@/pages/TradesPage'
 import BondPage from '@/pages/portfolio/BondPage'
 import CashPage from '@/pages/portfolio/CashPage'
@@ -55,7 +55,7 @@ function App() {
                 path="/welcome"
                 element={<SplashScreen onFinish={handleSplashFinish} />}
               />
-              <Route path="/" element={<OverviewPage />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/portfolio/stock" element={<StockPage />} />
               <Route path="/portfolio/bond" element={<BondPage />} />
               <Route path="/portfolio/Cash" element={<CashPage />} />

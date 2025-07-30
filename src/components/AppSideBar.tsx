@@ -33,10 +33,12 @@ export default function AppSideBar() {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link to="/">
-                {/* <IconInnerShadowTop className="!size-5" /> */}
-                <span className="text-base font-semibold">Portoylio</span>
-              </Link>
+              <div className="flex justify-center w-full">
+                <Link to="/">
+                  {/* <IconInnerShadowTop className="!size-5" /> */}
+                  <span className="text-base font-semibold">Portoylio</span>
+                </Link>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -47,7 +49,7 @@ export default function AppSideBar() {
             <SidebarMenuButton asChild>
               <Link to="/" className="text-base hover:underline">
                 <LayoutDashboard />
-                <span>Overview</span>
+                <span>Home</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
