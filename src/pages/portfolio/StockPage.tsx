@@ -21,7 +21,6 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import {
   analysisApi,
   assetsApi,
-  transactionsApi,
   portfolioAnalysisApi,
 } from '@/lib/request'
 import { TrendingUp, TrendingDown } from 'lucide-react'
@@ -210,7 +209,6 @@ export default function StockPage() {
             stockTransactionTablePageSize
         ) || 1
       )
-      console.log('Transaction data:', transactions)
     } catch (error) {
       console.error('Error fetching transaction data:', error)
     }
@@ -328,234 +326,268 @@ export default function StockPage() {
       </div>
 
       {/* 饼状图卡片 - 并排显示 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
         {/* 持仓量分布饼状图 */}
-        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
-            <CardTitle className="text-lg font-semibold text-gray-800">
-              Share Distribution
-            </CardTitle>
-            <div className="flex items-center gap-3">
-              <Select value={selectedStock} onValueChange={setSelectedStock}>
-                <SelectTrigger className="w-[200px] border-0 bg-white/70 shadow-md hover:shadow-lg transition-all duration-300">
-                  <SelectValue placeholder="Select stock" />
-                </SelectTrigger>
-                <SelectContent className="border-0 shadow-xl">
-                  <SelectItem value="all">All Stocks</SelectItem>
-                  {stocks.map(stock => (
-                    <SelectItem key={stock.code} value={stock.code}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full ring-2 ring-white shadow-sm"
-                          style={{ backgroundColor: stock.color }}
-                        />
-                        {stock.name} ({stock.shares} shares)
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center shadow-md">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="h-4 w-4 text-white"
-                >
-                  <path d="M3 3v18h18" />
-                  <path d="m19 9-5 5-4-4-3 3" />
-                </svg>
+        <Card className="group relative border-0 shadow-2xl bg-white/95 backdrop-blur-lg hover:shadow-3xl transition-all duration-700 overflow-hidden rounded-2xl hover:scale-[1.02]">
+          {/* 顶部装饰线 */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-500"></div>
+          
+          <CardHeader className="relative pb-6 pt-8 px-8 bg-gradient-to-br from-blue-50/80 via-indigo-50/60 to-purple-50/40 rounded-t-2xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg group-hover:shadow-xl transition-shadow duration-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="h-6 w-6 text-white"
+                  >
+                    <path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-6z"/>
+                  </svg>
+                </div>
+                <div>
+                  <CardTitle className="text-xl font-bold text-gray-800 mb-1">
+                    Share Distribution
+                  </CardTitle>
+                  <p className="text-sm text-gray-600">Portfolio composition by shares</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Select value={selectedStock} onValueChange={setSelectedStock}>
+                  <SelectTrigger className="w-[200px] border-2 border-blue-200/50 bg-white/80 shadow-lg hover:shadow-xl hover:border-blue-300/70 transition-all duration-300 rounded-xl backdrop-blur-sm">
+                    <SelectValue placeholder="Select stock" />
+                  </SelectTrigger>
+                  <SelectContent className="border-0 shadow-2xl rounded-xl bg-white/95 backdrop-blur-lg">
+                    <SelectItem value="all" className="rounded-lg">All Stocks</SelectItem>
+                    {stocks.map(stock => (
+                      <SelectItem key={stock.code} value={stock.code} className="rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-4 h-4 rounded-full ring-2 ring-white shadow-lg"
+                            style={{ backgroundColor: stock.color }}
+                          />
+                          <span className="font-medium">{stock.name}</span>
+                          <span className="text-xs text-gray-500">({stock.shares} shares)</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardHeader>
+          
           <CardContent className="p-8">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <ResponsiveContainer width="100%" height={380}>
-                  <PieChart>
-                    <Pie
-                      data={stocks.map(stock => ({
-                        name: stock.name,
-                        value: stock.shares,
-                        color: stock.color,
-                      }))}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      outerRadius={140}
-                      innerRadius={60}
-                      fill="#8884d8"
-                      dataKey="value"
-                      stroke="#ffffff"
-                      strokeWidth={3}
-                      onMouseEnter={(_, index) => setActiveIndex(index)}
-                      onMouseLeave={() => setActiveIndex(undefined)}
-                    >
-                      {stocks.map((stock, index) => {
-                        const isSelected =
-                          selectedStock !== 'all' &&
-                          stock.code === selectedStock
-                        const isHovered = activeIndex === index
-                        return (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={stock.color}
-                            stroke={isHovered ? '#000' : '#ffffff'}
-                            strokeWidth={isHovered ? 4 : 3}
-                            style={{
-                              filter:
-                                selectedStock !== 'all' && !isSelected
-                                  ? 'opacity(0.3) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
-                                  : activeIndex !== undefined && !isHovered
-                                    ? 'opacity(0.6) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
-                                    : 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))',
-                              cursor: 'pointer',
-                              transform: isSelected || isHovered ? 'scale(1.05)' : 'scale(1)',
-                              transformOrigin: 'center',
-                              transition: 'all 0.3s ease',
-                            }}
-                          />
-                        )
-                      })}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: any, name: string) => [
-                        `${value} shares`,
-                        name,
-                      ]}
-                      labelFormatter={() => ''}
-                      labelStyle={{ color: '#000', fontWeight: '600' }}
-                      contentStyle={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        border: 'none',
-                        borderRadius: '12px',
-                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                        backdropFilter: 'blur(10px)',
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
+            <div className="relative">
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie
+                    data={stocks.map(stock => ({
+                      name: stock.name,
+                      value: stock.shares,
+                      color: stock.color,
+                    }))}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={150}
+                    innerRadius={70}
+                    fill="#8884d8"
+                    dataKey="value"
+                    stroke="#ffffff"
+                    strokeWidth={4}
+                    onMouseEnter={(_, index) => setActiveIndex(index)}
+                    onMouseLeave={() => setActiveIndex(undefined)}
+                  >
+                    {stocks.map((stock, index) => {
+                      const isSelected =
+                        selectedStock !== 'all' && stock.code === selectedStock
+                      const isHovered = activeIndex === index
+                      return (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={stock.color}
+                          stroke={isHovered ? '#1f2937' : '#ffffff'}
+                          strokeWidth={isHovered ? 5 : 4}
+                          style={{
+                            filter:
+                              selectedStock !== 'all' && !isSelected
+                                ? 'opacity(0.2) brightness(0.8)'
+                                : activeIndex !== undefined && !isHovered
+                                  ? 'opacity(0.7) brightness(0.9)'
+                                  : 'drop-shadow(0 8px 16px rgba(0,0,0,0.15))',
+                            cursor: 'pointer',
+                            transform: isSelected || isHovered ? 'scale(1.08)' : 'scale(1)',
+                            transformOrigin: 'center',
+                            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                          }}
+                        />
+                      )
+                    })}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value: any, name: string) => [
+                      <span className="font-semibold text-blue-600">{value} shares</span>,
+                      <span className="font-medium text-gray-800">{name}</span>,
+                    ]}
+                    labelFormatter={() => ''}
+                    contentStyle={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                      border: 'none',
+                      borderRadius: '16px',
+                      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1)',
+                      backdropFilter: 'blur(20px)',
+                      padding: '12px 16px',
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              
+              {/* 中心信息显示 */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center bg-white/90 backdrop-blur-sm rounded-full p-6 shadow-lg">
+                  <div className="text-2xl font-bold text-gray-800">{stocks.length}</div>
+                  <div className="text-sm text-gray-600 font-medium">Stocks</div>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* 持仓市值分布饼状图 */}
-        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 bg-gradient-to-r from-emerald-50 to-green-50 rounded-t-lg">
-            <CardTitle className="text-lg font-semibold text-gray-800">
-              Value Distribution
-            </CardTitle>
-            <div className="flex items-center gap-3">
-              <Select
-                value={selectedValueStock}
-                onValueChange={setSelectedValueStock}
-              >
-                <SelectTrigger className="w-[200px] border-0 bg-white/70 shadow-md hover:shadow-lg transition-all duration-300">
-                  <SelectValue placeholder="Select stock" />
-                </SelectTrigger>
-                <SelectContent className="border-0 shadow-xl">
-                  <SelectItem value="all">All Stocks</SelectItem>
-                  {stocks.map(stock => (
-                    <SelectItem key={stock.code} value={stock.code}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full ring-2 ring-white shadow-sm"
-                          style={{ backgroundColor: stock.color }}
-                        />
-                        {stock.name} (${stock.marketValue.toLocaleString()})
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-lg flex items-center justify-center shadow-md">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="h-4 w-4 text-white"
+        <Card className="group relative border-0 shadow-2xl bg-white/95 backdrop-blur-lg hover:shadow-3xl transition-all duration-700 overflow-hidden rounded-2xl hover:scale-[1.02]">
+          {/* 顶部装饰线 */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500"></div>
+          
+          <CardHeader className="relative pb-6 pt-8 px-8 bg-gradient-to-br from-emerald-50/80 via-green-50/60 to-teal-50/40 rounded-t-2xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-lg group-hover:shadow-xl transition-shadow duration-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="h-6 w-6 text-white"
+                  >
+                    <path d="M12 2v20m9-2H3"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </div>
+                <div>
+                  <CardTitle className="text-xl font-bold text-gray-800 mb-1">
+                    Value Distribution
+                  </CardTitle>
+                  <p className="text-sm text-gray-600">Portfolio composition by value</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Select
+                  value={selectedValueStock}
+                  onValueChange={setSelectedValueStock}
                 >
-                  <path d="M12 2v20m9-2H3" />
-                </svg>
+                  <SelectTrigger className="w-[200px] border-2 border-emerald-200/50 bg-white/80 shadow-lg hover:shadow-xl hover:border-emerald-300/70 transition-all duration-300 rounded-xl backdrop-blur-sm">
+                    <SelectValue placeholder="Select stock" />
+                  </SelectTrigger>
+                  <SelectContent className="border-0 shadow-2xl rounded-xl bg-white/95 backdrop-blur-lg">
+                    <SelectItem value="all" className="rounded-lg">All Stocks</SelectItem>
+                    {stocks.map(stock => (
+                      <SelectItem key={stock.code} value={stock.code} className="rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-4 h-4 rounded-full ring-2 ring-white shadow-lg"
+                            style={{ backgroundColor: stock.color }}
+                          />
+                          <span className="font-medium">{stock.name}</span>
+                          <span className="text-xs text-gray-500">(${stock.marketValue.toLocaleString()})</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardHeader>
+          
           <CardContent className="p-8">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <ResponsiveContainer width="100%" height={380}>
-                  <PieChart>
-                    <Pie
-                      data={stocks.map(stock => ({
-                        name: stock.name,
-                        value: stock.marketValue,
-                        color: stock.color,
-                      }))}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      outerRadius={140}
-                      innerRadius={60}
-                      fill="#8884d8"
-                      dataKey="value"
-                      stroke="#ffffff"
-                      strokeWidth={3}
-                      onMouseEnter={(_, index) => setActiveValueIndex(index)}
-                      onMouseLeave={() => setActiveValueIndex(undefined)}
-                    >
-                      {stocks.map((stock, index) => {
-                        const isSelected =
-                          selectedValueStock !== 'all' &&
-                          stock.code === selectedValueStock
-                        const isHovered = activeValueIndex === index
-                        return (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={stock.color}
-                            stroke={isHovered ? '#000' : '#ffffff'}
-                            strokeWidth={isHovered ? 4 : 3}
-                            style={{
-                              filter:
-                                selectedValueStock !== 'all' && !isSelected
-                                  ? 'opacity(0.3) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
-                                  : activeValueIndex !== undefined && !isHovered
-                                    ? 'opacity(0.6) drop-shadow(0 0 0 rgba(0,0,0,0.1))'
-                                    : 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))',
-                              cursor: 'pointer',
-                              transform: isSelected || isHovered ? 'scale(1.05)' : 'scale(1)',
-                              transformOrigin: 'center',
-                              transition: 'all 0.3s ease',
-                            }}
-                          />
-                        )
-                      })}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: any, name: string) => [
-                        `$${value.toLocaleString()}`,
-                        name,
-                      ]}
-                      labelFormatter={() => ''}
-                      labelStyle={{ color: '#000', fontWeight: '600' }}
-                      contentStyle={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        border: 'none',
-                        borderRadius: '12px',
-                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                        backdropFilter: 'blur(10px)',
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
+            <div className="relative">
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie
+                    data={stocks.map(stock => ({
+                      name: stock.name,
+                      value: stock.marketValue,
+                      color: stock.color,
+                    }))}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={150}
+                    innerRadius={70}
+                    fill="#8884d8"
+                    dataKey="value"
+                    stroke="#ffffff"
+                    strokeWidth={4}
+                    onMouseEnter={(_, index) => setActiveValueIndex(index)}
+                    onMouseLeave={() => setActiveValueIndex(undefined)}
+                  >
+                    {stocks.map((stock, index) => {
+                      const isSelected =
+                        selectedValueStock !== 'all' && stock.code === selectedValueStock
+                      const isHovered = activeValueIndex === index
+                      return (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={stock.color}
+                          stroke={isHovered ? '#1f2937' : '#ffffff'}
+                          strokeWidth={isHovered ? 5 : 4}
+                          style={{
+                            filter:
+                              selectedValueStock !== 'all' && !isSelected
+                                ? 'opacity(0.2) brightness(0.8)'
+                                : activeValueIndex !== undefined && !isHovered
+                                  ? 'opacity(0.7) brightness(0.9)'
+                                  : 'drop-shadow(0 8px 16px rgba(0,0,0,0.15))',
+                            cursor: 'pointer',
+                            transform: isSelected || isHovered ? 'scale(1.08)' : 'scale(1)',
+                            transformOrigin: 'center',
+                            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                          }}
+                        />
+                      )
+                    })}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value: any, name: string) => [
+                      <span className="font-semibold text-emerald-600">${value.toLocaleString()}</span>,
+                      <span className="font-medium text-gray-800">{name}</span>,
+                    ]}
+                    labelFormatter={() => ''}
+                    contentStyle={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                      border: 'none',
+                      borderRadius: '16px',
+                      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.1)',
+                      backdropFilter: 'blur(20px)',
+                      padding: '12px 16px',
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              
+              {/* 中心信息显示 */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center bg-white/90 backdrop-blur-sm rounded-full p-6 shadow-lg">
+                  <div className="text-xl font-bold text-gray-800">${totalMarketValue.toLocaleString()}</div>
+                  <div className="text-sm text-gray-600 font-medium">Total Value</div>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -563,7 +595,7 @@ export default function StockPage() {
       </div>
 
       {/* 数据表格区域 */}
-      <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
+      <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 overflow-hidden rounded-lg">
         <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-t-lg">
           <CardTitle className="text-xl font-semibold text-gray-800">
             Stock Information
