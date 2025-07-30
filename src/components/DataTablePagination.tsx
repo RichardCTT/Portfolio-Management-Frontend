@@ -58,7 +58,8 @@ export function DataTablePagination({
         Total: {total}
       </div>
       <div className="flex mx-auto flex-col-reverse gap-y-4 md:flex-row items-center md:space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        {/* TODO: There is a bug in here, the placeholder is not showing as expected. */}
+        {/* <div className="flex items-center space-x-2">
           <Select
             value={pageSize.toString()}
             onValueChange={value => {
@@ -70,7 +71,6 @@ export function DataTablePagination({
             }}
           >
             <SelectTrigger className="h-8 w-[100px]">
-              {/* TODO: There is a bug in here, the placeholder is not showing as expected. */}
               <SelectValue placeholder={pageSize.toString()} />
             </SelectTrigger>
             <SelectContent side="top">
@@ -81,7 +81,7 @@ export function DataTablePagination({
               ))}
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
