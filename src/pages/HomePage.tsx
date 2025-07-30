@@ -119,8 +119,8 @@ export default function HomePage() {
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8">
-      <div className="border-b pb-8 mb-8">
-        <h2 className="text-3xl font-bold">Welcome back</h2>
+      <div className="pb-8 mb-8">
+        <h2 className="text-3xl font-bold">Welcome back!</h2>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
