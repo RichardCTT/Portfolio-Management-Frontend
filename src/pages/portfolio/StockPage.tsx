@@ -2,13 +2,10 @@ import { DataTable } from '@/components/DataTable'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import {
-  getTransationsByTypeAPI,
-  type Transaction,
-} from '@/services/portfolioApi'
+import { type Transaction } from '@/services/portfolioApi'
 import type { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState, useMemo } from 'react'
-import { AnalysisApi } from '@/lib/api'
+import { AnalysisApi, PortfolioAnalysisApi } from '@/lib/api'
 
 // 持仓数据类型
 interface Holding {
@@ -44,12 +41,23 @@ export default function StockPage() {
   ) => {
     setIsLoading(true)
     try {
-      const res = await getTransationsByTypeAPI('stock', currentPage, pageSize)
-      if (res.success) {
-        setData(res.data.transactions)
-        setTotal(res.data.total_transactions)
+      const portfolioAnalysisApi = new PortfolioAnalysisApi()
+      const res =
+        await portfolioAnalysisApi.apiPortfolioTransactionsByTypeAssetTypeIdGet(
+          {
+            assetTypeId: 2,
+            page: currentPage,
+            limit: pageSize,
+          }
+        )
+      if (res.data.success) {
+        // @ts-ignore
+        setData(res.data.data.transactions)
+        // @ts-ignore
+        setTotal(res.data.data?.total_transactions)
       } else {
-        console.error('Get stock transactions failed', res.message)
+        setData([])
+        setTotal(0)
       }
     } catch (error) {
       console.error('Error fetching stock transactions:', error)

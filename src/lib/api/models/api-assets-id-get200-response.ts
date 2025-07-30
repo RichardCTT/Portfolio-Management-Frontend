@@ -19,31 +19,25 @@ import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiAssetsIdGet200Response
  */
-export interface ApiAssetsGet200ResponseData {
-  /**
-   *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
+export interface ApiAssetsIdGet200Response {
   /**
    *
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiAssetsIdGet200Response
    */
-  total?: number
+  code?: number
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiAssetsIdGet200Response
    */
-  page?: number
+  message?: string
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {ApiAssetsGet200ResponseDataItemsInner}
+   * @memberof ApiAssetsIdGet200Response
    */
-  page_size?: number
+  data?: ApiAssetsGet200ResponseDataItemsInner
 }

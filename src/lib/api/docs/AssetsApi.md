@@ -111,7 +111,7 @@ No authorization required
 
 # **apiAssetsIdGet**
 
-> ApiAssetsPost201Response apiAssetsIdGet()
+> ApiAssetsIdGet200Response apiAssetsIdGet()
 
 ### Example
 
@@ -134,7 +134,7 @@ const { status, data } = await apiInstance.apiAssetsIdGet(id)
 
 ### Return type
 
-**ApiAssetsPost201Response**
+**ApiAssetsIdGet200Response**
 
 ### Authorization
 

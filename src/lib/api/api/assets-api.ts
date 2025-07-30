@@ -43,6 +43,8 @@ import type { ApiAssetTypesIdDelete200Response } from '../models'
 // @ts-ignore
 import type { ApiAssetsGet200Response } from '../models'
 // @ts-ignore
+import type { ApiAssetsIdGet200Response } from '../models'
+// @ts-ignore
 import type { ApiAssetsIdPutRequest } from '../models'
 // @ts-ignore
 import type { ApiAssetsPost201Response } from '../models'
@@ -414,7 +416,7 @@ export const AssetsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<ApiAssetsPost201Response>
+      ) => AxiosPromise<ApiAssetsIdGet200Response>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.apiAssetsIdGet(
         id,
@@ -561,7 +563,7 @@ export const AssetsApiFactory = function (
     apiAssetsIdGet(
       requestParameters: AssetsApiApiAssetsIdGetRequest,
       options?: RawAxiosRequestConfig
-    ): AxiosPromise<ApiAssetsPost201Response> {
+    ): AxiosPromise<ApiAssetsIdGet200Response> {
       return localVarFp
         .apiAssetsIdGet(requestParameters.id, options)
         .then(request => request(axios, basePath))
@@ -646,7 +648,7 @@ export interface AssetsApiInterface {
   apiAssetsIdGet(
     requestParameters: AssetsApiApiAssetsIdGetRequest,
     options?: RawAxiosRequestConfig
-  ): AxiosPromise<ApiAssetsPost201Response>
+  ): AxiosPromise<ApiAssetsIdGet200Response>
 
   /**
    *

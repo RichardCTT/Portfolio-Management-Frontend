@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 api/analysis-api.ts
 api/asset-types-api.ts
@@ -27,6 +26,8 @@ docs/ApiAssetTypesPost201Response.md
 docs/ApiAssetTypesPostRequest.md
 docs/ApiAssetsGet200Response.md
 docs/ApiAssetsGet200ResponseData.md
+docs/ApiAssetsGet200ResponseDataItemsInner.md
+docs/ApiAssetsIdGet200Response.md
 docs/ApiAssetsIdPutRequest.md
 docs/ApiAssetsPost201Response.md
 docs/ApiAssetsPostRequest.md
@@ -41,6 +42,8 @@ docs/ApiTransactionsBuyPost201Response.md
 docs/ApiTransactionsBuyPost201ResponseData.md
 docs/ApiTransactionsBuyPost400Response.md
 docs/ApiTransactionsBuyPostRequest.md
+docs/ApiTransactionsCashSummaryGet200Response.md
+docs/ApiTransactionsCashSummaryGet200ResponseData.md
 docs/ApiTransactionsGet200Response.md
 docs/ApiTransactionsGet200ResponseData.md
 docs/ApiTransactionsIdGet200Response.md
@@ -85,8 +88,10 @@ models/api-asset-types-id-delete200-response.ts
 models/api-asset-types-id-put-request.ts
 models/api-asset-types-post-request.ts
 models/api-asset-types-post201-response.ts
+models/api-assets-get200-response-data-items-inner.ts
 models/api-assets-get200-response-data.ts
 models/api-assets-get200-response.ts
+models/api-assets-id-get200-response.ts
 models/api-assets-id-put-request.ts
 models/api-assets-post-request.ts
 models/api-assets-post201-response.ts
@@ -101,6 +106,8 @@ models/api-transactions-buy-post-request.ts
 models/api-transactions-buy-post201-response-data.ts
 models/api-transactions-buy-post201-response.ts
 models/api-transactions-buy-post400-response.ts
+models/api-transactions-cash-summary-get200-response-data.ts
+models/api-transactions-cash-summary-get200-response.ts
 models/api-transactions-get200-response-data.ts
 models/api-transactions-get200-response.ts
 models/api-transactions-id-get200-response.ts
