@@ -1,6 +1,7 @@
 import http from '@/lib/http'
 import type { AssetType } from '@/types/portfolio'
 
+
 export interface ResponseData {
   success: boolean
   error?: string
@@ -237,3 +238,4 @@ export const mockGetTransationsByTypeAPI = (
 ) => {
   return simulateDelay(mockGetTransationsByTypeResponse)
 }
+

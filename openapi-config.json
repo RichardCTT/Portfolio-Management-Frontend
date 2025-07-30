@@ -1,0 +1,26 @@
+{
+  "generatorName": "typescript-axios",
+  "inputSpec": "http://localhost:3000/api-docs.json",
+  "outputDir": "./src/generated/api",
+  "additionalProperties": {
+    "apiPackage": "api",
+    "modelPackage": "models",
+    "withSeparateModelsAndApi": true,
+    "supportsES6": true,
+    "useSingleRequestParameter": true,
+    "withInterfaces": true,
+    "npmRepository": "https://registry.npmjs.org"
+  },
+  "typeMappings": {
+    "DateTime": "string"
+  },
+  "importMappings": {},
+  "languageSpecificPrimitives": [
+    "string",
+    "boolean",
+    "number",
+    "Array",
+    "Set",
+    "Date"
+  ]
+}

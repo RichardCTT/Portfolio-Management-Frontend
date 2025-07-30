@@ -3,6 +3,112 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* 自定义动画 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes text-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes money-fly {
+  0% {
+    transform: translateX(-100px) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-80px) scale(1) rotate(360deg);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(80px) scale(1) rotate(720deg);
+  }
+  100% {
+    transform: translateX(100px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes wallet-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-text-slide {
+  animation: text-slide 2s ease-in-out infinite;
+}
+
+.money-animation {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  overflow: visible; /* 改为visible，确保钱包不被裁剪 */
+  padding: 0 40px; /* 添加左右内边距，为钱包留出空间 */
+}
+
+.wallet {
+  position: absolute;
+  right: 10px; /* 调整位置，确保在容器内可见 */
+  font-size: 2rem;
+  animation: wallet-pulse 2s ease-in-out infinite;
+  z-index: 10; /* 确保钱包在最上层 */
+}
+
+.money {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: money-fly 3s ease-in-out infinite;
+}
+
+.money:nth-child(2) { animation-delay: 0.5s; }
+.money:nth-child(3) { animation-delay: 1s; }
+.money:nth-child(4) { animation-delay: 1.5s; }
+.money:nth-child(5) { animation-delay: 2s; }
+
+/* 发光文字效果 */
+.glow-text {
+  text-shadow: 
+    0 0 5px rgba(229, 231, 235, 0.8),
+    0 0 10px rgba(229, 231, 235, 0.6),
+    0 0 15px rgba(229, 231, 235, 0.4),
+    0 0 20px rgba(229, 231, 235, 0.3),
+    0 0 35px rgba(229, 231, 235, 0.2);
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

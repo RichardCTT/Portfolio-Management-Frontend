@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-api": "openapi-generator-cli generate -c openapi-config.json",
+    "generate-api:clean": "rm -rf src/generated && pnpm generate-api",
+    "generate-api:json": "openapi-generator-cli generate -c openapi-config-json.json",
+    "generate-api:swagger": "openapi-generator-cli generate -c openapi-config-swagger.json",
+    "generate-api:local": "openapi-generator-cli generate -i ./openapi.json -c openapi-config.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -35,6 +40,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
+    "@openapitools/openapi-generator-cli": "^2.21.4",
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
