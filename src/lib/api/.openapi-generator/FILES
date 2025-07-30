@@ -4,6 +4,7 @@ api.ts
 api/analysis-api.ts
 api/asset-types-api.ts
 api/assets-api.ts
+api/main-page-api.ts
 api/portfolio-analysis-api.ts
 api/price-daily-api.ts
 api/transactions-api.ts
@@ -18,6 +19,12 @@ docs/ApiAnalysisAssetHoldingGet200ResponseDataAssetInfo.md
 docs/ApiAnalysisAssetHoldingGet200ResponseDataHoldingAnalysis.md
 docs/ApiAnalysisAssetHoldingSummaryGet200Response.md
 docs/ApiAnalysisAssetHoldingSummaryGet200ResponseData.md
+docs/ApiAnalysisDailyCashBalanceGet200Response.md
+docs/ApiAnalysisDailyCashBalanceGet200ResponseData.md
+docs/ApiAnalysisDailyCashBalanceGet200ResponseDataAnalysisPeriod.md
+docs/ApiAnalysisDailyCashBalanceGet200ResponseDataAssetInfo.md
+docs/ApiAnalysisDailyCashBalanceGet200ResponseDataDailyBalancesInner.md
+docs/ApiAnalysisDailyCashBalanceGet200ResponseDataSummary.md
 docs/ApiAssetTypesGet200Response.md
 docs/ApiAssetTypesGet200ResponseData.md
 docs/ApiAssetTypesIdDelete200Response.md
@@ -31,6 +38,10 @@ docs/ApiAssetsIdGet200Response.md
 docs/ApiAssetsIdPutRequest.md
 docs/ApiAssetsPost201Response.md
 docs/ApiAssetsPostRequest.md
+docs/ApiMainPageSummaryGet200Response.md
+docs/ApiMainPageSummaryGet200ResponseData.md
+docs/ApiMainPageTotalAssetsHistoryGet200Response.md
+docs/ApiMainPageTotalAssetsHistoryGet200ResponseDataInner.md
 docs/ApiPriceDailyDebugTimezonePostRequest.md
 docs/ApiPriceDailyGet200Response.md
 docs/ApiPriceDailyGet200ResponseData.md
@@ -63,6 +74,7 @@ docs/AssetTypeSummary.md
 docs/AssetTypesApi.md
 docs/AssetsApi.md
 docs/ErrorResponse.md
+docs/MainPageApi.md
 docs/PortfolioAnalysisApi.md
 docs/PriceDaily.md
 docs/PriceDailyApi.md
@@ -82,6 +94,12 @@ models/api-analysis-asset-holding-get200-response-data.ts
 models/api-analysis-asset-holding-get200-response.ts
 models/api-analysis-asset-holding-summary-get200-response-data.ts
 models/api-analysis-asset-holding-summary-get200-response.ts
+models/api-analysis-daily-cash-balance-get200-response-data-analysis-period.ts
+models/api-analysis-daily-cash-balance-get200-response-data-asset-info.ts
+models/api-analysis-daily-cash-balance-get200-response-data-daily-balances-inner.ts
+models/api-analysis-daily-cash-balance-get200-response-data-summary.ts
+models/api-analysis-daily-cash-balance-get200-response-data.ts
+models/api-analysis-daily-cash-balance-get200-response.ts
 models/api-asset-types-get200-response-data.ts
 models/api-asset-types-get200-response.ts
 models/api-asset-types-id-delete200-response.ts
@@ -95,6 +113,10 @@ models/api-assets-id-get200-response.ts
 models/api-assets-id-put-request.ts
 models/api-assets-post-request.ts
 models/api-assets-post201-response.ts
+models/api-main-page-summary-get200-response-data.ts
+models/api-main-page-summary-get200-response.ts
+models/api-main-page-total-assets-history-get200-response-data-inner.ts
+models/api-main-page-total-assets-history-get200-response.ts
 models/api-price-daily-debug-timezone-post-request.ts
 models/api-price-daily-get200-response-data.ts
 models/api-price-daily-get200-response.ts

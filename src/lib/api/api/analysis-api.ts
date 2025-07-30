@@ -43,6 +43,8 @@ import type { ApiAnalysisAssetHoldingGet200Response } from '../models'
 // @ts-ignore
 import type { ApiAnalysisAssetHoldingSummaryGet200Response } from '../models'
 // @ts-ignore
+import type { ApiAnalysisDailyCashBalanceGet200Response } from '../models'
+// @ts-ignore
 import type { AssetTotalsResponse } from '../models'
 // @ts-ignore
 import type { ErrorResponse } from '../models'
@@ -244,6 +246,51 @@ export const AnalysisApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     * Retrieves daily cash balance changes from today going back the specified number of days
+     * @summary Get daily cash balance for the past N days
+     * @param {number} [days] Number of days to look back from today (default 30)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisDailyCashBalanceGet: async (
+      days?: number,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/analysis/daily-cash-balance`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (days !== undefined) {
+        localVarQueryParameter['days'] = days
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -368,6 +415,40 @@ export const AnalysisApiFp = function (configuration?: Configuration) {
           configuration
         )(axios, localVarOperationServerBasePath || basePath)
     },
+    /**
+     * Retrieves daily cash balance changes from today going back the specified number of days
+     * @summary Get daily cash balance for the past N days
+     * @param {number} [days] Number of days to look back from today (default 30)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiAnalysisDailyCashBalanceGet(
+      days?: number,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiAnalysisDailyCashBalanceGet200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiAnalysisDailyCashBalanceGet(
+          days,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['AnalysisApi.apiAnalysisDailyCashBalanceGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
   }
 }
 
@@ -437,6 +518,21 @@ export const AnalysisApiFactory = function (
         .apiAnalysisAssetTotalsByTypeGet(requestParameters.date, options)
         .then(request => request(axios, basePath))
     },
+    /**
+     * Retrieves daily cash balance changes from today going back the specified number of days
+     * @summary Get daily cash balance for the past N days
+     * @param {AnalysisApiApiAnalysisDailyCashBalanceGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiAnalysisDailyCashBalanceGet(
+      requestParameters: AnalysisApiApiAnalysisDailyCashBalanceGetRequest = {},
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiAnalysisDailyCashBalanceGet200Response> {
+      return localVarFp
+        .apiAnalysisDailyCashBalanceGet(requestParameters.days, options)
+        .then(request => request(axios, basePath))
+    },
   }
 }
 
@@ -484,6 +580,19 @@ export interface AnalysisApiInterface {
     requestParameters?: AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest,
     options?: RawAxiosRequestConfig
   ): AxiosPromise<AssetTotalsResponse>
+
+  /**
+   * Retrieves daily cash balance changes from today going back the specified number of days
+   * @summary Get daily cash balance for the past N days
+   * @param {AnalysisApiApiAnalysisDailyCashBalanceGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApiInterface
+   */
+  apiAnalysisDailyCashBalanceGet(
+    requestParameters?: AnalysisApiApiAnalysisDailyCashBalanceGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiAnalysisDailyCashBalanceGet200Response>
 }
 
 /**
@@ -557,6 +666,20 @@ export interface AnalysisApiApiAnalysisAssetTotalsByTypeGetRequest {
 }
 
 /**
+ * Request parameters for apiAnalysisDailyCashBalanceGet operation in AnalysisApi.
+ * @export
+ * @interface AnalysisApiApiAnalysisDailyCashBalanceGetRequest
+ */
+export interface AnalysisApiApiAnalysisDailyCashBalanceGetRequest {
+  /**
+   * Number of days to look back from today (default 30)
+   * @type {number}
+   * @memberof AnalysisApiApiAnalysisDailyCashBalanceGet
+   */
+  readonly days?: number
+}
+
+/**
  * AnalysisApi - object-oriented interface
  * @export
  * @class AnalysisApi
@@ -621,6 +744,23 @@ export class AnalysisApi extends BaseAPI implements AnalysisApiInterface {
   ) {
     return AnalysisApiFp(this.configuration)
       .apiAnalysisAssetTotalsByTypeGet(requestParameters.date, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieves daily cash balance changes from today going back the specified number of days
+   * @summary Get daily cash balance for the past N days
+   * @param {AnalysisApiApiAnalysisDailyCashBalanceGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AnalysisApi
+   */
+  public apiAnalysisDailyCashBalanceGet(
+    requestParameters: AnalysisApiApiAnalysisDailyCashBalanceGetRequest = {},
+    options?: RawAxiosRequestConfig
+  ) {
+    return AnalysisApiFp(this.configuration)
+      .apiAnalysisDailyCashBalanceGet(requestParameters.days, options)
       .then(request => request(this.axios, this.basePath))
   }
 }

@@ -16,8 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { assetsApi, portfolioAnalysisApi, transactionsApi } from '@/lib/request'
-import { getCurrentMonthFirstLastDay } from '@/utils/getFirstLastDay'
+import { analysisApi, portfolioAnalysisApi, transactionsApi } from '@/lib/request'
 import {
   Wallet,
   TrendingUp,
@@ -25,7 +24,6 @@ import {
   DollarSign,
   BarChart3,
   List,
-  Calendar,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
@@ -38,7 +36,6 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import { set } from 'react-hook-form'
 
 interface Transaction {
   id: number
@@ -55,13 +52,11 @@ const CashPage: React.FC = () => {
   const [expensesThisMonth, setExpensesThisMonth] = useState(0)
 
   // 图表和表格的独立数据和状态
-  const [chartData, setChartData] = useState([])
   const [tableTransactions, setTableTransactions] = useState<Transaction[]>([])
   const [cashFlowData, setCashFlowData] = useState<
     { date: string; amount: number }[]
   >([])
   const [viewMode, setViewMode] = useState<'chart' | 'table'>('chart')
-
 
   // 分页状态
   const [currentPage, setCurrentPage] = useState(1)
@@ -84,7 +79,6 @@ const CashPage: React.FC = () => {
   useEffect(() => {
     upDateCards()
   }, [])
-
 
   // Update Table
   const fetchTableTransactions = async () => {
@@ -120,6 +114,29 @@ const CashPage: React.FC = () => {
   useEffect(() => {
     fetchTableTransactions()
   }, [currentPage, pageSize, viewMode])
+
+  // Update Chart
+  const fetchCashFlowData = async () => {
+    try {
+      const response = await analysisApi.apiAnalysisDailyCashBalanceGet({
+        days:30
+      })
+      const charData = response.data.data?.daily_balances?.map((item: any) => ({
+        date: new Date(item.date).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+        }),
+        amount: item.holding_end,
+      })) || []
+      setCashFlowData(charData)
+    } catch (error) {
+      console.error('Error fetching cash flow data:', error)
+      setCashFlowData([])
+    }
+  }
+  useEffect(() => {
+    fetchCashFlowData()
+  }, [viewMode])
 
   return (
     <div className="p-6 space-y-6">
@@ -259,7 +276,6 @@ const CashPage: React.FC = () => {
                 </h2>
               </div>
               <div className="flex gap-2 items-center">
-
                 {/* View Mode Selector */}
                 <div className="flex gap-2">
                   <Button
@@ -299,6 +315,7 @@ const CashPage: React.FC = () => {
                       tickLine={false}
                     />
                     <YAxis
+                      dataKey="amount"
                       stroke="#666"
                       fontSize={12}
                       tickLine={false}
@@ -423,10 +440,13 @@ const CashPage: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-500">Show:</span>
-                      <Select value={pageSize.toString()} onValueChange={(value) => {
-                        setPageSize(Number(value));
-                        setCurrentPage(1); // 重置到第一页
-                      }}>
+                      <Select
+                        value={pageSize.toString()}
+                        onValueChange={value => {
+                          setPageSize(Number(value))
+                          setCurrentPage(1) // 重置到第一页
+                        }}
+                      >
                         <SelectTrigger className="w-16 h-8">
                           <SelectValue />
                         </SelectTrigger>
