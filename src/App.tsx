@@ -35,8 +35,10 @@ function App() {
     <>
       <SidebarProvider className='flex h-screen'>
         <AppSideBar />
+
         <SidebarInset className='flex flex-col'>
           <header className='flex h-16 shrink-0 items-center gap-2'>
+
             <div className='flex items-center gap-2 px-4'>
               <SidebarTrigger className='-ml-1' />
               <Separator
@@ -46,6 +48,7 @@ function App() {
               <AppBreadcrumb />
             </div>
           </header>
+
           <main className='flex-1 overflow-auto'>
             <InitialRedirect />
             <Routes>
@@ -54,6 +57,7 @@ function App() {
                 element={<SplashScreen onFinish={handleSplashFinish} />}
               />
               <Route
+
                 path='/'
                 element={<OverviewPage />}
               />
@@ -74,8 +78,10 @@ function App() {
                 element={<TradesPage />}
               />
             </Routes>
+
           </main>
           <AppFooter />
+
         </SidebarInset>
       </SidebarProvider>
     </>
