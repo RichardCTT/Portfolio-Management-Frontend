@@ -1,477 +1,157 @@
-import { DataTable } from '@/components/DataTable'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { type Transaction } from '@/services/portfolioApi'
-import type { ColumnDef } from '@tanstack/react-table'
-import { useEffect, useState, useMemo } from 'react'
-import { AnalysisApi, PortfolioAnalysisApi } from '@/lib/api'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
+import { useState, useEffect } from 'react'
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts'
+import { analysisApi } from '@/lib/request'
 
-// 持仓数据类型
-interface Holding {
-  id: number
-  asset_id: number
-  asset_name: string
-  asset_code: string
-  asset_type_name: string
-  holding: number
-  current_price: number
-  total_value: number
-  avg_price: number
-  transaction_count: number
+interface Stock {
+  name: string
+  shares: number
+  code: string
+  quantity: number
+  price: number
+  marketValue: number
+  color?: string
 }
 
+const COLORS = [
+  '#3b82f6',
+  '#8b5cf6',
+  '#10b981',
+  '#f59e0b',
+  '#ef4444',
+  '#06b6d4',
+  '#8b5a2b',
+  '#ec4899',
+  '#6366f1',
+  '#84cc16',
+  '#f97316',
+  '#14b8a6',
+]
+
 export default function StockPage() {
-  const [data, setData] = useState<Transaction[]>([])
-  const [filteredData, setFilteredData] = useState<Transaction[]>([])
-  const [total, setTotal] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [viewMode, setViewMode] = useState<'holdings' | 'transactions'>(
-    'holdings'
-  )
-  const pageSizeOptions = [10, 50, 100]
+  const [totalStocks, setTotalStocks] = useState<number>(0)
+  const [totalMarketValue, setTotalMarketValue] = useState<number>(0)
+  const [largestPosition, setLargestPosition] = useState<{
+    name: string
+    shares: number
+  } | null>(null)
+  const [stocks, setStocks] = useState<Stock[]>([])
+  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined)
+  const [selectedStock, setSelectedStock] = useState<string>('all')
+  const [selectedValueStock, setSelectedValueStock] = useState<string>('all')
+  const [activeValueIndex, setActiveValueIndex] = useState<number | undefined>(undefined)
 
-  // 获取股票交易记录
-  const getStockTransactions = async (
-    currentPage: number,
-    pageSize: number
-  ) => {
-    setIsLoading(true)
+  // Pagination state for stock holdings table
+  const [stockHoldTablePage, setStockHoldTablePage] = useState<number>(1)
+  const [stockHoldTablePageSize, setStockHoldTablePageSize] = useState<number>(10)
+
+  // Pagination state for stock transactions table
+  const [stockTransactionTablePage, setStockTransactionTablePage] = useState<number>(1)
+  const [stockTransactionTablePageSize, setStockTransactionTablePageSize] = useState<number>(10)
+
+  // get total stocks, market value, and largest position
+  const fetchStockData = async () => {
     try {
-      const portfolioAnalysisApi = new PortfolioAnalysisApi()
-      const res =
-        await portfolioAnalysisApi.apiPortfolioTransactionsByTypeAssetTypeIdGet(
-          {
-            assetTypeId: 2,
-            page: currentPage,
-            limit: pageSize,
-          }
-        )
-      if (res.data.success) {
-        // @ts-ignore
-        setData(res.data.data.transactions)
-        // @ts-ignore
-        setTotal(res.data.data?.total_transactions)
-      } else {
-        setData([])
-        setTotal(0)
-      }
-    } catch (error) {
-      console.error('Error fetching stock transactions:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    getStockTransactions(currentPage, pageSize)
-  }, [currentPage, pageSize])
-
-  // get stock holdings analysis
-  const getStockAnaylsis = async () => {
-    setIsLoading(true)
-    try {
-      const analysisApi = new AnalysisApi()
-      const res = await analysisApi.apiAnalysisAssetTotalsByTypeGet({
-        date: new Date().toISOString().split('T')[0], // 使用当前日期
-      })
-      console.log('Stock analysis response:', res)
-    } catch (error) {
-      console.error('Error fetching stock analysis:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    getStockAnaylsis()
-  }, [])
-
-  // 搜索过滤逻辑
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredData(data)
-    } else {
-      const filtered = data.filter(
-        transaction =>
-          transaction.asset_name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          transaction.asset_code
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          transaction.description
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
+      const response = await analysisApi.apiAnalysisAssetTotalsByTypeGet()
+      setTotalStocks(response.data.data?.assetTypes?.stock?.count || 0)
+      setTotalMarketValue(
+        response.data.data?.assetTypes?.stock?.totalPrice || 0
       )
-      setFilteredData(filtered)
-    }
-  }, [data, searchQuery])
-
-  // 刷新数据
-  const handleRefresh = () => {
-    getStockTransactions(currentPage, pageSize)
-  }
-
-  // 搜索处理
-  const handleSearch = (value: string) => {
-    setSearchQuery(value)
-  }
-
-  // 将交易数据转换为持仓数据
-  const getHoldingsData = useMemo(() => {
-    const dataToUse = searchQuery ? filteredData : data
-    const holdings = dataToUse.reduce(
-      (acc, transaction) => {
-        const key = `${transaction.asset_id}-${transaction.asset_code}`
-        if (!acc[key]) {
-          acc[key] = {
-            id: transaction.asset_id,
-            asset_id: transaction.asset_id,
-            asset_name: transaction.asset_name,
-            asset_code: transaction.asset_code,
-            asset_type_name: transaction.asset_type_name,
-            holding: 0,
-            current_price: transaction.price,
-            total_value: 0,
-            avg_price: 0,
-            transaction_count: 0,
-            prices: [] as number[],
-          }
-        }
-
-        // 使用最新的持仓数量
-        acc[key].holding = Math.max(acc[key].holding, transaction.holding)
-        acc[key].current_price = transaction.price // 使用最新价格
-        acc[key].prices.push(transaction.price)
-        acc[key].transaction_count += 1
-
-        return acc
-      },
-      {} as Record<
-        string,
-        {
-          id: number
-          asset_id: number
-          asset_name: string
-          asset_code: string
-          asset_type_name: string
-          holding: number
-          current_price: number
-          total_value: number
-          avg_price: number
-          transaction_count: number
-          prices: number[]
-        }
-      >
-    )
-
-    // 计算平均价格和总价值
-    return Object.values(holdings).map(holding => ({
-      ...holding,
-      avg_price:
-        holding.prices.reduce((sum, price) => sum + price, 0) /
-        holding.prices.length,
-      total_value: holding.holding * holding.current_price,
-    })) as Holding[]
-  }, [data, filteredData, searchQuery])
-
-  // 计算统计数据
-  const stockStats = useMemo(() => {
-    const dataToUse = filteredData.length > 0 ? filteredData : data
-    if (!dataToUse.length) {
-      return {
-        totalStocks: 0,
-        totalValue: 0,
-        topHolding: { name: '-', code: '-', holding: 0 },
-        avgPrice: 0,
+      const stocksTmp: Stock[] =
+        response.data.data?.assetTypes?.stock?.assets?.map((stock, index) => ({
+          name: stock.name || 'Unknown',
+          shares: stock.quantity || 0,
+          code: stock.code || stock.name || 'N/A',
+          quantity: stock.quantity || 0,
+          price: stock.price || 0,
+          marketValue: (stock.quantity || 0) * (stock.price || 0),
+          color: COLORS[index % COLORS.length],
+        })) || []
+      setStocks(stocksTmp)
+      
+      // Find largest position by market value
+      if (stocksTmp.length > 0) {
+        const largest = stocksTmp.reduce((prev, current) => 
+          prev.marketValue > current.marketValue ? prev : current
+        )
+        setLargestPosition({
+          name: largest.name,
+          shares: largest.shares
+        })
       }
+    } catch (error) {
+      console.error('Error fetching stock data:', error)
     }
+  }
 
-    // 按股票分组，计算每只股票的总持仓
-    const stockHoldings = dataToUse.reduce(
-      (acc, transaction) => {
-        const key = `${transaction.asset_id}-${transaction.asset_code}`
-        if (!acc[key]) {
-          acc[key] = {
-            name: transaction.asset_name,
-            code: transaction.asset_code,
-            totalHolding: 0,
-            totalValue: 0,
-            prices: [],
-          }
-        }
-        acc[key].totalHolding = Math.max(
-          acc[key].totalHolding,
-          transaction.holding
-        )
-        acc[key].totalValue = acc[key].totalHolding * transaction.price
-        acc[key].prices.push(transaction.price)
-        return acc
-      },
-      {} as Record<
-        string,
-        {
-          name: string
-          code: string
-          totalHolding: number
-          totalValue: number
-          prices: number[]
-        }
-      >
-    )
+  // get hold stock data for table
 
-    const holdings = Object.values(stockHoldings)
-    const totalStocks = holdings.length
-    const totalValue = holdings.reduce(
-      (sum, stock) => sum + stock.totalValue,
-      0
-    )
-
-    // 找出持股最多的股票
-    const topHolding = holdings.reduce(
-      (max, stock) =>
-        stock.totalHolding > max.holding
-          ? { name: stock.name, code: stock.code, holding: stock.totalHolding }
-          : max,
-      { name: '-', code: '-', holding: 0 }
-    )
-
-    // 计算平均股价
-    const allPrices = dataToUse.map(t => t.price)
-    const avgPrice =
-      allPrices.length > 0
-        ? allPrices.reduce((sum, price) => sum + price, 0) / allPrices.length
-        : 0
-
-    return {
-      totalStocks,
-      totalValue,
-      topHolding,
-      avgPrice,
-    }
-  }, [data, filteredData])
-
-  // 交易记录表格列
-  const transactionColumns: ColumnDef<Transaction>[] = [
-    {
-      accessorKey: 'asset_id',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">ID</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_id}</div>
-      },
-    },
-    {
-      accessorKey: 'asset_name',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Name</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_name}</div>
-      },
-    },
-    {
-      accessorKey: 'asset_code',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Code</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_code}</div>
-      },
-    },
-    {
-      accessorKey: 'asset_type_name',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Type</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_type_name}</div>
-      },
-    },
-    {
-      accessorKey: 'transaction_type',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Transaction Type</div>
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center">{row.original.transaction_type}</div>
-        )
-      },
-    },
-    {
-      accessorKey: 'quantity',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Quantity</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.quantity}</div>
-      },
-    },
-    {
-      accessorKey: 'price',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Price</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.price}</div>
-      },
-    },
-    {
-      accessorKey: 'transaction_date',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Transaction Date</div>
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center">{row.original.transaction_date}</div>
-        )
-      },
-    },
-    {
-      accessorKey: 'holding',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Holding</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.holding}</div>
-      },
-    },
-    {
-      accessorKey: 'description',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">Description</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.description}</div>
-      },
-    },
+  // 示例持股数据 - 实际应该从API获取
+  const sampleHoldingsData = [
+    { name: 'Apple Inc.', code: 'AAPL', quantity: 150, price: 292.80, marketValue: 43920, color: '#3b82f6' },
+    { name: 'Microsoft Corp.', code: 'MSFT', quantity: 120, price: 292.80, marketValue: 35136, color: '#8b5cf6' },
+    { name: 'Alphabet Inc.', code: 'GOOGL', quantity: 80, price: 345.08, marketValue: 27606, color: '#10b981' },
+    { name: 'Tesla Inc.', code: 'TSLA', quantity: 50, price: 376.36, marketValue: 18818, color: '#f59e0b' },
+    { name: 'Amazon.com Inc.', code: 'AMZN', quantity: 25, price: 580.45, marketValue: 14511, color: '#ef4444' },
+    { name: 'Meta Platforms Inc.', code: 'META', quantity: 40, price: 312.25, marketValue: 12490, color: '#06b6d4' },
+    { name: 'NVIDIA Corp.', code: 'NVDA', quantity: 15, price: 750.20, marketValue: 11253, color: '#8b5a2b' },
+    { name: 'Netflix Inc.', code: 'NFLX', quantity: 20, price: 425.60, marketValue: 8512, color: '#ec4899' },
+    { name: 'Adobe Inc.', code: 'ADBE', quantity: 18, price: 456.78, marketValue: 8222, color: '#6366f1' },
+    { name: 'Salesforce Inc.', code: 'CRM', quantity: 30, price: 245.30, marketValue: 7359, color: '#84cc16' },
+    { name: 'Oracle Corp.', code: 'ORCL', quantity: 35, price: 189.45, marketValue: 6631, color: '#f97316' },
+    { name: 'Intel Corp.', code: 'INTC', quantity: 100, price: 45.22, marketValue: 4522, color: '#14b8a6' },
   ]
 
-  // 持仓表格列
-  const holdingsColumns: ColumnDef<Holding>[] = [
-    {
-      accessorKey: 'asset_id',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">ID</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_id}</div>
-      },
-    },
-    {
-      accessorKey: 'asset_name',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">股票名称</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_name}</div>
-      },
-    },
-    {
-      accessorKey: 'asset_code',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">股票代码</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.asset_code}</div>
-      },
-    },
-    {
-      accessorKey: 'holding',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">持仓数量</div>
-      },
-      cell: ({ row }) => {
-        return <div className="text-center">{row.original.holding}</div>
-      },
-    },
-    {
-      accessorKey: 'current_price',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">当前价格</div>
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center">
-            ${row.original.current_price.toFixed(2)}
-          </div>
-        )
-      },
-    },
-    {
-      accessorKey: 'avg_price',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">平均成本</div>
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center">
-            ${row.original.avg_price.toFixed(2)}
-          </div>
-        )
-      },
-    },
-    {
-      accessorKey: 'total_value',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">总价值</div>
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center">
-            $
-            {row.original.total_value.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        )
-      },
-    },
-    {
-      accessorKey: 'transaction_count',
-      enableHiding: false,
-      header: () => {
-        return <div className="text-center">交易次数</div>
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-center">{row.original.transaction_count}</div>
-        )
-      },
-    },
+  // 示例交易数据 - 实际应该从API获取  
+  const sampleTransactionsData = [
+    { date: '2024-01-15', type: 'Buy', stock: 'AAPL', quantity: 50, price: 180.50, total: 9025.00, status: 'Completed' },
+    { date: '2024-01-10', type: 'Sell', stock: 'MSFT', quantity: 30, price: 350.25, total: 10507.50, status: 'Completed' },
+    { date: '2024-01-08', type: 'Buy', stock: 'GOOGL', quantity: 20, price: 140.75, total: 2815.00, status: 'Pending' },
+    { date: '2024-01-05', type: 'Buy', stock: 'TSLA', quantity: 25, price: 245.80, total: 6145.00, status: 'Completed' },
+    { date: '2024-01-03', type: 'Sell', stock: 'AMZN', quantity: 10, price: 580.45, total: 5804.50, status: 'Completed' },
+    { date: '2024-01-02', type: 'Buy', stock: 'META', quantity: 15, price: 312.25, total: 4683.75, status: 'Completed' },
+    { date: '2023-12-28', type: 'Buy', stock: 'NVDA', quantity: 8, price: 750.20, total: 6001.60, status: 'Completed' },
+    { date: '2023-12-25', type: 'Sell', stock: 'NFLX', quantity: 5, price: 425.60, total: 2128.00, status: 'Completed' },
+    { date: '2023-12-22', type: 'Buy', stock: 'ADBE', quantity: 12, price: 456.78, total: 5481.36, status: 'Completed' },
+    { date: '2023-12-20', type: 'Buy', stock: 'CRM', quantity: 18, price: 245.30, total: 4415.40, status: 'Completed' },
+    { date: '2023-12-18', type: 'Sell', stock: 'ORCL', quantity: 20, price: 189.45, total: 3789.00, status: 'Completed' },
+    { date: '2023-12-15', type: 'Buy', stock: 'INTC', quantity: 50, price: 45.22, total: 2261.00, status: 'Completed' },
   ]
 
+  // 计算分页数据
+  const totalHoldingsPages = Math.ceil(sampleHoldingsData.length / stockHoldTablePageSize)
+  const currentHoldingsData = sampleHoldingsData.slice(
+    (stockHoldTablePage - 1) * stockHoldTablePageSize,
+    stockHoldTablePage * stockHoldTablePageSize
+  )
+
+  const totalTransactionsPages = Math.ceil(sampleTransactionsData.length / stockTransactionTablePageSize)
+  const currentTransactionsData = sampleTransactionsData.slice(
+    (stockTransactionTablePage - 1) * stockTransactionTablePageSize,
+    stockTransactionTablePage * stockTransactionTablePageSize
+  )
+
+  useEffect(() => {
+    fetchStockData()
+  }, [])
   return (
     <div className="p-6">
       {/* 统计卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {/* 持有股票数量 */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">持有股票数目</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Stocks</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -488,14 +168,21 @@ export default function StockPage() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stockStats.totalStocks}</div>
-            <p className="text-xs text-muted-foreground">只不同的股票</p>
+            <div className="text-2xl font-bold">
+              {totalStocks.toLocaleString()}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Different stocks held
+            </p>
           </CardContent>
         </Card>
 
+        {/* 总市值 */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">总市值</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Market Value
+            </CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -511,19 +198,20 @@ export default function StockPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              $
-              {stockStats.totalValue.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              ${totalMarketValue.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">总持仓价值</p>
+            <p className="text-xs text-muted-foreground">
+              Total portfolio value
+            </p>
           </CardContent>
         </Card>
 
+        {/* 当前持有最多的股票 */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">最大持股</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Largest Position
+            </CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -539,146 +227,427 @@ export default function StockPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {stockStats.topHolding.code}
+              {largestPosition?.name || 'N/A'}
             </div>
             <p className="text-xs text-muted-foreground">
-              {stockStats.topHolding.name} ({stockStats.topHolding.holding} 股)
+              {largestPosition ? `${largestPosition.shares} shares` : 'No data'}
             </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">平均股价</CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M3 3v18h18" />
-              <path d="m19 9-5 5-4-4-3 3" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${stockStats.avgPrice.toFixed(2)}
-            </div>
-            <p className="text-xs text-muted-foreground">每股平均价格</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <div className="flex items-center gap-4">
-            <CardTitle>Stock Data</CardTitle>
-            {/* 切换按钮 */}
-            <div className="flex items-center bg-muted rounded-lg p-1">
-              <Button
-                onClick={() => setViewMode('holdings')}
-                variant={viewMode === 'holdings' ? 'default' : 'ghost'}
-                size="sm"
-                className="text-sm"
+      {/* 饼状图卡片 - 并排显示 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* 持仓量分布饼状图 */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Share Distribution
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Select value={selectedStock} onValueChange={setSelectedStock}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select stock" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Stocks</SelectItem>
+                  {stocks.map((stock) => (
+                    <SelectItem key={stock.code} value={stock.code}>
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full" 
+                          style={{ backgroundColor: stock.color }}
+                        />
+                        {stock.name} ({stock.shares} shares)
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-muted-foreground"
               >
-                持仓状况
-              </Button>
-              <Button
-                onClick={() => setViewMode('transactions')}
-                variant={viewMode === 'transactions' ? 'default' : 'ghost'}
-                size="sm"
-                className="text-sm"
-              >
-                交易记录
-              </Button>
+                <path d="M3 3v18h18" />
+                <path d="m19 9-5 5-4-4-3 3" />
+              </svg>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Input
-              placeholder={
-                viewMode === 'holdings'
-                  ? '搜索股票名称、代码...'
-                  : '搜索股票名称、代码或描述...'
-              }
-              value={searchQuery}
-              onChange={e => handleSearch(e.target.value)}
-              className="w-64"
-            />
-            <Button
-              onClick={handleRefresh}
-              disabled={isLoading}
-              variant="outline"
-              size="sm"
-            >
-              {isLoading ? (
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-              )}
-              刷新
-            </Button>
-          </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <ResponsiveContainer width="100%" height={350}>
+                  <PieChart>
+                    <Pie
+                      data={stocks.map(stock => ({
+                        name: stock.name,
+                        value: stock.shares,
+                        color: stock.color
+                      }))}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={130}
+                      innerRadius={50}
+                      fill="#8884d8"
+                      dataKey="value"
+                      stroke="#ffffff"
+                      strokeWidth={2}
+                      onMouseEnter={(_, index) => setActiveIndex(index)}
+                      onMouseLeave={() => setActiveIndex(undefined)}
+                    >
+                      {stocks.map((stock, index) => {
+                        const isSelected = selectedStock !== 'all' && stock.code === selectedStock;
+                        const isHovered = activeIndex === index;
+                        return (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={stock.color}
+                            stroke={isHovered ? '#000' : '#ffffff'}
+                            strokeWidth={isHovered ? 3 : 2}
+                            style={{
+                              filter: selectedStock !== 'all' && !isSelected ? 'opacity(0.3)' : 
+                                     activeIndex !== undefined && !isHovered ? 'opacity(0.6)' : 'none',
+                              cursor: 'pointer',
+                              transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+                              transformOrigin: 'center',
+                              transition: 'all 0.3s ease'
+                            }}
+                          />
+                        );
+                      })}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any, name: string) => [
+                        `${value} shares`,
+                        name,
+                      ]}
+                      labelFormatter={() => ''}
+                      labelStyle={{ color: '#000' }}
+                      contentStyle={{
+                        backgroundColor: '#fff',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 持仓市值分布饼状图 */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Value Distribution
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Select value={selectedValueStock} onValueChange={setSelectedValueStock}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select stock" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Stocks</SelectItem>
+                  {stocks.map((stock) => (
+                    <SelectItem key={stock.code} value={stock.code}>
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full" 
+                          style={{ backgroundColor: stock.color }}
+                        />
+                        {stock.name} (${stock.marketValue.toLocaleString()})
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4 text-muted-foreground"
+              >
+                <path d="M12 2v20m9-2H3" />
+              </svg>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <ResponsiveContainer width="100%" height={350}>
+                  <PieChart>
+                    <Pie
+                      data={stocks.map(stock => ({
+                        name: stock.name,
+                        value: stock.marketValue,
+                        color: stock.color
+                      }))}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={130}
+                      innerRadius={50}
+                      fill="#8884d8"
+                      dataKey="value"
+                      stroke="#ffffff"
+                      strokeWidth={2}
+                      onMouseEnter={(_, index) => setActiveValueIndex(index)}
+                      onMouseLeave={() => setActiveValueIndex(undefined)}
+                    >
+                      {stocks.map((stock, index) => {
+                        const isSelected = selectedValueStock !== 'all' && stock.code === selectedValueStock;
+                        const isHovered = activeValueIndex === index;
+                        return (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={stock.color}
+                            stroke={isHovered ? '#000' : '#ffffff'}
+                            strokeWidth={isHovered ? 3 : 2}
+                            style={{
+                              filter: selectedValueStock !== 'all' && !isSelected ? 'opacity(0.3)' : 
+                                     activeValueIndex !== undefined && !isHovered ? 'opacity(0.6)' : 'none',
+                              cursor: 'pointer',
+                              transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+                              transformOrigin: 'center',
+                              transition: 'all 0.3s ease'
+                            }}
+                          />
+                        );
+                      })}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any, name: string) => [
+                        `$${value.toLocaleString()}`,
+                        name,
+                      ]}
+                      labelFormatter={() => ''}
+                      labelStyle={{ color: '#000' }}
+                      contentStyle={{
+                        backgroundColor: '#fff',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 数据表格区域 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold">Stock Information</CardTitle>
         </CardHeader>
         <CardContent>
-          {viewMode === 'holdings' ? (
-            <DataTable
-              columns={holdingsColumns as any}
-              currentPage={currentPage}
-              data={getHoldingsData as any}
-              pageSize={pageSize}
-              pageSizeOptions={pageSizeOptions}
-              total={getHoldingsData.length}
-              onPageChange={setCurrentPage}
-              onPageSizeChange={setPageSize}
-            />
-          ) : (
-            <DataTable
-              columns={transactionColumns}
-              currentPage={currentPage}
-              data={searchQuery ? filteredData : data}
-              pageSize={pageSize}
-              pageSizeOptions={pageSizeOptions}
-              total={searchQuery ? filteredData.length : total}
-              onPageChange={setCurrentPage}
-              onPageSizeChange={setPageSize}
-            />
-          )}
+          <Tabs defaultValue="holdings" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="holdings">Holdings</TabsTrigger>
+              <TabsTrigger value="transactions">Transactions</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="holdings" className="mt-6">
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Stock</TableHead>
+                      <TableHead>Code</TableHead>
+                      <TableHead className="text-right">Quantity</TableHead>
+                      <TableHead className="text-right">Price</TableHead>
+                      <TableHead className="text-right">Market Value</TableHead>
+                      <TableHead className="text-right">Percentage</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {currentHoldingsData.map((holding) => (
+                      <TableRow key={holding.code}>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <div 
+                              className="w-3 h-3 rounded-full" 
+                              style={{ backgroundColor: holding.color }}
+                            ></div>
+                            {holding.name}
+                          </div>
+                        </TableCell>
+                        <TableCell>{holding.code}</TableCell>
+                        <TableCell className="text-right">{holding.quantity}</TableCell>
+                        <TableCell className="text-right">${holding.price.toFixed(2)}</TableCell>
+                        <TableCell className="text-right">${holding.marketValue.toLocaleString()}</TableCell>
+                        <TableCell className="text-right">
+                          {((holding.marketValue / totalMarketValue) * 100).toFixed(1)}%
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              {/* Holdings分页控件 */}
+              <div className="flex items-center justify-between space-x-2 py-4">
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm font-medium">Rows per page</p>
+                  <Select
+                    value={stockHoldTablePageSize.toString()}
+                    onValueChange={(value) => {
+                      setStockHoldTablePageSize(Number(value))
+                      setStockHoldTablePage(1) // 重置到第一页
+                    }}
+                  >
+                    <SelectTrigger className="h-8 w-[70px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent side="top">
+                      {[5, 10, 20, 30, 50].map((pageSize) => (
+                        <SelectItem key={pageSize} value={pageSize.toString()}>
+                          {pageSize}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm font-medium">
+                    Page {stockHoldTablePage} of {totalHoldingsPages}
+                  </p>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setStockHoldTablePage(Math.max(1, stockHoldTablePage - 1))}
+                      disabled={stockHoldTablePage <= 1}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setStockHoldTablePage(Math.min(totalHoldingsPages, stockHoldTablePage + 1))}
+                      disabled={stockHoldTablePage >= totalHoldingsPages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="transactions" className="mt-6">
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Stock</TableHead>
+                      <TableHead className="text-right">Quantity</TableHead>
+                      <TableHead className="text-right">Price</TableHead>
+                      <TableHead className="text-right">Total</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {currentTransactionsData.map((transaction, index) => (
+                      <TableRow key={`${transaction.date}-${transaction.stock}-${index}`}>
+                        <TableCell>{transaction.date}</TableCell>
+                        <TableCell>
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            transaction.type === 'Buy' 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {transaction.type}
+                          </span>
+                        </TableCell>
+                        <TableCell className="font-medium">{transaction.stock}</TableCell>
+                        <TableCell className="text-right">{transaction.quantity}</TableCell>
+                        <TableCell className="text-right">${transaction.price.toFixed(2)}</TableCell>
+                        <TableCell className="text-right">${transaction.total.toLocaleString()}</TableCell>
+                        <TableCell>
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            transaction.status === 'Completed' 
+                              ? 'bg-blue-100 text-blue-800' 
+                              : transaction.status === 'Pending'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {transaction.status}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              {/* Transactions分页控件 */}
+              <div className="flex items-center justify-between space-x-2 py-4">
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm font-medium">Rows per page</p>
+                  <Select
+                    value={stockTransactionTablePageSize.toString()}
+                    onValueChange={(value) => {
+                      setStockTransactionTablePageSize(Number(value))
+                      setStockTransactionTablePage(1) // 重置到第一页
+                    }}
+                  >
+                    <SelectTrigger className="h-8 w-[70px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent side="top">
+                      {[5, 10, 20, 30, 50].map((pageSize) => (
+                        <SelectItem key={pageSize} value={pageSize.toString()}>
+                          {pageSize}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm font-medium">
+                    Page {stockTransactionTablePage} of {totalTransactionsPages}
+                  </p>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setStockTransactionTablePage(Math.max(1, stockTransactionTablePage - 1))}
+                      disabled={stockTransactionTablePage <= 1}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setStockTransactionTablePage(Math.min(totalTransactionsPages, stockTransactionTablePage + 1))}
+                      disabled={stockTransactionTablePage >= totalTransactionsPages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </div>
