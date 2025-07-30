@@ -47,6 +47,8 @@ import type { ApiTransactionsBuyPost400Response } from '../models'
 // @ts-ignore
 import type { ApiTransactionsBuyPostRequest } from '../models'
 // @ts-ignore
+import type { ApiTransactionsCashSummaryGet200Response } from '../models'
+// @ts-ignore
 import type { ApiTransactionsGet200Response } from '../models'
 // @ts-ignore
 import type { ApiTransactionsIdGet200Response } from '../models'
@@ -110,6 +112,57 @@ export const TransactionsApiAxiosParamCreator = function (
         localVarRequestOptions,
         configuration
       )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * 获取现金账户的总金额、当月支出、收入和净流水
+     * @summary 获取现金账户汇总信息
+     * @param {number} [year] 年份（默认为当前年份）
+     * @param {number} [month] 月份（默认为当前月份）
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsCashSummaryGet: async (
+      year?: number,
+      month?: number,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/transactions/cash-summary`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (year !== undefined) {
+        localVarQueryParameter['year'] = year
+      }
+
+      if (month !== undefined) {
+        localVarQueryParameter['month'] = month
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
 
       return {
         url: toPathString(localVarUrlObj),
@@ -365,6 +418,43 @@ export const TransactionsApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
+     * 获取现金账户的总金额、当月支出、收入和净流水
+     * @summary 获取现金账户汇总信息
+     * @param {number} [year] 年份（默认为当前年份）
+     * @param {number} [month] 月份（默认为当前月份）
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiTransactionsCashSummaryGet(
+      year?: number,
+      month?: number,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ApiTransactionsCashSummaryGet200Response>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.apiTransactionsCashSummaryGet(
+          year,
+          month,
+          options
+        )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap['TransactionsApi.apiTransactionsCashSummaryGet']?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath)
+    },
+    /**
      *
      * @summary 获取所有交易记录
      * @param {number} [page] 页码
@@ -533,6 +623,25 @@ export const TransactionsApiFactory = function (
         .then(request => request(axios, basePath))
     },
     /**
+     * 获取现金账户的总金额、当月支出、收入和净流水
+     * @summary 获取现金账户汇总信息
+     * @param {TransactionsApiApiTransactionsCashSummaryGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiTransactionsCashSummaryGet(
+      requestParameters: TransactionsApiApiTransactionsCashSummaryGetRequest = {},
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<ApiTransactionsCashSummaryGet200Response> {
+      return localVarFp
+        .apiTransactionsCashSummaryGet(
+          requestParameters.year,
+          requestParameters.month,
+          options
+        )
+        .then(request => request(axios, basePath))
+    },
+    /**
      *
      * @summary 获取所有交易记录
      * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
@@ -623,6 +732,19 @@ export interface TransactionsApiInterface {
   ): AxiosPromise<ApiTransactionsBuyPost201Response>
 
   /**
+   * 获取现金账户的总金额、当月支出、收入和净流水
+   * @summary 获取现金账户汇总信息
+   * @param {TransactionsApiApiTransactionsCashSummaryGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApiInterface
+   */
+  apiTransactionsCashSummaryGet(
+    requestParameters?: TransactionsApiApiTransactionsCashSummaryGetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<ApiTransactionsCashSummaryGet200Response>
+
+  /**
    *
    * @summary 获取所有交易记录
    * @param {TransactionsApiApiTransactionsGetRequest} requestParameters Request parameters.
@@ -687,6 +809,27 @@ export interface TransactionsApiApiTransactionsBuyPostRequest {
    * @memberof TransactionsApiApiTransactionsBuyPost
    */
   readonly apiTransactionsBuyPostRequest: ApiTransactionsBuyPostRequest
+}
+
+/**
+ * Request parameters for apiTransactionsCashSummaryGet operation in TransactionsApi.
+ * @export
+ * @interface TransactionsApiApiTransactionsCashSummaryGetRequest
+ */
+export interface TransactionsApiApiTransactionsCashSummaryGetRequest {
+  /**
+   * 年份（默认为当前年份）
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsCashSummaryGet
+   */
+  readonly year?: number
+
+  /**
+   * 月份（默认为当前月份）
+   * @type {number}
+   * @memberof TransactionsApiApiTransactionsCashSummaryGet
+   */
+  readonly month?: number
 }
 
 /**
@@ -784,6 +927,27 @@ export class TransactionsApi
     return TransactionsApiFp(this.configuration)
       .apiTransactionsBuyPost(
         requestParameters.apiTransactionsBuyPostRequest,
+        options
+      )
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * 获取现金账户的总金额、当月支出、收入和净流水
+   * @summary 获取现金账户汇总信息
+   * @param {TransactionsApiApiTransactionsCashSummaryGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TransactionsApi
+   */
+  public apiTransactionsCashSummaryGet(
+    requestParameters: TransactionsApiApiTransactionsCashSummaryGetRequest = {},
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransactionsApiFp(this.configuration)
+      .apiTransactionsCashSummaryGet(
+        requestParameters.year,
+        requestParameters.month,
         options
       )
       .then(request => request(this.axios, this.basePath))

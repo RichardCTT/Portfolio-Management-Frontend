@@ -14,36 +14,30 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
+import type { ApiMainPageTotalAssetsHistoryGet200ResponseDataInner } from './api-main-page-total-assets-history-get200-response-data-inner'
 
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiMainPageTotalAssetsHistoryGet200Response
  */
-export interface ApiAssetsGet200ResponseData {
-  /**
-   *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
+export interface ApiMainPageTotalAssetsHistoryGet200Response {
   /**
    *
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiMainPageTotalAssetsHistoryGet200Response
    */
-  total?: number
+  code?: number
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiMainPageTotalAssetsHistoryGet200Response
    */
-  page?: number
+  message?: string
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {Array<ApiMainPageTotalAssetsHistoryGet200ResponseDataInner>}
+   * @memberof ApiMainPageTotalAssetsHistoryGet200Response
    */
-  page_size?: number
+  data?: Array<ApiMainPageTotalAssetsHistoryGet200ResponseDataInner>
 }

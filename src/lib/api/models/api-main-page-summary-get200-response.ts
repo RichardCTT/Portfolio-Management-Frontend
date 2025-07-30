@@ -14,36 +14,30 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ApiAssetsGet200ResponseDataItemsInner } from './api-assets-get200-response-data-items-inner'
+import type { ApiMainPageSummaryGet200ResponseData } from './api-main-page-summary-get200-response-data'
 
 /**
  *
  * @export
- * @interface ApiAssetsGet200ResponseData
+ * @interface ApiMainPageSummaryGet200Response
  */
-export interface ApiAssetsGet200ResponseData {
-  /**
-   *
-   * @type {Array<ApiAssetsGet200ResponseDataItemsInner>}
-   * @memberof ApiAssetsGet200ResponseData
-   */
-  items?: Array<ApiAssetsGet200ResponseDataItemsInner>
+export interface ApiMainPageSummaryGet200Response {
   /**
    *
    * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @memberof ApiMainPageSummaryGet200Response
    */
-  total?: number
+  code?: number
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {string}
+   * @memberof ApiMainPageSummaryGet200Response
    */
-  page?: number
+  message?: string
   /**
    *
-   * @type {number}
-   * @memberof ApiAssetsGet200ResponseData
+   * @type {ApiMainPageSummaryGet200ResponseData}
+   * @memberof ApiMainPageSummaryGet200Response
    */
-  page_size?: number
+  data?: ApiMainPageSummaryGet200ResponseData
 }
