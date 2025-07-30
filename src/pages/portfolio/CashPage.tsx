@@ -16,7 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { analysisApi, portfolioAnalysisApi, transactionsApi } from '@/lib/request'
+import {
+  analysisApi,
+  portfolioAnalysisApi,
+  transactionsApi,
+} from '@/lib/request'
 import {
   Wallet,
   TrendingUp,
@@ -119,15 +123,16 @@ const CashPage: React.FC = () => {
   const fetchCashFlowData = async () => {
     try {
       const response = await analysisApi.apiAnalysisDailyCashBalanceGet({
-        days:30
+        days: 30,
       })
-      const charData = response.data.data?.daily_balances?.map((item: any) => ({
-        date: new Date(item.date).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-        }),
-        amount: item.holding_end,
-      })) || []
+      const charData =
+        response.data.data?.daily_balances?.map((item: any) => ({
+          date: new Date(item.date).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+          }),
+          amount: item.holding_end,
+        })) || []
       setCashFlowData(charData)
     } catch (error) {
       console.error('Error fetching cash flow data:', error)
