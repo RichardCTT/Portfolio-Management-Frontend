@@ -28,7 +28,7 @@ export default function AppBreadcrumb() {
     pathParts.forEach((part, index) => {
       // 跳过 home 路径
       if (part === 'home') return
-      
+
       const isLast = index === pathParts.length - 1
       const path = '/' + pathParts.slice(0, index + 1).join('/')
 
