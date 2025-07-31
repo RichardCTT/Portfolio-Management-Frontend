@@ -16,16 +16,19 @@ export default function AppBreadcrumb() {
   // 构建面包屑项目
   const breadcrumbItems = []
 
-  // 始终添加首页
-  breadcrumbItems.push({
-    label: 'Dashboard',
-    path: '/',
-    isLast: pathParts.length === 0,
-  })
-
-  // 添加路径中的每一层
-  if (pathParts.length > 0) {
+  // 只有在 /home 路径时才显示 Dashboard
+  if (pathParts.length === 1 && pathParts[0] === 'home') {
+    breadcrumbItems.push({
+      label: 'Dashboard',
+      path: '/home',
+      isLast: true,
+    })
+  } else if (pathParts.length > 0) {
+    // 对于其他路径，直接根据路径构建面包屑，不添加 Dashboard
     pathParts.forEach((part, index) => {
+      // 跳过 home 路径
+      if (part === 'home') return
+      
       const isLast = index === pathParts.length - 1
       const path = '/' + pathParts.slice(0, index + 1).join('/')
 

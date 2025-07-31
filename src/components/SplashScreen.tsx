@@ -12,6 +12,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   const [progress, setProgress] = useState(0)
   const [showButton, setShowButton] = useState(false)
   const [currentSloganIndex, setCurrentSloganIndex] = useState(0)
+  const [isExiting, setIsExiting] = useState(false)
 
   // 循环播放的宣传文案 (替换原来的加载步骤)
   const slogans = [
@@ -58,11 +59,18 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
     // 标记为已访问
     FirstVisitManager.markAsVisited()
     setShowButton(false)
-    setTimeout(onFinish, 300) // 短暂延迟后进入应用
+    setIsExiting(true)
+    
+    // 向上滑动动画完成后切换页面
+    setTimeout(() => {
+      onFinish()
+    }, 800) // 与动画时间同步
   }
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center z-50">
+    <div className={`fixed inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center z-50 transition-all duration-800 ease-in-out ${
+      isExiting ? 'transform -translate-y-full opacity-0' : 'transform translate-y-0 opacity-100'
+    }`}>
       {/* 背景动画点 */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
