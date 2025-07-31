@@ -44,7 +44,7 @@ export default function AppSideBar() {
               className="data-[slot=sidebar-menu-button]:!p-3 hover:bg-accent/50 transition-colors sidebar-brand"
             >
               <div className="flex justify-center w-full">
-                <Link to="/" className="flex items-center gap-2">
+                <Link to="/home" className="flex items-center gap-2">
                   <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-sm">PM</span>
                   </div>
@@ -62,14 +62,14 @@ export default function AppSideBar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className={`mb-2 ${isActive('/') ? 'sidebar-menu-item-active' : ''}`}
+              className={`mb-2 ${isActive('/home') ? 'sidebar-menu-item-active' : ''}`}
             >
               <Link
-                to="/"
+                to="/home"
                 className="text-base hover:bg-accent/80 rounded-lg transition-all duration-200 group"
               >
                 <LayoutDashboard
-                  className={`group-hover:text-blue-600 transition-colors ${isActive('/') ? 'text-blue-600' : ''}`}
+                  className={`group-hover:text-blue-600 transition-colors ${isActive('/home') ? 'text-blue-600' : ''}`}
                 />
                 <span className="font-medium">Dashboard</span>
               </Link>

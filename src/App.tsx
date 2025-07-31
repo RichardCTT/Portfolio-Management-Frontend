@@ -1,7 +1,6 @@
 import AppSideBar from '@/components/AppSideBar'
 import AppFooter from '@/components/AppFooter'
 import SplashScreen from '@/components/SplashScreen'
-import InitialRedirect from '@/components/InitialRedirect'
 
 import { Separator } from '@/components/ui/separator'
 import {
@@ -22,17 +21,17 @@ function App() {
   const location = useLocation()
 
   const handleSplashFinish = () => {
-    // 从开屏页面跳转到首页
-    navigate('/')
+    // 从开屏页面跳转到 Dashboard
+    navigate('/home')
   }
 
-  // 如果当前路径是 /welcome，显示开屏页面
-  if (location.pathname === '/welcome') {
+  // 如果当前路径是根路径，显示开屏页面
+  if (location.pathname === '/') {
     return <SplashScreen onFinish={handleSplashFinish} />
   }
 
   return (
-    <>
+    <div className="animate-slide-in-up">
       <SidebarProvider className="flex min-h-screen">
         <AppSideBar />
 
@@ -50,13 +49,8 @@ function App() {
 
           <main className="flex-1 min-h-0">
             <div className="h-full">
-              <InitialRedirect />
               <Routes>
-                <Route
-                  path="/welcome"
-                  element={<SplashScreen onFinish={handleSplashFinish} />}
-                />
-                <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/portfolio/stock" element={<StockPage />} />
                 <Route path="/portfolio/bond" element={<BondPage />} />
                 <Route path="/portfolio/cash" element={<CashPage />} />
@@ -67,7 +61,7 @@ function App() {
           <AppFooter />
         </SidebarInset>
       </SidebarProvider>
-    </>
+    </div>
   )
 }
 
