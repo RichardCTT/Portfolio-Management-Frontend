@@ -95,7 +95,7 @@ export default function HomePage() {
   const [lineChartData, setLineChartData] = useState<any[]>()
   const lineChartConfig = {
     total_asset_value: {
-      label: 'Total Asset:',
+      label: 'Asset Change (%)',
       // color: 'var(--chart-1)',
       color: '#003f5c',
     },
@@ -104,11 +104,14 @@ export default function HomePage() {
   const getAssetsHistory = async () => {
     const res = await getAssetsHistoryAPI()
     if (res.code === 200) {
+      const baseValue = res.data[3].total_asset_value
       setLineChartData(
         res.data.slice(3).map(item => {
           return {
             date: item.date.slice(8, 10),
-            total_asset_value: item.total_asset_value,
+            // total_asset_value: item.total_asset_value,
+            total_asset_value:
+              ((item.total_asset_value - baseValue) / baseValue) * 100,
           }
         })
       )
@@ -208,7 +211,14 @@ export default function HomePage() {
                 />
                 <ChartTooltip
                   cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
+                  content={
+                    <ChartTooltipContent
+                      hideLabel
+                      valueFormatter={value =>
+                        `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`
+                      }
+                    />
+                  }
                 />
                 <Line
                   dataKey="total_asset_value"
