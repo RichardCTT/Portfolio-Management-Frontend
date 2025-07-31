@@ -28,14 +28,14 @@ import {
 } from '@/services/tradesApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { ColumnDef } from '@tanstack/react-table'
-import { 
-  Loader2, 
-  TrendingUp, 
-  TrendingDown, 
+import {
+  Loader2,
+  TrendingUp,
+  TrendingDown,
   DollarSign,
   Activity,
   ArrowUpRight,
-  ArrowDownRight 
+  ArrowDownRight,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -142,8 +142,12 @@ export default function TradesPage() {
       cell: ({ row }) => {
         return (
           <div className="text-center">
-            <div className="font-medium text-foreground">{row.original.name}</div>
-            <div className="text-xs text-muted-foreground">{row.original.code}</div>
+            <div className="font-medium text-foreground">
+              {row.original.name}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {row.original.code}
+            </div>
           </div>
         )
       },
@@ -233,18 +237,18 @@ export default function TradesPage() {
         const pnlPercentage = Number(row.original.price_change_percentage)
         const isPositive = pnlPercentage >= 0
         const quantity = Number(row.original.quantity)
-        
+
         if (quantity === 0) {
           return <div className="text-center text-muted-foreground">—</div>
         }
-        
+
         return (
           <div className="text-center">
-            <Badge 
-              variant={isPositive ? "default" : "destructive"}
+            <Badge
+              variant={isPositive ? 'default' : 'destructive'}
               className={`font-mono ${
-                isPositive 
-                  ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+                isPositive
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                   : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
               }`}
             >
@@ -253,7 +257,8 @@ export default function TradesPage() {
               ) : (
                 <TrendingDown className="w-3 h-3 mr-1" />
               )}
-              {isPositive ? '+' : ''}{pnlPercentage.toFixed(2)}%
+              {isPositive ? '+' : ''}
+              {pnlPercentage.toFixed(2)}%
             </Badge>
           </div>
         )
@@ -295,7 +300,8 @@ export default function TradesPage() {
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Trading Center</h1>
         <p className="text-muted-foreground">
-          Manage your portfolio by buying and selling assets. Track your holdings and performance.
+          Manage your portfolio by buying and selling assets. Track your
+          holdings and performance.
         </p>
       </div>
 
@@ -343,7 +349,8 @@ export default function TradesPage() {
                     ) : (
                       <ArrowDownRight className="w-5 h-5 text-red-500" />
                     )}
-                    {direction === 'buy' ? 'Buy' : 'Sell'} {selectedAsset?.name || 'Asset'}
+                    {direction === 'buy' ? 'Buy' : 'Sell'}{' '}
+                    {selectedAsset?.name || 'Asset'}
                   </DialogTitle>
                   <DialogDescription asChild>
                     <div className="text-base">
@@ -353,15 +360,18 @@ export default function TradesPage() {
                         </Badge>
                         <span className="text-sm text-muted-foreground">•</span>
                         <span className="font-semibold text-foreground">
-                          ${Number(selectedAsset?.current_price || 0).toFixed(2)}
+                          $
+                          {Number(selectedAsset?.current_price || 0).toFixed(2)}
                         </span>
-                        <span className="text-sm text-muted-foreground">per share</span>
+                        <span className="text-sm text-muted-foreground">
+                          per share
+                        </span>
                       </div>
                     </div>
                   </DialogDescription>
                 </DialogHeader>
               </div>
-              
+
               <div className="p-6 pt-2">
                 <Form {...form}>
                   <form
@@ -374,7 +384,9 @@ export default function TradesPage() {
                       name="direction"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base font-medium">Transaction Type</FormLabel>
+                          <FormLabel className="text-base font-medium">
+                            Transaction Type
+                          </FormLabel>
                           <FormControl>
                             <RadioGroup
                               className="flex gap-4"
@@ -387,7 +399,9 @@ export default function TradesPage() {
                                 </FormControl>
                                 <div className="flex items-center gap-2">
                                   <ArrowUpRight className="w-4 h-4 text-green-500" />
-                                  <FormLabel className="mb-0 font-medium">Buy</FormLabel>
+                                  <FormLabel className="mb-0 font-medium">
+                                    Buy
+                                  </FormLabel>
                                 </div>
                               </FormItem>
                               <FormItem className="flex items-center space-x-3 space-y-0 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
@@ -396,7 +410,9 @@ export default function TradesPage() {
                                 </FormControl>
                                 <div className="flex items-center gap-2">
                                   <ArrowDownRight className="w-4 h-4 text-red-500" />
-                                  <FormLabel className="mb-0 font-medium">Sell</FormLabel>
+                                  <FormLabel className="mb-0 font-medium">
+                                    Sell
+                                  </FormLabel>
                                 </div>
                               </FormItem>
                             </RadioGroup>
@@ -405,7 +421,7 @@ export default function TradesPage() {
                         </FormItem>
                       )}
                     />
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -418,7 +434,9 @@ export default function TradesPage() {
                             </FormLabel>
                             <FormControl>
                               <div className="relative">
-                                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">$</span>
+                                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                                  $
+                                </span>
                                 <Input
                                   {...field}
                                   id="amount"
@@ -426,7 +444,11 @@ export default function TradesPage() {
                                   placeholder="0.00"
                                   onBlur={() => {
                                     const amt = Number(amount)
-                                    if (!isNaN(amt) && amt > 0 && selectedAsset) {
+                                    if (
+                                      !isNaN(amt) &&
+                                      amt > 0 &&
+                                      selectedAsset
+                                    ) {
                                       const calculatedShares =
                                         amt / selectedAsset.current_price
                                       form.setValue(
@@ -446,13 +468,15 @@ export default function TradesPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={form.control}
                         name="shares"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base font-medium">Number of Shares</FormLabel>
+                            <FormLabel className="text-base font-medium">
+                              Number of Shares
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
@@ -481,31 +505,43 @@ export default function TradesPage() {
                         )}
                       />
                     </div>
-                    
+
                     {/* 交易摘要 */}
                     {mounted && amount && shares && selectedAsset && (
                       <div className="bg-accent/30 p-4 rounded-lg space-y-2">
-                        <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Transaction Summary</h4>
+                        <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                          Transaction Summary
+                        </h4>
                         <div className="space-y-1 text-sm">
                           <div className="flex justify-between">
                             <span>Shares:</span>
-                            <span className="font-mono">{Number(shares).toFixed(4)}</span>
+                            <span className="font-mono">
+                              {Number(shares).toFixed(4)}
+                            </span>
                           </div>
                           <div className="flex justify-between">
                             <span>Price per share:</span>
-                            <span className="font-mono">${Number(selectedAsset.current_price).toFixed(2)}</span>
+                            <span className="font-mono">
+                              ${Number(selectedAsset.current_price).toFixed(2)}
+                            </span>
                           </div>
                           <div className="flex justify-between font-medium border-t pt-1">
                             <span>Total:</span>
-                            <span className="font-mono">${Number(amount).toFixed(2)}</span>
+                            <span className="font-mono">
+                              ${Number(amount).toFixed(2)}
+                            </span>
                           </div>
                         </div>
                       </div>
                     )}
-                    
+
                     <DialogFooter className="gap-2">
                       <DialogClose asChild>
-                        <Button type="button" variant="outline" className="flex-1">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="flex-1"
+                        >
                           Cancel
                         </Button>
                       </DialogClose>
@@ -513,8 +549,8 @@ export default function TradesPage() {
                         type="submit"
                         disabled={isLoading}
                         className={`flex-1 ${
-                          direction === 'buy' 
-                            ? 'bg-green-500 hover:bg-green-600' 
+                          direction === 'buy'
+                            ? 'bg-green-500 hover:bg-green-600'
                             : 'bg-red-500 hover:bg-red-600'
                         } text-white`}
                       >

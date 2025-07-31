@@ -14,7 +14,9 @@ export default function AppFooter() {
               <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center shadow-sm">
                 <span className="text-white font-bold text-xs">PM</span>
               </div>
-              <span className="font-semibold text-foreground">Portfolio Manager</span>
+              <span className="font-semibold text-foreground">
+                Portfolio Manager
+              </span>
             </div>
             <div className="flex items-center text-sm text-muted-foreground">
               <span>© {currentYear} Made with</span>
@@ -27,24 +29,24 @@ export default function AppFooter() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
             {/* 快速链接 */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-accent/50 px-2 py-1.5 rounded-md group"
               >
                 <HelpCircle className="w-3 h-3 group-hover:text-blue-500 transition-colors flex-shrink-0" />
                 <span>Help</span>
               </a>
               <div className="w-px h-4 bg-border hidden sm:block"></div>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-accent/50 px-2 py-1.5 rounded-md group"
               >
                 <Info className="w-3 h-3 group-hover:text-green-500 transition-colors flex-shrink-0" />
                 <span>About</span>
               </a>
               <div className="w-px h-4 bg-border hidden sm:block"></div>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-all duration-200 hover:bg-accent/50 px-2 py-1.5 rounded-md group"
               >
                 <Mail className="w-3 h-3 group-hover:text-purple-500 transition-colors flex-shrink-0" />
@@ -54,16 +56,16 @@ export default function AppFooter() {
 
             {/* GitHub链接 */}
             <div className="flex items-center">
-                              <a 
-                  href="https://github.com/richardsun-voyager/Portfolio-Management-Frontend" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="relative inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-accent/30 hover:bg-accent/60 px-3 py-2 rounded-lg transition-all duration-200 border border-border/50 hover:border-border overflow-hidden group"
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent -translate-x-full transition-transform duration-500 group-hover:translate-x-full"></span>
-                  <Github className="w-4 h-4 relative z-10" />
-                  <span className="relative z-10">View on GitHub</span>
-                </a>
+              <a
+                href="https://github.com/richardsun-voyager/Portfolio-Management-Frontend"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-accent/30 hover:bg-accent/60 px-3 py-2 rounded-lg transition-all duration-200 border border-border/50 hover:border-border overflow-hidden group"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent -translate-x-full transition-transform duration-500 group-hover:translate-x-full"></span>
+                <Github className="w-4 h-4 relative z-10" />
+                <span className="relative z-10">View on GitHub</span>
+              </a>
             </div>
           </div>
         </div>
