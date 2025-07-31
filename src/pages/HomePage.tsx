@@ -149,6 +149,7 @@ export default function HomePage() {
     }
   }
 
+
   const getAssetsHistory = async () => {
     try {
       const res = await getAssetsHistoryAPI()
@@ -168,6 +169,7 @@ export default function HomePage() {
       }
     } catch (error) {
       console.error('Error fetching assets history:', error)
+
     }
   }
 
@@ -287,6 +289,7 @@ export default function HomePage() {
           </>
         )}
       </div>
+
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
