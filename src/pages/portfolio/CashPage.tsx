@@ -338,7 +338,7 @@ const CashPage: React.FC = () => {
                       }`}
                     >
                       <BarChart3 className="h-4 w-4" />
-                      Chart
+                      Trend
                     </Button>
                     <Button
                       variant={viewMode === 'table' ? 'default' : 'ghost'}
@@ -351,7 +351,7 @@ const CashPage: React.FC = () => {
                       }`}
                     >
                       <List className="h-4 w-4" />
-                      Table
+                      Transaction
                     </Button>
                   </div>
                 </div>

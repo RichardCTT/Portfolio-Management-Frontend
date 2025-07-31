@@ -60,7 +60,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
     FirstVisitManager.markAsVisited()
     setShowButton(false)
     setIsExiting(true)
-    
+
     // 向上滑动动画完成后切换页面
     setTimeout(() => {
       onFinish()
@@ -68,9 +68,13 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
   }
 
   return (
-    <div className={`fixed inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center z-50 transition-all duration-800 ease-in-out ${
-      isExiting ? 'transform -translate-y-full opacity-0' : 'transform translate-y-0 opacity-100'
-    }`}>
+    <div
+      className={`fixed inset-0 bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center z-50 transition-all duration-800 ease-in-out ${
+        isExiting
+          ? 'transform -translate-y-full opacity-0'
+          : 'transform translate-y-0 opacity-100'
+      }`}
+    >
       {/* 背景动画点 */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
