@@ -90,8 +90,7 @@ export default function BondPage() {
 
   // Pagination state for stock holdings table
   const [bondHoldTablePage, setBondHoldTablePage] = useState<number>(1)
-  const [bondHoldTablePageSize, setBondHoldTablePageSize] =
-    useState<number>(10)
+  const [bondHoldTablePageSize, setBondHoldTablePageSize] = useState<number>(10)
   const [bondHoldTableTotal, setBondHoldTableTotal] = useState<number>(1)
   // State to hold stock holdings data for table
   const [holdingsData, setHoldingsData] = useState<HoldingTableData[]>([])
@@ -110,9 +109,7 @@ export default function BondPage() {
     try {
       const response = await analysisApi.apiAnalysisAssetTotalsByTypeGet()
       setTotalBonds(response.data.data?.assetTypes?.bond?.count || 0)
-      setTotalMarketValue(
-        response.data.data?.assetTypes?.bond?.totalPrice || 0
-      )
+      setTotalMarketValue(response.data.data?.assetTypes?.bond?.totalPrice || 0)
       const bondsTmp: Bond[] =
         response.data.data?.assetTypes?.bond?.assets?.map((bond, index) => ({
           name: bond.name || 'Unknown',
@@ -162,8 +159,7 @@ export default function BondPage() {
       }))
       setHoldingsData(holdings)
       setBondHoldTableTotal(
-        Math.ceil((response.data.data?.total || 0) / bondHoldTablePageSize) ||
-          1
+        Math.ceil((response.data.data?.total || 0) / bondHoldTablePageSize) || 1
       )
     } catch (error) {
       console.error('Error fetching holdings data:', error)
@@ -357,10 +353,7 @@ export default function BondPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Select
-                    value={selectedBonds}
-                    onValueChange={setSelectedBond}
-                  >
+                  <Select value={selectedBonds} onValueChange={setSelectedBond}>
                     <SelectTrigger className="w-[200px] border-2 border-blue-200/50 bg-white/80 shadow-lg hover:shadow-xl hover:border-blue-300/70 transition-all duration-300 rounded-xl backdrop-blur-sm">
                       <SelectValue placeholder="Select bond" />
                     </SelectTrigger>
@@ -416,8 +409,7 @@ export default function BondPage() {
                     >
                       {bonds.map((bond, index) => {
                         const isSelected =
-                          selectedBonds !== 'all' &&
-                          bond.code === selectedBonds
+                          selectedBonds !== 'all' && bond.code === selectedBonds
                         const isHovered = activeIndex === index
                         return (
                           <Cell
