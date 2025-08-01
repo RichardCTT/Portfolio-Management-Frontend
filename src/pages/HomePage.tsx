@@ -366,10 +366,10 @@ export default function HomePage() {
                     accessibilityLayer
                     data={lineChartData}
                     margin={{
-                      left: 12,
-                      right: 12,
-                      top: 12,
-                      bottom: 12,
+                      left: 15,
+                      right: 30,
+                      top: 10,
+                      bottom: 30,
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -379,13 +379,17 @@ export default function HomePage() {
                       axisLine={false}
                       tickMargin={8}
                       tick={{ fontSize: 12 }}
+                      angle={-45}
+                      textAnchor="end"
+                      interval={0}
                     />
                     <YAxis
-                      domain={['dataMin - 1000', 'dataMax + 1000']}
+                      domain={['dataMin', 'dataMax']}
                       tickFormatter={value => `$${(value / 1000).toFixed(0)}k`}
                       tick={{ fontSize: 12 }}
                       axisLine={false}
                       tickLine={false}
+                      width={50}
                     />
                     <ChartTooltip
                       content={({ active, payload, label }) => {

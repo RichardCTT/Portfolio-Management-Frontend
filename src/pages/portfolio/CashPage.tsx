@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
   Table,
   TableBody,
   TableCell,
@@ -30,6 +39,7 @@ import {
   List,
   ChevronLeft,
   ChevronRight,
+  Plus,
 } from 'lucide-react'
 import {
   LineChart,
@@ -67,6 +77,15 @@ const CashPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1)
   const [pageSize, setPageSize] = useState(5)
   const [totalTransactions, setTotalTransactions] = useState(0)
+
+  // 充值对话框状态
+  const [isTopUpDialogOpen, setIsTopUpDialogOpen] = useState(false)
+  const [topUpForm, setTopUpForm] = useState({
+    amount: '',
+    cardNumber: '',
+    ccv: '',
+    expiryDate: '',
+  })
 
   // Update Cards
   const upDateCards = async () => {
@@ -143,23 +162,172 @@ const CashPage: React.FC = () => {
     fetchCashFlowData()
   }, [viewMode])
 
+  // 处理充值表单
+  const handleTopUpSubmit = () => {
+    // 这里暂时只是模拟提交，实际需要调用API
+    console.log('Top up form submitted:', topUpForm)
+    // 清空表单
+    setTopUpForm({
+      amount: '',
+      cardNumber: '',
+      ccv: '',
+      expiryDate: '',
+    })
+    setIsTopUpDialogOpen(false)
+    // 刷新余额数据
+    upDateCards()
+  }
+
+  const handleFormChange = (field: string, value: string) => {
+    setTopUpForm(prev => ({
+      ...prev,
+      [field]: value,
+    }))
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
       <div className="p-8 space-y-8">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex items-center space-x-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-              <Wallet className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Wallet className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent mb-2">
+                  Cash Management
+                </h1>
+                <p className="text-gray-600 text-lg">
+                  Monitor your cash flow and transactions
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent mb-2">
-                Cash Management
-              </h1>
-              <p className="text-gray-600 text-lg">
-                Monitor your cash flow and transactions
-              </p>
-            </div>
+            <Dialog open={isTopUpDialogOpen} onOpenChange={setIsTopUpDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  size="lg"
+                  className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  <Plus className="h-5 w-5" />
+                  Top Up
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    Top Up Cash
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="space-y-6 pt-4">
+                  {/* Amount */}
+                  <div className="space-y-2">
+                    <Label htmlFor="amount" className="text-sm font-semibold text-gray-700">
+                      Amount
+                    </Label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+                        $
+                      </span>
+                      <Input
+                        id="amount"
+                        type="number"
+                        placeholder="0.00"
+                        value={topUpForm.amount}
+                        onChange={(e) => handleFormChange('amount', e.target.value)}
+                        className="pl-7 h-12 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Card Number */}
+                  <div className="space-y-2">
+                    <Label htmlFor="cardNumber" className="text-sm font-semibold text-gray-700">
+                      Card Number
+                    </Label>
+                    <Input
+                      id="cardNumber"
+                      type="text"
+                      placeholder="1234 5678 9012 3456"
+                      value={topUpForm.cardNumber}
+                      onChange={(e) => {
+                        // 格式化卡号，每4位加一个空格
+                        const value = e.target.value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim()
+                        if (value.replace(/\s/g, '').length <= 16) {
+                          handleFormChange('cardNumber', value)
+                        }
+                      }}
+                      className="h-12 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                      maxLength={19}
+                    />
+                  </div>
+
+                  {/* CCV and Expiry Date */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="ccv" className="text-sm font-semibold text-gray-700">
+                        CCV
+                      </Label>
+                      <Input
+                        id="ccv"
+                        type="text"
+                        placeholder="123"
+                        value={topUpForm.ccv}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '')
+                          if (value.length <= 4) {
+                            handleFormChange('ccv', value)
+                          }
+                        }}
+                        className="h-12 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                        maxLength={4}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="expiryDate" className="text-sm font-semibold text-gray-700">
+                        Expiry Date
+                      </Label>
+                      <Input
+                        id="expiryDate"
+                        type="text"
+                        placeholder="MM/YY"
+                        value={topUpForm.expiryDate}
+                        onChange={(e) => {
+                          let value = e.target.value.replace(/\D/g, '')
+                          if (value.length >= 2) {
+                            value = value.slice(0, 2) + '/' + value.slice(2, 4)
+                          }
+                          if (value.length <= 5) {
+                            handleFormChange('expiryDate', value)
+                          }
+                        }}
+                        className="h-12 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                        maxLength={5}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 pt-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsTopUpDialogOpen(false)}
+                      className="flex-1 h-12 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleTopUpSubmit}
+                      disabled={!topUpForm.amount || !topUpForm.cardNumber || !topUpForm.ccv || !topUpForm.expiryDate}
+                      className="flex-1 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Confirm Top Up
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
