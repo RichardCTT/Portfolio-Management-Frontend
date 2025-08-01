@@ -381,6 +381,7 @@ export default function HomePage() {
                       tick={{ fontSize: 12 }}
                     />
                     <YAxis
+                      domain={['dataMin - 1000', 'dataMax + 1000']}
                       tickFormatter={value => `$${(value / 1000).toFixed(0)}k`}
                       tick={{ fontSize: 12 }}
                       axisLine={false}
